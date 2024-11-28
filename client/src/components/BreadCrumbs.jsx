@@ -1,20 +1,18 @@
-import React from 'react'
-import  {Breadcrumbs}  from "@material-tailwind/react";
-import { Link } from 'react-router-dom'
+import React from "react";
 
-const BreadcrumbsWithIcon = ({items}) => {
+const BreadcrumbsWithIcon = ({ items }) => {
   return (
-    <Breadcrumbs >
-<h1 className='text-6xl'>Test Breadcrumbs</h1>
-
-     {items.map((item, index) => (
-      <Link key={index} to={item.path} className={item.isActive ? '' : 'opacity-60'}>
-         {item.icon && <item.icon className="h-4 w-4 inline-block mr-1" />}
-         {item.label}
-       </Link>
-   ))}
-   </Breadcrumbs>
-  )
-}
+    <div className="breadcrumbs text-md m-4">
+      <ul>
+        <li>
+          <a>Home</a>
+        </li>
+        <li>
+          <a>Daftar Permohonan Program</a>
+        </li>
+      </ul>
+    </div>
+  );
+};
 
 export default BreadcrumbsWithIcon; // Default export

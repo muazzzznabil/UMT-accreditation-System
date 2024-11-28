@@ -1,15 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 
-const withMT = require("@material-tailwind/react/utils/withMT");
+// const withMT = require("@material-tailwind/react/utils/withMT");
 
-module.exports = withMT({
+module.exports = {
+  mode: "jit",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Helvetica", "Arial", "sans-serif"], // Add Helvetica as the default sans-serif font
+        sans: ["Poppins", "Roboto", "Arial", "sans-serif"], // Set Poppins as the default sans-serif font
       },
     },
   },
-  plugins: [],
-});
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  daisyui: {
+    darkTheme: "light",
+  },
+};

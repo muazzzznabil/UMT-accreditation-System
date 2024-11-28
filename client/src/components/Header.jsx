@@ -1,13 +1,17 @@
-import React from 'react'
+import React from "react";
 
 const Header = () => {
   return (
     <>
-        <header className="p-4 bg-gradient-to-r from-[#C6AFF4] to-[#4600D2]">
-        <img src="asset/image/Logo_UMT.png" className="size-12 object-cover" alt='UMT logo'/>
-        </header>
+      <header className="p-4 bg-gradient-to-r from-[#C6AFF4] to-[#4600D2]">
+        <img
+          src="asset/image/Logo_UMT.png"
+          className="size-16 object-cover"
+          alt="UMT logo"
+        />
+      </header>
     </>
-  )
-}
+  );
+};
 
 export default Header;
