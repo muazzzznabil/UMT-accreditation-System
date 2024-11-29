@@ -1,14 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+// import { Link } from "react-router-dom";
 
-const SectionNavigation = () => {
+const SectionNavigation = ({ activeTab, setActiveTab }) => {
+  // const [activeTab, setActiveTab] = useState(0);
+
   return (
     <div className="flex space-x-4 justify-center my-10">
-      <Link>Maklumat Program</Link>
+      <button
+        onClick={() => {
+          setActiveTab(1);
+        }}
+        className={`${activeTab === 1 ? "text-blue-500" : "text-gray-900"}`}
+      >
+        Maklumat Program
+      </button>
       <p>-</p>
-      <Link>Kelulusan Mesyuarat JPKT</Link>
+      <button
+        onClick={() => {
+          setActiveTab(2);
+        }}
+        className={`${activeTab === 2 ? "text-blue-500" : "text-gray-900"}`}
+      >
+        Kelulusan Mesyuarat JPKT
+      </button>
       <p>-</p>
-      <Link>Kelulusan Mesyuarat JKA</Link>
+      <button
+        onClick={() => {
+          setActiveTab(3);
+        }}
+        className={`${activeTab === 3 ? "text-blue-500" : "text-gray-900"}`}
+      >
+        Kelulusan Mesyuarat JKA
+      </button>
     </div>
   );
 };

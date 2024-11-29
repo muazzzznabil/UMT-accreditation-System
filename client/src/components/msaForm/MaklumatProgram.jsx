@@ -25,27 +25,32 @@ const MaklumatProgram = () => {
           label={"Code NEC"}
           options={Nec_Code_List || []}
           labelId={"code-nec"}
+          placeholderOptions={"Sila Pilih Code NEC"}
         />
         <DropdownMenu
           label={"Mod Penawaran"}
           options={mod_penawaran || []}
           labelId={"mod-penawaran"}
+          placeholderOptions={"Sila Pilih Mod Penawaran"}
         />
         <DropdownMenu
           label={"Fakulti"}
           options={fakulti_List || []}
           labelId={"fakulti"}
+          placeholderOptions={"Sila Pilih Fakulti"}
         />
         <JangkaPengajian />
         <DropdownMenu
           label={"Mod Penyampaian"}
           options={["Pembelajaran Terbuka", "Jarak Jauh (ODL)"]}
           labelId={"mod-penyampaian"}
+          placeholderOptions={"Sila Pilih Mod Penyampaian"}
         />
         <DropdownMenu
           label={"Struktur Program"}
           options={struktur_program || []}
           labelId={"struktur-program"}
+          placeholderOptions={"Sila Pilih Struktur Program"}
         />
         <ProgramKerjasama />
 

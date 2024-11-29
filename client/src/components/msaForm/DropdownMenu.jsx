@@ -1,6 +1,12 @@
 import React from "react";
 
-const DropdownMenu = ({ label, options, onChange, labelId }) => {
+const DropdownMenu = ({
+  label,
+  options,
+  placeholderOptions,
+  onChange,
+  labelId,
+}) => {
   return (
     <div className="flex items-center w-full">
       <label htmlFor={labelId} className="label-input-msa">
@@ -11,6 +17,9 @@ const DropdownMenu = ({ label, options, onChange, labelId }) => {
         className="select select-bordered w-full"
         onChange={onChange} // Handle change event
       >
+        <option value="" disabled selected hidden className="text-gray-400 ">
+          {placeholderOptions}
+        </option>
         {options.map((option, index) => (
           <option key={index} value={option}>
             {option}

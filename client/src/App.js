@@ -4,6 +4,7 @@ import Homepage from "./pages/Homepage";
 import MsaForm from "./pages/MsaForm";
 import NoPage from "./pages/NoPage";
 import Header from "./components/Header";
+import TabbedForm from "./pages/testMultiStepForm";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/MsaForm" element={<MsaForm />} />
+          <Route path="/testMultiStepForm" element={<TabbedForm />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </div>

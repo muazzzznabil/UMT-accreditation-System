@@ -14,6 +14,14 @@ const Homepage = () => {
                 Daftar Permohonan Program
               </Link>
             </li>
+            <li>
+              <Link
+                to="/testMultiStepForm"
+                className="text-blue-500 hover:underline"
+              >
+                Test Multi-Step Form
+              </Link>
+            </li>
           </ul>
         </div>
       </body>

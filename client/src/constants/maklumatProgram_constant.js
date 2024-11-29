@@ -184,3 +184,11 @@ export const struktur_program = [
   "Dual Ijazah",
   "Ijazah Bersama",
 ];
+
+export const bentuk_kerjasama = [
+  "Dual Ijazah (Dual Degree)",
+  "Dwi Ijazah (Double Degree)",
+  "Ijazah Bersama (Joint Degree)",
+  "Francais (Franchise)",
+  "Luar Pesisir (Offshore)",
+];

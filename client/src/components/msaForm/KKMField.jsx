@@ -12,14 +12,23 @@ const KKMField = () => {
           id="tahapKKM"
           className="select select-bordered w-1/5"
         >
-          <option value="">Tahap 8</option>
-          <option value="">Tahap 7</option>
-          <option value="">Tahap 6</option>
-          <option value="">Tahap 5</option>
-          <option value="">Tahap 4</option>
-          <option value="">Tahap 3</option>
-          <option value="">Tahap 2</option>
-          <option value="">Tahap 1</option>
+          <option
+            value=""
+            disabled
+            selected
+            hidden
+            className="text-gray-400 selection:text-gray-400"
+          >
+            Sila Pilih Tahap KKM
+          </option>
+          <option value="8">Tahap 8</option>
+          <option value="7">Tahap 7</option>
+          <option value="6">Tahap 6</option>
+          <option value="5">Tahap 5</option>
+          <option value="4">Tahap 4</option>
+          <option value="3">Tahap 3</option>
+          <option value="2">Tahap 2</option>
+          <option value="1">Tahap 1</option>
         </select>
       </div>
     </div>
