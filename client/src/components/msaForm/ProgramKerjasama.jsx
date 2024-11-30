@@ -31,8 +31,8 @@ const ProgramKerjasama = () => {
             <option value="" disabled selected hidden>
               Sila Pilih Jenis Kerjasama
             </option>
-            {struktur_program.map((option) => (
-              <option value={option}>{option}</option>
+            {struktur_program.map((option, index) => (
+              <option key={index} value={option}>{option}</option>
             ))}
           </select>
         )}

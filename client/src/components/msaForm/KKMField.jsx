@@ -1,16 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import { tahap_mqf } from "../../constants/maklumatProgram_constant";
 
 const KKMField = () => {
+  const [tahap, setTahap] = useState("");
+
+  const SektorAkademikDropdown = ({ tahap_mqf, isDisabled }) => {
+    return (
+      <select
+        name="sektorAkademik"
+        id="sektorAkademik"
+        className="select ml-2 select-bordered w-3/4 "
+        disabled={isDisabled}
+        defaultValue={""}
+      >
+        {(tahap === "6" || tahap === "7" || tahap === "8") && (
+          <option value="" disabled hidden>
+            Sila Pilih Sektor Akademik
+          </option>
+        )}
+
+        {tahap_mqf.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
   return (
     <div className="flex w-full ">
-      <label className="text-lg text-gray-700 mb-2  font-bold w-1/4">
+      <label className="text-lg text-gray-700 mb-2  font-bold w-1/4 ">
         Tahap KKM
       </label>
-      <div className="w-full">
+      <div className="w-full flex justify-between">
         <select
           name="tahapKKM"
           id="tahapKKM"
-          className="select select-bordered w-1/5"
+          className="select select-bordered w-1/4"
+          onChange={(e) => setTahap(e.target.value)}
         >
           <option
             value=""
@@ -30,6 +58,54 @@ const KKMField = () => {
           <option value="2">Tahap 2</option>
           <option value="1">Tahap 1</option>
         </select>
+        {tahap === "1" && (
+          <SektorAkademikDropdown
+            tahap_mqf={tahap_mqf.tahap1}
+            isDisabled={true}
+          />
+        )}
+        {tahap === "2" && (
+          <SektorAkademikDropdown
+            tahap_mqf={tahap_mqf.tahap2}
+            isDisabled={true}
+          />
+        )}
+        {tahap === "3" && (
+          <SektorAkademikDropdown
+            tahap_mqf={tahap_mqf.tahap3}
+            isDisabled={true}
+          />
+        )}
+        {tahap === "4" && (
+          <SektorAkademikDropdown
+            tahap_mqf={tahap_mqf.tahap4}
+            isDisabled={true}
+          />
+        )}
+        {tahap === "5" && (
+          <SektorAkademikDropdown
+            tahap_mqf={tahap_mqf.tahap5}
+            isDisabled={true}
+          />
+        )}
+        {tahap === "6" && (
+          <SektorAkademikDropdown
+            tahap_mqf={tahap_mqf.tahap6}
+            isDisabled={false}
+          />
+        )}
+        {tahap === "7" && (
+          <SektorAkademikDropdown
+            tahap_mqf={tahap_mqf.tahap7}
+            isDisabled={false}
+          />
+        )}
+        {tahap === "8" && (
+          <SektorAkademikDropdown
+            tahap_mqf={tahap_mqf.tahap8}
+            isDisabled={false}
+          />
+        )}
       </div>
     </div>
   );

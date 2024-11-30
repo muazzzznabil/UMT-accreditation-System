@@ -192,3 +192,23 @@ export const bentuk_kerjasama = [
   "Francais (Franchise)",
   "Luar Pesisir (Offshore)",
 ];
+
+export const tahap_mqf = {
+  tahap1: ["Sijil "],
+  tahap2: ["Sijil "],
+  tahap3: ["Sijil"],
+  tahap4: ["Diploma"],
+  tahap5: ["Diploma lanjutan"],
+  tahap6: ["Sarjana Muda", "Diploma Siswazah", "Sijil Siswazah"],
+  tahap7: [
+    "Sarjana secara penyelidikan",
+    "Sarjana secara mod campuran dan kerja kursus",
+    "Sarjana secara kerja kursus",
+    "Diploma pascasiswazah",
+    "Sijil pascasiswazah",
+  ],
+  tahap8: [
+    "Kedoktoran secara penyelidikan",
+    "Kedoktoran secara mod campuran dan kerja kursus",
+  ],
+};
