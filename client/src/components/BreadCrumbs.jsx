@@ -5,10 +5,12 @@ const BreadcrumbsWithIcon = ({ items }) => {
     <div className="breadcrumbs text-md m-4">
       <ul>
         <li>
-          <a>Home</a>
+          <a href="/">Home</a>
         </li>
         <li>
-          <a>Daftar Permohonan Program</a>
+          <a href="/MsaForm" onClick={(e) => e.preventDefault()}>
+            Daftar Permohonan Program
+          </a>
         </li>
       </ul>
     </div>
