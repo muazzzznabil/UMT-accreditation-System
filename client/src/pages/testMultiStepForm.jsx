@@ -18,6 +18,32 @@ const TabbedForm = () => {
     });
   };
 
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault(); // Prevent default form submission behavior
+
+  //   try {
+  //     const response = await fetch("http://your-api-endpoint.com/submit", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json", // Send data as JSON
+  //       },
+  //       body: JSON.stringify(formData), // Convert form data to JSON
+  //     });
+
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       console.log("Submission successful:", result);
+  //       alert("Form submitted successfully!");
+  //     } else {
+  //       console.error("Submission failed:", response.statusText);
+  //       alert("Failed to submit form.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during submission:", error);
+  //     alert("An error occurred while submitting the form.");
+  //   }
+  // };
+
   return (
     <div className="container mx-auto p-4">
       <div className="tabs flex justify-center mb-4">
@@ -41,7 +67,7 @@ const TabbedForm = () => {
         </button>
       </div>
 
-      <div className="flex flex-col items-center">
+      <form className="flex flex-col items-center">
         {activeTab === 0 && (
           <div className="mb-4">
             <h2 className="text-xl font-bold mb-2">User Info</h2>
@@ -78,13 +104,10 @@ const TabbedForm = () => {
             />
           </div>
         )}
-        <button
-          onClick={() => console.log(formData)}
-          className="btn btn-primary"
-        >
+        <button type="submit" className="btn btn-primary">
           Submit
         </button>
-      </div>
+      </form>
     </div>
   );
 };

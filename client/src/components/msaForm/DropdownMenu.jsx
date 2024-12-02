@@ -3,6 +3,7 @@ import React from "react";
 const DropdownMenu = ({
   label,
   options,
+  value,
   placeholderOptions,
   onChange,
   labelId,
@@ -13,11 +14,13 @@ const DropdownMenu = ({
         {label}
       </label>
       <select
-        id={labelId} // Create a unique id from the label the example is "Code NEC" will be "code-nec"
+        id={labelId}
+        name={labelId}
         className="select select-bordered w-full"
-        onChange={onChange} // Handle change event
+        onChange={onChange}
+        value={value} // Bind the current selected value
       >
-        <option value="" disabled selected hidden className="text-gray-400 ">
+        <option value="" disabled hidden className="text-gray-400">
           {placeholderOptions}
         </option>
         {options.map((option, index) => (

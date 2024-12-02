@@ -6,13 +6,16 @@ const ProgramKerjasama = () => {
 
   return (
     <div className="flex w-full items-center">
-      <label className="text-lg text-gray-700 mb-2  font-bold w-1/4">
+      <label
+        className="text-lg text-gray-700 mb-2  font-bold w-1/4"
+        id="program-kerjasama"
+      >
         Program Kerjasama
       </label>
       <div className="w-full flex  justify-between">
         <select
-          name="tahapKKM"
-          id="tahapKKM"
+          name="program-kerjasama"
+          id="program-kerjasama"
           className="select select-bordered w-1/4 mr-2"
           onChange={(e) => setIsKerjasama(e.target.value === "True")}
         >
@@ -31,7 +34,9 @@ const ProgramKerjasama = () => {
               Sila Pilih Jenis Kerjasama
             </option>
             {struktur_program.map((option, index) => (
-              <option key={index} value={option}>{option}</option>
+              <option key={index} value={option}>
+                {option}
+              </option>
             ))}
           </select>
         )}

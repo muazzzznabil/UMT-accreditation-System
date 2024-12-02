@@ -16,13 +16,11 @@ const MsaForm = () => {
       <BreadcrumbsWithIcon items={breadcrumbs} />
       <SectionNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {activeTab === 1 ? (
-        <MaklumatProgram />
-      ) : activeTab === 2 ? (
-        <MesyJPKT />
-      ) : activeTab === 3 ? (
-        <MesyJKA />
-      ) : null}
+      <form action="">
+        {activeTab === 1 && <MaklumatProgram />}
+        {activeTab === 2 && <MesyJPKT />}
+        {activeTab === 3 && <MesyJKA />}
+      </form>
     </div>
   );
 };

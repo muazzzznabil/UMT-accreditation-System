@@ -16,8 +16,8 @@ const JangkaPengajian = () => {
             id="jenisPengajian"
             className="select select-bordered select-md w-60 block"
           >
-            <option value="">Sepenuh Masa</option>
-            <option value="">Separuh Masa</option>
+            <option value="Sepenuh Masa">Sepenuh Masa</option>
+            <option value="Separuh Masa">Separuh Masa</option>
           </select>
         </div>
         <div className="flex flex-col items-start ">
@@ -25,7 +25,11 @@ const JangkaPengajian = () => {
             Minimum
           </label>
           <div className="flex space-x-2">
-            <select name="tahun" id="tahun" className="select select-bordered ">
+            <select
+              name="minTahun"
+              id="minTahun"
+              className="select select-bordered "
+            >
               <option
                 value=""
                 selected
@@ -41,7 +45,11 @@ const JangkaPengajian = () => {
                 </option>
               ))}
             </select>
-            <select name="bulan" id="bulan" className="select select-bordered ">
+            <select
+              name="minBulan"
+              id="minBulan"
+              className="select select-bordered "
+            >
               <option
                 value=""
                 selected
@@ -59,8 +67,8 @@ const JangkaPengajian = () => {
             </select>
           </div>
           <select
-            name="semester"
-            id="semester"
+            name="minSemester"
+            id="minSemester"
             className="select select-bordered w-full mt-2"
           >
             <option value="" selected disabled hidden className="text-gray-400">
@@ -78,7 +86,11 @@ const JangkaPengajian = () => {
             Maximum
           </label>
           <div className="flex space-x-2">
-            <select name="tahun" id="tahun" className="select select-bordered ">
+            <select
+              name="maxTahun"
+              id="maxTahun"
+              className="select select-bordered "
+            >
               <option
                 value=""
                 selected
@@ -94,7 +106,11 @@ const JangkaPengajian = () => {
                 </option>
               ))}
             </select>
-            <select name="bulan" id="bulan" className="select select-bordered ">
+            <select
+              name="maxBulan"
+              id="maxBulan"
+              className="select select-bordered "
+            >
               <option
                 value=""
                 selected
@@ -112,8 +128,8 @@ const JangkaPengajian = () => {
             </select>
           </div>
           <select
-            name="semester"
-            id="semester"
+            name="maxSemester"
+            id="maxSemester"
             className="select select-bordered w-full mt-2"
           >
             <option value="" selected disabled hidden className="text-gray-400">

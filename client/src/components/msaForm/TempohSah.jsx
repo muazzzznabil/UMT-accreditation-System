@@ -12,7 +12,7 @@ const TempohSah = () => {
     const date = tarikhSurat.split("-");
     const tahun = parseInt(date[0]);
     const sehinggaTarikh = tahun + parseInt(tempohSah);
-    const newDateString = `${sehinggaTarikh}-${date[1]}-${date[2]}`;
+    const newDateString = `${date[2]}-${date[1]}-${sehinggaTarikh}`;
     return newDateString;
   };
 
@@ -21,9 +21,10 @@ const TempohSah = () => {
       <label htmlFor="" className="label-input-msa">
         Tempoh Sah Laku
       </label>
-      <div className="w-full flex items-center">
+      <div className="w-full flex items-center ">
         <input
           type="number"
+          name="tempohSah"
           className="input input-bordered w-1/6"
           placeholder="Tahun"
           value={tempohSah}
@@ -32,13 +33,17 @@ const TempohSah = () => {
             calculateTempohSah(tempohSah);
           }}
         />
-        <label htmlFor="estimateEndDate" className="">
-          sehingga
+        <label htmlFor="estimateEndDate" className="text-gray-500 ml-2 text-lg">
+          {/* {`Sah Sehingga: ${calculateTempohSah(tempohSah)}`} */}
+          Sah Sehingga :{" "}
+          <span className="font-semibold">{calculateTempohSah(tempohSah)}</span>
         </label>
+
         <input
-          type="text"
-          id="estimateEndDate"
-          className="input input-bordered w-full"
+          type="hidden"
+          id="sah-sehingga"
+          name="sah-sehingga"
+          className="input input-bordered w-3/4"
           value={calculateTempohSah(tempohSah)}
         />
       </div>

@@ -1,0 +1,16 @@
+{
+  "name": "umt-accreditation-system",
+  "version": "1.0.0",
+  "description": "Restful API to connect to the MySQL database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "muaznabil",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "mysql2": "^3.11.5"
+  }
+}
