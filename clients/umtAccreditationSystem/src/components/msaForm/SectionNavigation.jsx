@@ -4,6 +4,8 @@ import React from "react";
 const SectionNavigation = ({ activeTab, setActiveTab }) => {
   // const [activeTab, setActiveTab] = useState(0);
 
+//chnage `button to tab (jQuery)
+
   return (
     <div className="flex space-x-4 justify-center my-10">
       <button
