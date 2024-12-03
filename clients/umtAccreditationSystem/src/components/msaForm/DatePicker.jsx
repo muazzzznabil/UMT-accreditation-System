@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+// import React, { useState } from "react";
+import PropTypes from "prop-types";
 const DatePicker = ({ name, label, onChange }) => {
   return (
     <div className="flex mb-4 items-center">
@@ -18,5 +18,10 @@ const DatePicker = ({ name, label, onChange }) => {
     </div>
   );
 };
-
+// Add PropTypes validation
+DatePicker.propTypes = {
+  name: PropTypes.string.isRequired, // 'name' should be a string and is required
+  label: PropTypes.string.isRequired, // 'label' should be a string and is required
+  onChange: PropTypes.func.isRequired, // 'onChange' should be a function and is required
+};
 export default DatePicker;

@@ -3,7 +3,7 @@ const Header = () => {
     <>
       <header className="p-4 bg-gradient-to-r from-[#C6AFF4] to-[#4600D2]">
         <img
-          src="asset/image/Logo_UMT.png"
+          src="../../public/image/Logo_UMT.png"
           className="size-16 object-cover"
           alt="UMT logo"
         />
