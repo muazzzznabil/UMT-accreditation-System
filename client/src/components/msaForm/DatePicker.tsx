@@ -6,7 +6,9 @@ interface DatePickerProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ name, label, onChange }) => {
+const DatePicker = ({ name, label, onChange }: DatePickerProps) => {
+
+  
   return (
     <div className="flex mb-4 items-center">
       <label htmlFor={name} className="label-input-msa">
@@ -18,7 +20,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ name, label, onChange }) => {
           id={name}
           name={name}
           onChange={onChange}
-          className="p-2 h-12 rounded-lg border w-full "
+          className="p-2 h-12 rounded-lg border w-full"
         />
       </div>
     </div>
