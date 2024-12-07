@@ -1,18 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { tahap_mqf } from "../../constants/maklumatProgram_constant.js";
 
-const KKMField: React.FC = () => {
-  const [tahap, setTahap] = useState<string>("");
+const KKMField = () => {
+  const [tahap, setTahap] = useState("");
 
-  interface SektorAkademikDropdownProps {
-    tahap_mqf: string[];
+  interface DropdownProps {
     isDisabled: boolean;
+    tahapmqf: string[];
   }
 
-  const SektorAkademikDropdown: React.FC<SektorAkademikDropdownProps> = ({
-    tahap_mqf,
-    isDisabled,
-  }) => {
+  const SektorAkademikDropdown: React.FC<DropdownProps> = ({ isDisabled, tahapmqf }) => {
     return (
       <select
         name="sektorAkademik"
@@ -27,7 +24,7 @@ const KKMField: React.FC = () => {
           </option>
         )}
 
-        {tahap_mqf.map((option, index) => (
+        {tahapmqf.map((option, index) => (
           <option key={index} value={option}>
             {option}
           </option>
@@ -38,7 +35,7 @@ const KKMField: React.FC = () => {
 
   return (
     <div className="flex w-full ">
-      <label className="text-lg text-gray-700 mb-2  font-bold w-1/4 ">
+      <label className="text-lg text-gray-700 mb-2 font-bold w-1/4 ">
         Tahap KKM
       </label>
       <div className="w-full flex justify-between">
@@ -68,49 +65,49 @@ const KKMField: React.FC = () => {
         </select>
         {tahap === "1" && (
           <SektorAkademikDropdown
-            tahap_mqf={tahap_mqf.tahap1}
+            tahapmqf={tahap_mqf.tahap1}
             isDisabled={true}
           />
         )}
         {tahap === "2" && (
           <SektorAkademikDropdown
-            tahap_mqf={tahap_mqf.tahap2}
+            tahapmqf={tahap_mqf.tahap2}
             isDisabled={true}
           />
         )}
         {tahap === "3" && (
           <SektorAkademikDropdown
-            tahap_mqf={tahap_mqf.tahap3}
+            tahapmqf={tahap_mqf.tahap3}
             isDisabled={true}
           />
         )}
         {tahap === "4" && (
           <SektorAkademikDropdown
-            tahap_mqf={tahap_mqf.tahap4}
+            tahapmqf={tahap_mqf.tahap4}
             isDisabled={true}
           />
         )}
         {tahap === "5" && (
           <SektorAkademikDropdown
-            tahap_mqf={tahap_mqf.tahap5}
+            tahapmqf={tahap_mqf.tahap5}
             isDisabled={true}
           />
         )}
         {tahap === "6" && (
           <SektorAkademikDropdown
-            tahap_mqf={tahap_mqf.tahap6}
+            tahapmqf={tahap_mqf.tahap6}
             isDisabled={false}
           />
         )}
         {tahap === "7" && (
           <SektorAkademikDropdown
-            tahap_mqf={tahap_mqf.tahap7}
+            tahapmqf={tahap_mqf.tahap7}
             isDisabled={false}
           />
         )}
         {tahap === "8" && (
           <SektorAkademikDropdown
-            tahap_mqf={tahap_mqf.tahap8}
+            tahapmqf={tahap_mqf.tahap8}
             isDisabled={false}
           />
         )}
@@ -120,4 +117,3 @@ const KKMField: React.FC = () => {
 };
 
 export default KKMField;
-
