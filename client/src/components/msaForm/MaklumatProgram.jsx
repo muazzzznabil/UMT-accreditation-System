@@ -23,14 +23,14 @@ const MaklumatProgram = () => {
       <div className="w-full  space-y-4 ">
         <InputField
           label={"Nama Program"}
-          name={"namaProgram"}
+          name={"nama_program"}
           placeholder="Sila Masukkan Nama Program"
         />
         <KKMField />
         <DropdownMenu
           label={"Code NEC"}
           options={Nec_Code_List}
-          labelId={"code-nec"}
+          labelId={"code_nec"}
           onChange={(e) => {
             setNec(e.target.value);
           }}
@@ -40,7 +40,7 @@ const MaklumatProgram = () => {
         <DropdownMenu
           label={"Mod Penawaran"}
           options={mod_penawaran}
-          labelId={"mod-penawaran"}
+          labelId={"mode_penawaran"}
           onChange={(e) => setModPenawaran(e.target.value)}
           value={modPenawaran}
           placeholderOptions={"Sila Pilih Mod Penawaran"}
@@ -57,7 +57,7 @@ const MaklumatProgram = () => {
         <DropdownMenu
           label={"Mod Penyampaian"}
           options={["Pembelajaran Terbuka", "Jarak Jauh (ODL)"]}
-          labelId={"mod-penyampaian"}
+          labelId={"mod_penyampaian"}
           onChange={(e) => setModPenyampaian(e.target.value)}
           value={modPenyampaian}
           placeholderOptions={"Sila Pilih Mod Penyampaian"}
@@ -65,7 +65,7 @@ const MaklumatProgram = () => {
         <DropdownMenu
           label={"Struktur Program"}
           options={struktur_program}
-          labelId={"struktur-program"}
+          labelId={"struktur_program"}
           onChange={(e) => setStruktur(e.target.value)}
           value={struktur}
           placeholderOptions={"Sila Pilih Struktur Program"}

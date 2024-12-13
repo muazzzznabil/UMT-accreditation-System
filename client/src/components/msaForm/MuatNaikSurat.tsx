@@ -1,6 +1,10 @@
 import React from "react";
 
-const MuatNaikSurat = ({ label }) => {
+interface Props {
+  label: string;
+}
+
+const MuatNaikSurat = ({ label }: Props) => {
   return (
     <div className="flex mb-4 items-center">
       <label htmlFor="suratMSA" className="label-input-msa">

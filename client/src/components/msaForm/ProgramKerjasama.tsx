@@ -14,7 +14,7 @@ const ProgramKerjasama = () => {
       </label>
       <div className="w-full flex  justify-between">
         <select
-          name="program-kerjasama"
+          name="program_kerjasama"
           id="program-kerjasama"
           className="select select-bordered w-1/4 mr-2"
           onChange={(e) => setIsKerjasama(e.target.value === "True")}
@@ -26,7 +26,7 @@ const ProgramKerjasama = () => {
         </select>
         {isKerjasama && (
           <select
-            name="jenisKerjasama"
+            name="jenis_kerjasama"
             id="jenisKerjasama"
             className="select select-bordered w-3/4"
           >
