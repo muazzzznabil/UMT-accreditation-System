@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import BreadcrumbsWithIcon from "../components/BreadCrumbs";
-import { useBreadcrumbs } from "../utils/getBreadcrumbs.js";
+import { useBreadcrumbs } from "../utils/getBreadcrumbs";
 import SectionNavigation from "../components/msaForm/SectionNavigation";
-import MaklumatProgram from "../components/msaForm/MaklumatProgram";
+import MaklumatProgram from "../components/msaForm/MaklumatProgram.js";
 import MesyJKA from "../components/msaForm/MesyJKA";
 import MesyJPKT from "../components/msaForm/MesyJPKT";
 
