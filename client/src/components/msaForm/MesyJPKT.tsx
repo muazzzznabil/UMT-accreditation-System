@@ -4,7 +4,7 @@ import TempohSah from "./TempohSah";
 import BilMesyuarat from "./BilMesyuarat";
 import MuatNaikSurat from "./MuatNaikSurat";
 
-const TarikhSuratContext = createContext();
+const TarikhSuratContext = createContext("");
 
 const MesyJPKT = () => {
   const [tarikhSurat, setTarikhSurat] = useState("");

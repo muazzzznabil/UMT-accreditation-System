@@ -173,6 +173,7 @@ export const fakulti_List = [
   "Fakulti Perikanan dan Sains Makanan (FPSM)",
   "Fakulti Pengajian Maritim  (FPM)",
   "Fakulti Perniagaan Ekonomi dan Pembangunan Sosial (FPEPS)",
+  "Pusat Asasi STEM (PASTEM)"
 ];
 
 export const struktur_program = [

@@ -3,10 +3,10 @@ import { TarikhSuratContext } from "./MesyJPKT";
 
 const TempohSah = () => {
   const tarikhSurat = useContext(TarikhSuratContext);
-  const [tempohSah, setTempohSah] = useState(0);
+  const [tempohSah, setTempohSah] = useState<string>("");
   console.log(`Tarikh Surat in tempoh sah: ${tarikhSurat}`);
 
-  const calculateTempohSah = (tempohSah) => {
+  const calculateTempohSah = (tempohSah:string) => {
     if (!tarikhSurat) return "";
 
     const date = tarikhSurat.split("-");
@@ -29,7 +29,7 @@ const TempohSah = () => {
           placeholder="Tahun"
           value={tempohSah}
           onChange={(e) => {
-            setTempohSah(e.target.value);
+            setTempohSah(e.target.value); //should be number instead of String 
             calculateTempohSah(tempohSah);
           }}
         />

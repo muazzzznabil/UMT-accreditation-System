@@ -7,17 +7,14 @@ import MesyJKA from "../components/msaForm/MesyJKA";
 import MesyJPKT from "../components/msaForm/MesyJPKT";
 
 const MsaForm = () => {
-  const breadcrumbs = useBreadcrumbs(MaklumatProgram);
+  const breadcrumbs = useBreadcrumbs();
   const [activeTab, setActiveTab] = useState(1);
 
-  const onSubmitForm = (e) => {
-    e.preventDefault(); 
-    try {
-      const body ={}
-    } catch (error) {
-      console.error(error)
-    }
-  };
+  //To send all data to backend from the tabs forms
+  //create a state of Object 
+  //exp:
+  //const [user, setUser] = useState<User>({ name: '', age: 0 });
+  //send Info to backend as JSON
 
   return (
     <div className="container mx-auto mt-5 font-sans flex flex-col">
@@ -25,7 +22,7 @@ const MsaForm = () => {
       <BreadcrumbsWithIcon items={breadcrumbs} />
       <SectionNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <form onSubmit={onSubmitForm}>
+      <form >
         {activeTab === 1 && <MaklumatProgram />}
         {activeTab === 2 && <MesyJPKT />}
         {activeTab === 3 && <MesyJKA />}
