@@ -1,8 +1,14 @@
 import  { useState } from "react";
-import { struktur_program } from "../../constants/maklumatProgram_constant";
+import { bentuk_kerjasama } from "../../constants/maklumatProgram_constant";
+import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
-const ProgramKerjasama = () => {
+interface ProgramKerjasamaProps {
+  mp: MaklumatProgramModel;
+}
+
+const ProgramKerjasama: React.FC<ProgramKerjasamaProps> = ({mp}) => {
   const [isKerjasama, setIsKerjasama] = useState(false);
+  // const mp = new MaklumatProgramModel();
 
   return (
     <div className="flex w-full items-center">
@@ -12,12 +18,12 @@ const ProgramKerjasama = () => {
       >
         Program Kerjasama
       </label>
-      <div className="w-full flex  justify-between">
+      <div className="w-full flex justify-between">
         <select
           name="program_kerjasama"
           id="program-kerjasama"
           className="select select-bordered w-1/4 mr-2"
-          onChange={(e) => setIsKerjasama(e.target.value === "True")}
+          onChange={(e) => {setIsKerjasama(e.target.value === "True"); mp.setProgramKerjasama(e.target.value)}}
         >
           <option value="False" >
             Tidak
@@ -29,11 +35,12 @@ const ProgramKerjasama = () => {
             name="jenis_kerjasama"
             id="jenisKerjasama"
             className="select select-bordered w-3/4"
+            onChange={(e) => mp.setJenisKerjasama(e.target.value)}
           >
             <option value="" disabled selected hidden>
               Sila Pilih Jenis Kerjasama
             </option>
-            {struktur_program.map((option, index) => (
+            {bentuk_kerjasama.map((option, index) => (
               <option key={index} value={option}>
                 {option}
               </option>

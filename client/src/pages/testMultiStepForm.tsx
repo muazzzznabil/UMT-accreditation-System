@@ -8,14 +8,14 @@ const TabbedForm = () => {
     educationInfo: { degree: "" },
   });
 
-  const handleInputChange = (section, event) => {
-    setFormData({
-      ...formData,
+  const handleInputChange = (section: keyof typeof formData, event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
       [section]: {
-        ...formData[section],
+        ...prevFormData[section],
         [event.target.name]: event.target.value,
       },
-    });
+    }));
   };
 
   // const handleSubmit = async (event) => {

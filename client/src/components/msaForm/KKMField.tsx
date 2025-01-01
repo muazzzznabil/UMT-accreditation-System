@@ -1,29 +1,33 @@
-import { useState } from "react";
-import { tahap_mqf } from "../../constants/maklumatProgram_constant.js";
+import React, { useState } from "react";
+import { tahap_mqf } from "../../constants/maklumatProgram_constant";
+import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
-const KKMField = () => {
+interface KKMFieldProps {
+  mp: MaklumatProgramModel;
+}
+
+const KKMField: React.FC<KKMFieldProps> = ({ mp }) => {
   const [tahap, setTahap] = useState("");
 
   interface DropdownProps {
     isDisabled: boolean;
     tahapmqf: string[];
+    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   }
 
-  const SektorAkademikDropdown: React.FC<DropdownProps> = ({ isDisabled, tahapmqf }) => {
+  const SektorAkademikDropdown: React.FC<DropdownProps> = ({ isDisabled, tahapmqf, onChange }) => {
     return (
       <select
         name="sektorAkademik"
         id="sektorAkademik"
-        className="select ml-2 select-bordered w-3/4 "
+        className="select ml-2 select-bordered w-3/4"
         disabled={isDisabled}
         defaultValue={""}
+        onChange={onChange}
       >
-        {(tahap === "6" || tahap === "7" || tahap === "8") && (
-          <option value="" disabled hidden>
-            Sila Pilih Sektor Akademik
-          </option>
-        )}
-
+        <option value="" disabled hidden>
+          Sila Pilih Sektor Akademik
+        </option>
         {tahapmqf.map((option, index) => (
           <option key={index} value={option}>
             {option}
@@ -34,8 +38,8 @@ const KKMField = () => {
   };
 
   return (
-    <div className="flex w-full ">
-      <label className="text-lg text-gray-700 mb-2 font-bold w-1/4 ">
+    <div className="flex w-full">
+      <label className="text-lg text-gray-700 mb-2 font-bold w-1/4">
         Tahap KKM
       </label>
       <div className="w-full flex justify-between">
@@ -43,15 +47,13 @@ const KKMField = () => {
           name="tahapKKM"
           id="tahapKKM"
           className="select select-bordered w-1/4"
-          onChange={(e) => setTahap(e.target.value)}
+          value={tahap}
+          onChange={(e) => {
+            setTahap(e.target.value);
+            mp.setTahapMQF(e.target.value);
+          }}
         >
-          <option
-            value=""
-            disabled
-            selected
-            hidden
-            className="text-gray-400 selection:text-gray-400"
-          >
+          <option value="" disabled hidden>
             Sila Pilih Tahap KKM
           </option>
           <option value="8">Tahap 8</option>
@@ -63,51 +65,12 @@ const KKMField = () => {
           <option value="2">Tahap 2</option>
           <option value="1">Tahap 1</option>
         </select>
-        {tahap === "1" && (
+        {(tahap === "1" || tahap === "2" || tahap === "3" || 
+          tahap === "4" || tahap === "5" || tahap === "6" || 
+          tahap === "7" || tahap === "8") && (
           <SektorAkademikDropdown
-            tahapmqf={tahap_mqf.tahap1}
-            isDisabled={true}
-          />
-        )}
-        {tahap === "2" && (
-          <SektorAkademikDropdown
-            tahapmqf={tahap_mqf.tahap2}
-            isDisabled={true}
-          />
-        )}
-        {tahap === "3" && (
-          <SektorAkademikDropdown
-            tahapmqf={tahap_mqf.tahap3}
-            isDisabled={true}
-          />
-        )}
-        {tahap === "4" && (
-          <SektorAkademikDropdown
-            tahapmqf={tahap_mqf.tahap4}
-            isDisabled={true}
-          />
-        )}
-        {tahap === "5" && (
-          <SektorAkademikDropdown
-            tahapmqf={tahap_mqf.tahap5}
-            isDisabled={true}
-          />
-        )}
-        {tahap === "6" && (
-          <SektorAkademikDropdown
-            tahapmqf={tahap_mqf.tahap6}
-            isDisabled={false}
-          />
-        )}
-        {tahap === "7" && (
-          <SektorAkademikDropdown
-            tahapmqf={tahap_mqf.tahap7}
-            isDisabled={false}
-          />
-        )}
-        {tahap === "8" && (
-          <SektorAkademikDropdown
-            tahapmqf={tahap_mqf.tahap8}
+            tahapmqf={tahap_mqf[`tahap${tahap}`]}
+            onChange={(e) => mp.setSektorAkademik(e.target.value)}
             isDisabled={false}
           />
         )}
