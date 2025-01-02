@@ -55,10 +55,15 @@ const MaklumatProgram = () => {
     program_kerjasama: mp.getProgramKerjasama(),
     jenis_kerjasama: mp.getJenisKerjasama()
 };
-const postMaklumatProgram = (e: React.FormEvent<HTMLFormElement>) => {  
+const postMaklumatProgram = async (e: React.FormEvent<HTMLFormElement>) => {  
   e.preventDefault();
   console.table(maklumatData);
-  axios.post("http://localhost:5000/pendaftaran-program/maklumat-program", maklumatData);
+  const response = await axios.post("http://localhost:5000/pendaftaran-program/maklumat-program", maklumatData);
+  if(response.status === 200){
+    alert("Data Berjaya Disimpan");
+  }else{
+    alert("Data Gagal Disimpan");
+  }
 };  
   return (
     <form onSubmit={postMaklumatProgram} method="POST" >

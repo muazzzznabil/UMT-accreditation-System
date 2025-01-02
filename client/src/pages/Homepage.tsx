@@ -16,6 +16,14 @@ const Homepage = () => {
             </li>
             <li>
               <Link
+                to="/program-list"
+                className="text-blue-500 hover:underline"
+              >
+                Program List
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/testMultiStepForm"
                 className="text-blue-500 hover:underline"
               >

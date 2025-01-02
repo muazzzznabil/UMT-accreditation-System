@@ -3,7 +3,7 @@ select * from maklumatprogram;
 
 delete from maklumatprogram;
 
-select * from maklumatprogram WHERE id = 1;
+-- select * from maklumatprogram WHERE id = 1;
 
 delete from maklumatprogram where sektor_akademi = "Artificial Intelligence";
 
@@ -41,4 +41,20 @@ CREATE TABLE maklumat_program (
 
 DROP TABLE maklumat_program;
 
+DROP TABLE mesy_jpkt;
 
+
+create table mesy_jpkt (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    maklumat_program_id INT,
+    tarikh_surat DATE,
+    tarikh_terima_surat DATE,
+    tempoh_sah int,
+    sah_sehingga DATE,
+    tarikh_mesyuarat DATE,
+    bil_mesyuarat VARCHAR(255),
+    minit_jpkt VARCHAR(255),
+
+);
+
+SELECT id,nama_program,fakulti FROM maklumat_program;

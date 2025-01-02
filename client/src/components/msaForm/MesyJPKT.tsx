@@ -6,8 +6,19 @@ import MuatNaikSurat from "./MuatNaikSurat";
 
 const TarikhSuratContext = createContext("");
 
+
+
 const MesyJPKT = () => {
   const [tarikhSurat, setTarikhSurat] = useState("");
+
+  // const mesyJPKTData = {
+  //   tarikh_surat: tarikhSurat,
+  //   tarikh_terima_surat: tarikhTerimaSurat,
+  //   tarikh_mesyuarat: tarikhMesyuarat,
+  //   tempoh_sah: tempohSah,
+  //   bil_mesyuarat: bilMesyuarat,
+  //   minit_jpkt: minitJPKT,
+  // }
 
   console.log(` Tarikh Surat:${tarikhSurat}`);
 

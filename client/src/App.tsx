@@ -5,6 +5,7 @@ import MsaForm from "./pages/MsaForm.tsx";
 import NoPage from "./pages/NoPage.tsx";
 import Header from "./components/Header.tsx";
 import TabbedForm from "./pages/testMultiStepForm.tsx";
+import ProgramList from "./pages/ProgramList.tsx";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/MsaForm" element={<MsaForm />} />
+          <Route path="/program-list" element={<ProgramList />} />
           <Route path="/testMultiStepForm" element={<TabbedForm />} />
           <Route path="*" element={<NoPage />} />
         </Routes>

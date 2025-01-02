@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const db = require("../data/database");
 
+
+
 //insert data into maklumat program 
 router.post("/maklumat-program", async function (req, res) {
   const query = `
@@ -42,13 +44,13 @@ router.post("/maklumat-program", async function (req, res) {
 
 //select all from table
 router.get("/maklumat-program", async function (req, res) {
-  const query = "SELECT * FROM maklumatProgramTest;";
+  const query = "SELECT id,nama_program,fakulti FROM maklumat_program";
   try {
     const [result] = await db.query(query);
-    console.table(result);
-    res.sendStatus(200);
+    res.json(result);
   } catch (error) {
     console.error(error);
+    res.status(500).send(error);
   }
 });
 
@@ -80,7 +82,7 @@ router.put("/maklumat-program/:id/edit", async function (req, res) {
 
 //delete
 router.delete("/maklumat-program/:id/delete", async function (req, res) {
-  const query = `DELETE FROM maklumatProgramTest where id = ?`;
+  const query = `DELETE FROM maklumat_program where id = ?`;
   try {
     await db.query(query, req.params.id);
     res.sendStatus(200);
@@ -88,6 +90,8 @@ router.delete("/maklumat-program/:id/delete", async function (req, res) {
     console.error(error);
   }
 });
+
+
 
 
 
