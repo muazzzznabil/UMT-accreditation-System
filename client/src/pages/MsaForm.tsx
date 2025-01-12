@@ -13,14 +13,12 @@ const MsaForm : React.FC = () => {
 
   return (
     <div className="container mx-auto mt-5 font-sans flex flex-col">
-      <h1 className="text-xl font-bold">PERMOHONAN PROGRAM</h1>
+      <h1 className="text-xl  font-bold">
+        PERMOHONAN PROGRAM
+      </h1>
       <BreadcrumbsWithIcon items={breadcrumbs} />
       <SectionNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-        {/* {activeTab === 1 && 
-        <MaklumatProgram 
-        data={formData.maklumatProgram}      
-        updateData={(data) => updateFormData("maklumatProgram", data)}
-        />} */}
+    
         {activeTab === 1 && <MaklumatProgram />}
         {activeTab === 2 && <MesyJPKT />}
         {activeTab === 3 && <MesyJKA />}

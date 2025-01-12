@@ -15,7 +15,6 @@ import CheckBox from "./CheckBox";
 import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 import axios from "axios";
 
-
 const MaklumatProgram = () => {
   const [namaProgram, setNamaProgram] = useState("");
   const [nec, setNec] = useState("");
@@ -53,20 +52,24 @@ const MaklumatProgram = () => {
     mod_penyampaian: mp.getModPenyampaian(),
     struktur_program: struktur,
     program_kerjasama: mp.getProgramKerjasama(),
-    jenis_kerjasama: mp.getJenisKerjasama()
-};
-const postMaklumatProgram = async (e: React.FormEvent<HTMLFormElement>) => {  
-  e.preventDefault();
-  console.table(maklumatData);
-  const response = await axios.post("http://localhost:5000/pendaftaran-program/maklumat-program", maklumatData);
-  if(response.status === 200){
-    alert("Data Berjaya Disimpan");
-  }else{
-    alert("Data Gagal Disimpan");
-  }
-};  
+    jenis_kerjasama: mp.getJenisKerjasama(),
+  };
+  const postMaklumatProgram = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.table(maklumatData);
+    const response = await axios.post(
+      "http://localhost:5000/pendaftaran-program/maklumat-program",
+      maklumatData
+    );
+    if (response.status === 200) {
+      alert("Data Berjaya Disimpan");
+      window.location.href = "/program-list";
+    } else {
+      alert("Data Gagal Disimpan");
+    }
+  };
   return (
-    <form onSubmit={postMaklumatProgram} method="POST" >
+    <form onSubmit={postMaklumatProgram} method="POST">
       <div className="container mb-32 mx-auto flex flex-col bg-gray-100 p-6 rounded-md shadow-md">
         <div className="w-full  space-y-4 ">
           <InputField
@@ -78,7 +81,7 @@ const postMaklumatProgram = async (e: React.FormEvent<HTMLFormElement>) => {
               setNamaProgram(e.target.value);
             }}
           />
-          <KKMField mp={mp}/>
+          <KKMField mp={mp} />
           <DropdownMenu
             label={"Code NEC"}
             options={Nec_Code_List}
@@ -112,10 +115,10 @@ const postMaklumatProgram = async (e: React.FormEvent<HTMLFormElement>) => {
             }}
             placeholderOptions={"Sila Pilih Fakulti"}
           />
-          <JangkaPengajianSepenuhMasa mp={mp}/>
-          <JangkaPengajianSeparuhMasa mp={mp}/>
+          <JangkaPengajianSepenuhMasa mp={mp} />
+          <JangkaPengajianSeparuhMasa mp={mp} />
 
-          <CheckBox mp={mp}/>
+          <CheckBox mp={mp} />
 
           <DropdownMenu
             label={"Struktur Program"}
@@ -128,7 +131,7 @@ const postMaklumatProgram = async (e: React.FormEvent<HTMLFormElement>) => {
             value={struktur}
             placeholderOptions={"Sila Pilih Struktur Program"}
           />
-          <ProgramKerjasama mp={mp}/>
+          <ProgramKerjasama mp={mp} />
 
           <div className="flex space-x-4 justify-end">
             <input

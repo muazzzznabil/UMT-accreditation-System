@@ -29,6 +29,14 @@ export class MaklumatProgramModel {
         struktur_program: string;
         program_kerjasama: string;
         jenis_kerjasama: string;
+        tarikhSurat: Date;
+        tarikhTerimaSurat: Date;
+        tarikhMesyuarat: Date;
+        tempohSah: number;
+        sahSehingga: Date;
+        bilMesyuarat: string;
+        minitJPKT: File;
+        
     };
 
     constructor() {
@@ -61,7 +69,14 @@ export class MaklumatProgramModel {
             mod_penyampaian: [],
             struktur_program: '',
             program_kerjasama: '',
-            jenis_kerjasama: ''
+            jenis_kerjasama: '',
+            tarikhSurat: new Date(),
+            tarikhTerimaSurat: new Date(),
+            tarikhMesyuarat: new Date(),
+            tempohSah: 0,
+            sahSehingga: new Date(),
+            bilMesyuarat: '',
+            minitJPKT: null as unknown as File
         };
     }
 
@@ -296,5 +311,60 @@ export class MaklumatProgramModel {
 
     setJenisKerjasama(jenis_kerjasama: string): void {
         this.maklumat_program.jenis_kerjasama = jenis_kerjasama;
+    }
+    getTarikhSurat(): Date {
+        return this.maklumat_program.tarikhSurat;
+    }
+
+    setTarikhSurat(tarikhSurat: Date): void {
+        this.maklumat_program.tarikhSurat = tarikhSurat;
+    }
+
+    getTarikhTerimaSurat(): Date {
+        return this.maklumat_program.tarikhTerimaSurat;
+    }
+
+    setTarikhTerimaSurat(tarikhTerimaSurat: Date): void {
+        this.maklumat_program.tarikhTerimaSurat = tarikhTerimaSurat;
+    }
+
+    getTarikhMesyuarat(): Date {
+        return this.maklumat_program.tarikhMesyuarat;
+    }
+
+    setTarikhMesyuarat(tarikhMesyuarat: Date): void {
+        this.maklumat_program.tarikhMesyuarat = tarikhMesyuarat;
+    }
+
+    getTempohSah(): number {
+        return this.maklumat_program.tempohSah;
+    }
+
+    setTempohSah(tempohSah: number): void {
+        this.maklumat_program.tempohSah = tempohSah;
+    }
+
+    getSahSehingga(): Date {
+        return this.maklumat_program.sahSehingga;
+    }
+
+    setSahSehingga(sahSehingga: Date): void {
+        this.maklumat_program.sahSehingga = sahSehingga;
+    }
+
+    getBilMesyuarat(): string {
+        return this.maklumat_program.bilMesyuarat;
+    }
+
+    setBilMesyuarat(bilMesyuarat: string): void {
+        this.maklumat_program.bilMesyuarat = bilMesyuarat;
+    }
+
+    getMinitJPKT(): File {
+        return this.maklumat_program.minitJPKT;
+    }
+
+    setMinitJPKT(minitJPKT: File): void {
+        this.maklumat_program.minitJPKT = minitJPKT;
     }
 }

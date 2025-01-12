@@ -58,3 +58,21 @@ create table mesy_jpkt (
 );
 
 SELECT id,nama_program,fakulti FROM maklumat_program;
+
+ALTER TABLE maklumat_program
+ADD COLUMN tarikhSurat DATE,
+ADD COLUMN tarikhTerimaSurat DATE,
+ADD COLUMN tarikhMesyuarat DATE,
+ADD COLUMN tempohSah INT,
+ADD COLUMN sahSehingga DATE,
+ADD COLUMN bilMesyuarat VARCHAR(255),
+ADD COLUMN minitJPKT BLOB;
+
+show columns from maklumat_program;
+
+create table testTable (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(255),
+    file VARCHAR(255),
+    eduInfo TEXT
+);
