@@ -14,3 +14,7 @@ app.listen(5000, () => {
 
 //Routes
 app.use("/pendaftaran-program", msaFormsRoutes);
+app.use(
+  "/uploads/documents",
+  express.static(path.join(__dirname, "/uploads/documents"))
+);

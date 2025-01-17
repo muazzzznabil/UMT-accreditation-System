@@ -3,22 +3,16 @@ import DatePicker from "./DatePicker";
 import TempohSah from "./TempohSah";
 import BilMesyuarat from "./BilMesyuarat";
 import MuatNaikSurat from "./MuatNaikSurat";
+import { MesyJKPT } from "../../model/mesyJKPT_model";
 
 const TarikhSuratContext = createContext("");
 
+interface Props {
+  mesyJKPT: MesyJKPT;
+}
 
-
-const MesyJPKT = () => {
+const MesyJPKT = ({ mesyJKPT }: Props) => {
   const [tarikhSurat, setTarikhSurat] = useState("");
-
-  // const mesyJPKTData = {
-  //   tarikh_surat: tarikhSurat,
-  //   tarikh_terima_surat: tarikhTerimaSurat,
-  //   tarikh_mesyuarat: tarikhMesyuarat,
-  //   tempoh_sah: tempohSah,
-  //   bil_mesyuarat: bilMesyuarat,
-  //   minit_jpkt: minitJPKT,
-  // }
 
   console.log(` Tarikh Surat:${tarikhSurat}`);
 
@@ -29,14 +23,26 @@ const MesyJPKT = () => {
         name={"tarikhSurat"}
         onChange={(e) => setTarikhSurat(e.target.value)}
       />
-      <DatePicker label={"Tarikh Terima Surat"} name={"tarikhTerimaSurat"} />
-      <DatePicker label={"Tarikh Mesyuarat"} name={"tarikhMesyuarat"} />
+      <DatePicker
+        label={"Tarikh Terima Surat"}
+        name={"tarikhTerimaSurat"}
+        onChange={(e) =>
+          mesyJKPT.setTarikhTerimaSurat(new Date(e.target.value))
+        }
+      />
+      <DatePicker
+        label={"Tarikh Mesyuarat"}
+        name={"tarikhMesyuarat"}
+        onChange={(e) =>
+          mesyJKPT.setTarikhTerimaSurat(new Date(e.target.value))
+        }
+      />
 
       <TarikhSuratContext.Provider value={tarikhSurat}>
-        <TempohSah />
+        <TempohSah mesyJKPT={mesyJKPT} />
       </TarikhSuratContext.Provider>
       <BilMesyuarat />
-      <MuatNaikSurat label={"Muat Naik Surat"} />
+      <MuatNaikSurat label={"Muat Naik Surat"} jkpt_model={mesyJKPT} />
 
       <div className="flex space-x-4 justify-end">
         <input

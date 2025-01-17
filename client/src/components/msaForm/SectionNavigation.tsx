@@ -20,7 +20,7 @@ const SectionNavigation = ({ activeTab, setActiveTab }) => {
         }}
         className={`${activeTab === 2 ? "text-blue-500" : "text-gray-900"}`}
       >
-        Kelulusan Mesyuarat JPKT
+        Kelulusan Mesyuarat JKPT
       </button>
       <p>-</p>
       <button

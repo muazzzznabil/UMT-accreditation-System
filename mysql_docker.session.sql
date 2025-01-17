@@ -76,3 +76,7 @@ create table testTable (
     file VARCHAR(255),
     eduInfo TEXT
 );
+
+SELECT * FROM testTable;
+
+show COLUMNS FROM testTable;

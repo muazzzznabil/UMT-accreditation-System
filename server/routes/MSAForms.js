@@ -2,10 +2,18 @@ const express = require("express");
 const router = express.Router();
 const db = require("../data/database");
 const multer = require("multer");
+const path = require("path");
 
-const upload = multer({ dest: "uploads/documents/" });
-const st
-
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "../uploads/documents/"));
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+// const upload = multer({ dest: "/uploads/documents" });
+const upload = multer({ storage: storage });
 
 //insert data into maklumat program
 router.post("/maklumat-program", async function (req, res) {
@@ -189,9 +197,52 @@ router.post(
   "/maklumat-program-file-test",
   upload.single("pdfFile"),
   async function (req, res) {
-    // res.send("Uploaded Suceessfully");
-    res.json(req.file); //so when we wan to upload to database, we can use req.file.path
+    const relativeFilePath = `/uploads/documents/${req.file.filename}`;
+    const query = `insert into testTable (nama, file,eduInfo) values (?, ?, ?)`;
+    try {
+      await db.query(query, [
+        req.body.nama,
+        relativeFilePath,
+        req.body.eduInfo,
+      ]);
+      console.log("Received file:", req.file);
+      console.log("Request body:", req.body);
+      res.json(req.file);
+      // res.status(201).send("Success");
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+
+    //so when we wan to upload to database, we can use req.file.path
   }
 );
 
+//get all data from testTable
+router.get("/maklumat-program-file-test/:id/get", async function (req, res) {
+  const query = `select * from testTable where id = ?`;
+  try {
+    const [result] = await db.query(query, [req.params.id]);
+
+    if (result.length === 0) {
+      return res.status(404).send("Data not found");
+    }
+
+    const data = result[0];
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.get("/uploads/documents/:filename", (req, res) => {
+  const filePath = path.join(
+    __dirname,
+    "../uploads/documents/",
+    req.params.filename
+  );
+  res.sendFile(filePath);
+});
+// ----------------------------------------------
 module.exports = router;

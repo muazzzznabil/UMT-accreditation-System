@@ -15,22 +15,26 @@ import CheckBox from "./CheckBox";
 import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 import axios from "axios";
 
-const MaklumatProgram = () => {
+interface Props {
+  mp: MaklumatProgramModel;
+}
+
+const MaklumatProgram: React.FC<Props> = ({ mp }) => {
   const [namaProgram, setNamaProgram] = useState("");
   const [nec, setNec] = useState("");
   const [modPenawaran, setModPenawaran] = useState("");
   const [fakulti, setFakulti] = useState("");
   const [struktur, setStruktur] = useState("");
-  const [mp] = useState(new MaklumatProgramModel());
+  // const [mp] = useState(new MaklumatProgramModel());
   // const mp = new MaklumatProgramModel();
 
   const maklumatData = {
-    nama_program: namaProgram,
+    nama_program: mp.setNamaProgram(namaProgram),
     tahapMQF: mp.getTahapMQF(),
     sektorAkademik: mp.getSektorAkademik(),
-    code_nec: nec,
-    mode_penawaran: modPenawaran,
-    fakulti: fakulti,
+    code_nec: mp.setCodeNEC(nec),
+    mode_penawaran: mp.setModePenawaran(modPenawaran),
+    fakulti: mp.setFakulti(fakulti),
     Sepenuh_max_Tahun: mp.getSepenuhMaxTahun(),
     Sepenuh_max_Minggu: mp.getSepenuhMaxMinggu(),
     Sepenuh_max_Semester: mp.getSepenuhMaxSemester(),
@@ -79,6 +83,7 @@ const MaklumatProgram = () => {
             value={namaProgram}
             onChange={(e) => {
               setNamaProgram(e.target.value);
+              mp.setNamaProgram(namaProgram);
             }}
           />
           <KKMField mp={mp} />
@@ -88,7 +93,7 @@ const MaklumatProgram = () => {
             labelId={"code_nec"}
             onChange={(e) => {
               setNec(e.target.value);
-              // handleInputChange(e);
+              mp.setCodeNEC(e.target.value);
             }}
             value={nec}
             placeholderOptions={"Sila Pilih Code NEC"}
@@ -99,7 +104,7 @@ const MaklumatProgram = () => {
             labelId={"mode_penawaran"}
             onChange={(e) => {
               setModPenawaran(e.target.value);
-              // handleInputChange(e);
+              mp.setModePenawaran(e.target.value);
             }}
             value={modPenawaran}
             placeholderOptions={"Sila Pilih Mod Penawaran"}
@@ -111,7 +116,7 @@ const MaklumatProgram = () => {
             value={fakulti}
             onChange={(e) => {
               setFakulti(e.target.value);
-              // handleInputChange(e);
+              mp.setFakulti(e.target.value);
             }}
             placeholderOptions={"Sila Pilih Fakulti"}
           />
@@ -126,7 +131,7 @@ const MaklumatProgram = () => {
             labelId={"struktur_program"}
             onChange={(e) => {
               setStruktur(e.target.value);
-              // handleInputChange(e);
+              mp.setStrukturProgram(e.target.value);
             }}
             value={struktur}
             placeholderOptions={"Sila Pilih Struktur Program"}

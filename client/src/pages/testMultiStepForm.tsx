@@ -1,54 +1,72 @@
+import axios from "axios";
 import React, { useState } from "react";
+
+interface info {
+  nama: string;
+  age: number;
+  eduInfo: string;
+  file: string;
+  fileContent: string;
+}
 
 const TabbedForm = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [state, setState] = useState("idle");
+  // const [ setState] = useState("idle");
   const [file, setFile] = useState<File | undefined>();
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
-  // const [formData, setFormData] = useState({
-  //   userInfo: { name: "" },
-  //   resume: { resume: "" },
-  //   parentInfo: { parentName: "" },
-  //   educationInfo: { degree: "" },
-  // });
-
-  // const handleInputChange = (
-  //   section: keyof typeof formData,
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   setFormData((prevFormData) => ({
-  //     ...prevFormData,
-  //     [section]: {
-  //       ...prevFormData[section],
-  //       [event.target.name]: event.target.value,
-  //     },
-  //   }));
-  // };
+  // const [ setPreview] = useState<string | ArrayBuffer | null>(null);
+  const [data, setData] = useState<info | null>(null);
+  const [id, setId] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   const handleOnSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     if (typeof file === "undefined") return;
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "test-file-upload");
-    formData.append("api_key", "957986236731421");
+    const target = e.target as typeof e.target & {
+      nama: { value: string };
+      university: { value: string };
+      pdfFile: { value: string };
+    };
 
-    const result = await fetch(
-      "https://api.cloudinary.com/v1_1/dp2ktjxqn/image/upload",
+    const formData = new FormData();
+    formData.append("pdfFile", file);
+    formData.append("nama", target.nama.value);
+    formData.append("eduInfo", target.university.value);
+
+    const result = await axios.post(
+      "http://localhost:5000/pendaftaran-program/maklumat-program-file-test",
+      formData,
       {
-        method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       }
-    ).then((r) => r.json());
+    );
 
     console.log("result", result);
-
-    console.log("pdfFile", e.target.pdfFile.value);
+    console.log("pdfFile", target.pdfFile.value);
     console.log("pdfFile", file);
+  };
 
-    setState("sent");
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (id === null) {
+      alert("Please enter an ID.");
+      return;
+    }
+
+    try {
+      const response = await axios.get<info>(
+        `http://localhost:5000/pendaftaran-program/maklumat-program-file-test/${id}/get`
+      );
+      setData(response.data);
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError("Record not found or an error occurred.");
+      setData(null);
+    }
   };
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -60,7 +78,7 @@ const TabbedForm = () => {
 
     file.onload = function () {
       console.log("file.result", file.result);
-      setPreview(file.result);
+      // setPreview(file.result);
     };
     file.readAsDataURL(target.files[0]);
     console.log("file", file);
@@ -100,7 +118,7 @@ const TabbedForm = () => {
           <h2 className="text-xl font-bold mb-2">User Info</h2>
           <input
             className="input input-bordered w-full max-w-xs mb-4"
-            name="name"
+            name="nama"
             placeholder="Enter your name"
             // value={formData.userInfo.name}
             // onChange={(e) => handleInputChange("userInfo", e)}
@@ -125,39 +143,73 @@ const TabbedForm = () => {
             name="pdfFile"
             id="pdfFile"
             className="file-input file-input-bordered w-full max-w-xs mb-4"
+            accept=".pdf"
             onChange={handleOnChange}
           />
-          <img src={preview} />
+          {/* <img src={preview} /> */}
         </div>
-        {/* )} */}
-        {/* {activeTab === 1 && (
-          <div className="mb-4">
-            <h2 className="text-xl font-bold mb-2">Parent Info</h2>
-            <input
-              className="input input-bordered w-full max-w-xs"
-              name="parentName"
-              placeholder="Enter parent's name"
-              value={formData.parentInfo.parentName}
-              onChange={(e) => handleInputChange("parentInfo", e)}
-            />
-          </div>
-        )}
-        {activeTab === 2 && (
-          <div className="mb-4">
-            <h2 className="text-xl font-bold mb-2">Education Info</h2>
-            <input
-              className="input input-bordered w-full max-w-xs"
-              name="degree"
-              placeholder="Enter your degree"
-              value={formData.educationInfo.degree}
-              onChange={(e) => handleInputChange("educationInfo", e)}
-            />
-          </div>
-        )} */}
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
       </form>
+
+      <div className="flex flex-col items-center">
+        <form
+          className="flex  items-center mt-32"
+          onSubmit={handleSearch}
+          method="GET"
+        >
+          <label htmlFor="id" className="label-input-msa mx-2">
+            ID
+          </label>
+          <input
+            type="number"
+            name="id"
+            id="id"
+            className="input input-bordered"
+            onChange={(e) => setId(parseInt(e.target.value))}
+          />
+          <input
+            type="submit"
+            name="submit"
+            id="submit"
+            className="btn btn-primary mx-2"
+          />
+        </form>
+
+        {error && <p className="text-red-500 mt-4">{error}</p>}
+
+        {/* Display Data */}
+        {data && (
+          <table className="table-auto w-full mt-4">
+            <thead>
+              <tr>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Age</th>
+                <th className="px-4 py-2">University</th>
+                <th className="px-4 py-2">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border px-4 py-2">{data.nama}</td>
+                <td className="border px-4 py-2">{data.age}</td>
+                <td className="border px-4 py-2">{data.eduInfo}</td>
+                <td className="border px-4 py-2">
+                  <a
+                    href={`http://localhost:5000${data.file}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500"
+                  >
+                    {data.file}
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };
