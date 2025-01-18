@@ -1,11 +1,11 @@
 
-select * from maklumatprogram;
+select * from maklumat_program;
 
 delete from maklumatprogram;
 
 -- select * from maklumatprogram WHERE id = 1;
 
-delete from maklumatprogram where sektor_akademi = "Artificial Intelligence";
+delete from maklumat_program where sektor_akademi = "Artificial Intelligence";
 
 CREATE TABLE maklumat_program (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -66,7 +66,7 @@ ADD COLUMN tarikhMesyuarat DATE,
 ADD COLUMN tempohSah INT,
 ADD COLUMN sahSehingga DATE,
 ADD COLUMN bilMesyuarat VARCHAR(255),
-ADD COLUMN minitJPKT BLOB;
+ADD COLUMN minitJPKT VARCHAR(255);
 
 show columns from maklumat_program;
 
@@ -79,4 +79,8 @@ create table testTable (
 
 SELECT * FROM testTable;
 
+alter table
+
 show COLUMNS FROM testTable;
+
+SELECT COUNT(*) AS total_columns FROM information_schema.columns WHERE table_name = 'maklumat_program';

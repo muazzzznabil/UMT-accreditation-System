@@ -16,60 +16,98 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //insert data into maklumat program
-router.post("/maklumat-program", async function (req, res) {
-  const query = `
+router.post(
+  "/maklumat-program",
+  upload.single("minitJKPT"),
+  async function (req, res) {
+    const msaFilePath = `/uploads/documents/${req.file.filename}`;
+    const query = `
     INSERT INTO maklumat_program 
-    (nama_program, tahapMQF, sektorAkademik, code_nec, mode_penawaran, 
-    fakulti, Sepenuh_max_Tahun, Sepenuh_max_Minggu, Sepenuh_max_Semester, 
-    Sepenuh_min_Tahun, Sepenuh_min_Minggu, Sepenuh_min_Semester,
-    Sepenuh_SemesterPanjang_Semester, Sepenuh_SemesterPendek_Semester, 
-    Sepenuh_LatihanIndustri_Semester, Separuh_max_Tahun, Separuh_max_Minggu, 
-    Separuh_max_Semester, Separuh_min_Tahun, Separuh_min_Minggu, Separuh_min_Semester,
-    Separuh_SemesterPanjang_Semester, Separuh_SemesterPendek_Semester,
-    Separuh_LatihanIndustri_Semester, mod_penyampaian, struktur_program,
-    program_kerjasama, jenis_kerjasama)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+(nama_program, 
+ tahapMQF, 
+ sektorAkademik, 
+ code_nec, 
+ mode_penawaran, 
+ fakulti, 
+ Sepenuh_max_Tahun, 
+ Sepenuh_max_Minggu, 
+ Sepenuh_max_Semester, 
+ Sepenuh_min_Tahun, 
+ Sepenuh_min_Minggu, 
+ Sepenuh_min_Semester, 
+ Sepenuh_SemesterPanjang_Semester, 
+ Sepenuh_SemesterPendek_Semester, 
+ Sepenuh_LatihanIndustri_Semester, 
+ Separuh_max_Tahun, 
+ Separuh_max_Minggu, 
+ Separuh_max_Semester, 
+ Separuh_min_Tahun, 
+ Separuh_min_Minggu, 
+ Separuh_min_Semester, 
+ Separuh_SemesterPanjang_Semester, 
+ Separuh_SemesterPendek_Semester, 
+ Separuh_LatihanIndustri_Semester, 
+ mod_penyampaian, 
+ struktur_program, 
+ program_kerjasama, 
+ jenis_kerjasama, 
+ tarikhSurat, 
+ tarikhTerimaSurat, 
+ tarikhMesyuarat, 
+ tempohSah, 
+ sahSehingga, 
+ bilMesyuarat, 
+ minitJKPT)
+VALUES (?)
   `;
-  const maklumat = [
-    req.body.nama_program,
-    req.body.tahapMQF,
-    req.body.sektorAkademik,
-    req.body.code_nec,
-    req.body.mode_penawaran,
-    req.body.fakulti,
-    req.body.Sepenuh_max_Tahun,
-    req.body.Sepenuh_max_Minggu,
-    req.body.Sepenuh_max_Semester,
-    req.body.Sepenuh_min_Tahun,
-    req.body.Sepenuh_min_Minggu,
-    req.body.Sepenuh_min_Semester,
-    req.body.Sepenuh_SemesterPanjang_Semester,
-    req.body.Sepenuh_SemesterPendek_Semester,
-    req.body.Sepenuh_LatihanIndustri_Semester,
-    req.body.Separuh_max_Tahun,
-    req.body.Separuh_max_Minggu,
-    req.body.Separuh_max_Semester,
-    req.body.Separuh_min_Tahun,
-    req.body.Separuh_min_Minggu,
-    req.body.Separuh_min_Semester,
-    req.body.Separuh_SemesterPanjang_Semester,
-    req.body.Separuh_SemesterPendek_Semester,
-    req.body.Separuh_LatihanIndustri_Semester,
-    JSON.stringify(req.body.mod_penyampaian),
-    req.body.struktur_program,
-    req.body.program_kerjasama,
-    req.body.jenis_kerjasama,
-  ];
-  try {
-    console.log(maklumat);
+    const maklumat = [
+      req.body.nama_program,
+      req.body.tahapMQF,
+      req.body.sektorAkademik,
+      req.body.code_nec,
+      req.body.mode_penawaran,
+      req.body.fakulti,
+      req.body.Sepenuh_max_Tahun,
+      req.body.Sepenuh_max_Minggu,
+      req.body.Sepenuh_max_Semester,
+      req.body.Sepenuh_min_Tahun,
+      req.body.Sepenuh_min_Minggu,
+      req.body.Sepenuh_min_Semester,
+      req.body.Sepenuh_SemesterPanjang_Semester,
+      req.body.Sepenuh_SemesterPendek_Semester,
+      req.body.Sepenuh_LatihanIndustri_Semester,
+      req.body.Separuh_max_Tahun,
+      req.body.Separuh_max_Minggu,
+      req.body.Separuh_max_Semester,
+      req.body.Separuh_min_Tahun,
+      req.body.Separuh_min_Minggu,
+      req.body.Separuh_min_Semester,
+      req.body.Separuh_SemesterPanjang_Semester,
+      req.body.Separuh_SemesterPendek_Semester,
+      req.body.Separuh_LatihanIndustri_Semester,
+      req.body.mod_penyampaian,
+      req.body.struktur_program,
+      req.body.program_kerjasama,
+      req.body.jenis_kerjasama,
+      req.body.tarikhSurat,
+      req.body.tarikhTerimaSurat,
+      req.body.tarikhMesyuarat,
+      req.body.sahSehingga,
+      req.body.tempohSah,
+      req.body.bilMesyuarat,
+      msaFilePath,
+    ];
+    try {
+      console.log(maklumat);
 
-    await db.query(query, maklumat);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error);
+      await db.query(query, maklumat);
+      res.sendStatus(200);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
   }
-});
+);
 
 //select all from table
 router.get("/maklumat-program", async function (req, res) {

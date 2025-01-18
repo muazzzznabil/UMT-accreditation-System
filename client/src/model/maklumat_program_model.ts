@@ -25,7 +25,7 @@ export class MaklumatProgramModel {
         Separuh_SemesterPanjang_Semester: string;
         Separuh_SemesterPendek_Semester: string;
         Separuh_LatihanIndustri_Semester: string;
-        mod_penyampaian: string[];
+        mod_penyampaian: string;
         struktur_program: string;
         program_kerjasama: string;
         jenis_kerjasama: string;
@@ -60,7 +60,7 @@ export class MaklumatProgramModel {
             Separuh_SemesterPanjang_Semester: '',
             Separuh_SemesterPendek_Semester: '',
             Separuh_LatihanIndustri_Semester: '',
-            mod_penyampaian: [],
+            mod_penyampaian: '',
             struktur_program: '',
             program_kerjasama: '',
             jenis_kerjasama: '',
@@ -269,11 +269,11 @@ export class MaklumatProgramModel {
         this.maklumat_program.Separuh_LatihanIndustri_Semester = Separuh_LatihanIndustri_Semester;
     }
 
-    getModPenyampaian(): string[] {
+    getModPenyampaian(): string {
         return this.maklumat_program.mod_penyampaian;
     }
 
-    setModPenyampaian(mod_penyampaian: string[]): void {
+    setModPenyampaian(mod_penyampaian: string): void {
         this.maklumat_program.mod_penyampaian = mod_penyampaian;
     }
 

@@ -1,4 +1,9 @@
-const SectionNavigation = ({ activeTab, setActiveTab }) => {
+interface Props {
+  activeTab: number;
+  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const SectionNavigation: React.FC<Props> = ({ activeTab, setActiveTab }) => {
   // const [activeTab, setActiveTab] = useState(0);
 
   //chnage `button to tab (jQuery)

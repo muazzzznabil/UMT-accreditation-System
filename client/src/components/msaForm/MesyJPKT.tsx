@@ -9,9 +9,10 @@ const TarikhSuratContext = createContext("");
 
 interface Props {
   mesyJKPT: MesyJKPT;
+  formData: FormData;
 }
 
-const MesyJPKT = ({ mesyJKPT }: Props) => {
+const MesyJPKT = ({ mesyJKPT, formData }: Props) => {
   const [tarikhSurat, setTarikhSurat] = useState("");
 
   console.log(` Tarikh Surat:${tarikhSurat}`);
@@ -41,8 +42,12 @@ const MesyJPKT = ({ mesyJKPT }: Props) => {
       <TarikhSuratContext.Provider value={tarikhSurat}>
         <TempohSah mesyJKPT={mesyJKPT} />
       </TarikhSuratContext.Provider>
-      <BilMesyuarat />
-      <MuatNaikSurat label={"Muat Naik Surat"} jkpt_model={mesyJKPT} />
+      <BilMesyuarat mesyJKPT={mesyJKPT} />
+      <MuatNaikSurat
+        label={"Muat Naik Surat"}
+        // jkpt_model={mesyJKPT}
+        formData={formData}
+      />
 
       <div className="flex space-x-4 justify-end">
         <input
