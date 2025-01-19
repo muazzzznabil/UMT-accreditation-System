@@ -4,10 +4,11 @@
 interface Props {
   label: string;
   // jkpt_model: MesyJKPT;
-  formData: FormData;
+  name: string;
+  // formData: FormData;
 }
 
-const MuatNaikSurat = ({ label, formData }: Props) => {
+const MuatNaikSurat = ({ label, name }: Props) => {
   // const [jkpt, setJkpt] = useState<{ minitJKPT: File | null }>({
   //   minitJKPT: null,
   // });
@@ -30,19 +31,20 @@ const MuatNaikSurat = ({ label, formData }: Props) => {
     file.readAsDataURL(target.files[0]);
     console.log("file", file);
     if (typeof file === "undefined") return;
-    formData.append("minitJKPT", selectedFile);
+    // formData.append(name, selectedFile);
+    // jkpt_model.setMinitJKPT(selectedFile);
   };
 
   return (
     <div className="flex mb-4 items-center">
-      <label htmlFor="minitJKPT" className="label-input-msa">
+      <label htmlFor="name" className="label-input-msa">
         {label}
       </label>
       <div className="w-full flex items-center">
         <input
           type="file"
-          id="minitJKPT"
-          name="minitJKPT"
+          id={name}
+          name={name}
           className="file-input file-input-bordered w-1/2"
           onChange={handleOnChange}
         />

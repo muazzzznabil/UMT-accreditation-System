@@ -1,18 +1,23 @@
-import { MaklumatProgramModel } from "../../model/maklumat_program_model";
+// import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
 interface JangkaPengajianSepenuhMasaProps {
-  mp: MaklumatProgramModel;
+  // mp: MaklumatProgramModel;
+  // formData: FormData;
 }
 
-const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({mp}) => {
-
+const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = (
+  {
+    // mp,
+    // formData,
+  }
+) => {
   return (
     <div className="group flex items-center">
       <label htmlFor="jangkaPengajianPenuh" className="label-input-msa">
         Jangka Pengajian Sepenuh Masa
       </label>
       <div className="w-full flex space-x-9">
-      <div className="flex flex-col items-start ">
+        <div className="flex flex-col items-start ">
           <label htmlFor="Sepenuh_Maximum" className="mb-2">
             Jangka Maximum
           </label>
@@ -21,7 +26,9 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
               name="Sepenuh_max_Tahun"
               id="Sepenuh_max_Tahun"
               className="select select-bordered "
-              onChange={(e) => mp.setSepenuhMaxTahun(e.target.value)}
+              // onChange={(e) =>
+              //   // formData.set("Sepenuh_max_Tahun", e.target.value)
+              // }
             >
               <option
                 value=""
@@ -42,7 +49,9 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
               name="Sepenuh_max_Minggu"
               id="Sepenuh_max_Minggu"
               className="select select-bordered "
-              onChange={(e) => mp.setSepenuhMaxMinggu(e.target.value)}
+              // onChange={(e) =>
+              //   formData.set("Sepenuh_max_Minggu", e.target.value)
+              // }
             >
               <option
                 value=""
@@ -64,13 +73,15 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
             name="Sepenuh_max_Semester"
             id="Sepenuh_max_Semester"
             className="select select-bordered w-full mt-2"
-            onChange={(e) => mp.setSepenuhMaxSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Sepenuh_max_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
             </option>
             {[...Array(12).keys()].map((i) => (
-              <option key={i + 1} value={i + 1}> 
+              <option key={i + 1} value={i + 1}>
                 {i + 1} Semester
               </option>
             ))}
@@ -85,7 +96,9 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
               name="Sepenuh_min_Tahun"
               id="Sepenuh_min_Tahun"
               className="select select-bordered "
-              onChange={(e) => mp.setSepenuhMinTahun(e.target.value)}
+              // onChange={(e) =>
+              //   formData.set("Sepenuh_min_Tahun", e.target.value)
+              // }
             >
               <option
                 value=""
@@ -106,7 +119,9 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
               name="Sepenuh_min_Minggu"
               id="Sepenuh_min_Minggu"
               className="select select-bordered "
-              onChange={(e) => mp.setSepenuhMinMinggu(e.target.value)}
+              // onChange={(e) =>
+              //   formData.set("Sepenuh_min_Minggu", e.target.value)
+              // }
             >
               <option
                 value=""
@@ -128,13 +143,15 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
             name="Sepenuh_min_Semester"
             id="Sepenuh_min_Semester"
             className="select select-bordered w-full mt-2"
-            onChange={(e) => mp.setSepenuhMinSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Sepenuh_min_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
             </option>
             {[...Array(12).keys()].map((i) => (
-              <option key={i + 1} value={i + 1}> 
+              <option key={i + 1} value={i + 1}>
                 {i + 1} Semester
               </option>
             ))}
@@ -144,12 +161,14 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
           <label htmlFor="Sepenuh_semPanjang" className="mb-2">
             Semester Panjang
           </label>
-          
+
           <select
             name="Sepenuh_SemesterPanjang_Semester"
             id="Sepenuh_SemesterPanjang_Semester"
             className="select select-bordered w-full"
-            onChange={(e) => mp.setSepenuhSemesterPanjangSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Sepenuh_SemesterPanjang_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
@@ -169,7 +188,9 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
             name="Sepenuh_SemesterPendek_Semester"
             id="Sepenuh_SemesterPendek_Semester"
             className="select select-bordered w-full"
-            onChange={(e) => mp.setSepenuhSemesterPendekSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Sepenuh_SemesterPendek_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
@@ -189,7 +210,9 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
             name="Sepenuh_LatihanIndustri_Semester"
             id="Sepenuh_LatihanIndustri_Semester"
             className="select select-bordered w-full"
-            onChange={(e) => mp.setSepenuhLatihanIndustriSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Sepenuh_LatihanIndustri_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
@@ -201,11 +224,9 @@ const JangkaPengajianSepenuhMasa: React.FC<JangkaPengajianSepenuhMasaProps> = ({
             ))}
           </select>
         </div>
-        
       </div>
     </div>
   );
 };
 
 export default JangkaPengajianSepenuhMasa;
-

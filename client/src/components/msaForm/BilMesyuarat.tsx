@@ -1,10 +1,11 @@
-import { MesyJKPT } from "../../model/mesyJKPT_model";
+// import { MesyJKPT } from "../../model/mesyJKPT_model";
 
 interface props {
-  mesyJKPT: MesyJKPT;
+  // mesyJKPT: MesyJKPT;
+  // formData: FormData;
 }
 
-const BilMesyuarat: React.FC<props> = ({ mesyJKPT }) => {
+const BilMesyuarat: React.FC<props> = () => {
   return (
     <div className="flex mb-4 items-center">
       <label htmlFor="bilMesyuarat" className="label-input-msa">
@@ -17,7 +18,7 @@ const BilMesyuarat: React.FC<props> = ({ mesyJKPT }) => {
           name="bilMesyuarat"
           className="input input-bordered w-1/6"
           placeholder=" Bil. / Tahun"
-          onChange={(e) => mesyJKPT.setBilMesyuarat(e.target.value)}
+          // onChange={(e) => formData.set("bilMesyuarat", e.target.value)}
         />
       </div>
     </div>

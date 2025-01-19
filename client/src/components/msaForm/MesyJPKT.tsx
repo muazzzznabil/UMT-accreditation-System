@@ -22,25 +22,24 @@ const MesyJPKT = ({ mesyJKPT, formData }: Props) => {
       <DatePicker
         label={"Tarikh Surat"}
         name={"tarikhSurat"}
-        onChange={(e) => setTarikhSurat(e.target.value)}
+        onChange={(e) => {
+          setTarikhSurat(e.target.value);
+          formData.append("tarikhSurat", e.target.value);
+        }}
       />
       <DatePicker
         label={"Tarikh Terima Surat"}
         name={"tarikhTerimaSurat"}
-        onChange={(e) =>
-          mesyJKPT.setTarikhTerimaSurat(new Date(e.target.value))
-        }
+        onChange={(e) => formData.append("tarikhTerimaSurat", e.target.value)}
       />
       <DatePicker
         label={"Tarikh Mesyuarat"}
         name={"tarikhMesyuarat"}
-        onChange={(e) =>
-          mesyJKPT.setTarikhTerimaSurat(new Date(e.target.value))
-        }
+        onChange={(e) => formData.append("tarikhMesyuarat", e.target.value)}
       />
 
       <TarikhSuratContext.Provider value={tarikhSurat}>
-        <TempohSah mesyJKPT={mesyJKPT} />
+        <TempohSah formData={formData} />
       </TarikhSuratContext.Provider>
       <BilMesyuarat mesyJKPT={mesyJKPT} />
       <MuatNaikSurat

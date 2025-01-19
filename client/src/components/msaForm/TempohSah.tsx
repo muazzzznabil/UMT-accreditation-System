@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
 import { TarikhSuratContext } from "./MesyJPKT";
-import { MesyJKPT } from "../../model/mesyJKPT_model";
+// import { MesyJKPT } from "../../model/mesyJKPT_model";
 
 interface Props {
-  mesyJKPT: MesyJKPT;
+  // mesyJKPT: MesyJKPT;
+  // formData: FormData;
 }
 
-const TempohSah = ({ mesyJKPT }: Props) => {
+const TempohSah = () => {
   const tarikhSurat = useContext(TarikhSuratContext);
   const [tempohSah, setTempohSah] = useState<string>("");
   console.log(`Tarikh Surat in tempoh sah: ${tarikhSurat}`);
@@ -18,8 +19,8 @@ const TempohSah = ({ mesyJKPT }: Props) => {
     const tahun = parseInt(date[0]);
     const sehinggaTarikh = tahun + parseInt(tempohSah);
     const newDateString = `${date[2]}-${date[1]}-${sehinggaTarikh}`;
-    const newDate = new Date(newDateString);
-    mesyJKPT.setSahSehingga(newDate);
+    // const newDate = new Date(newDateString);
+    // formData.set("sahSehingga", newDateString);
     return newDateString;
   };
 
@@ -38,7 +39,9 @@ const TempohSah = ({ mesyJKPT }: Props) => {
           onChange={(e) => {
             setTempohSah(e.target.value); //should be number instead of String
             calculateTempohSah(tempohSah);
-            mesyJKPT.setTempohSah(parseInt(tempohSah));
+
+            // mesyJKPT.setTempohSah(parseInt(tempohSah));
+            // formData.set("sahSehingga", e.target.value);
           }}
         />
         <label htmlFor="estimateEndDate" className="text-gray-500 ml-2 text-lg">

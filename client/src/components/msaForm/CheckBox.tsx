@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { MaklumatProgramModel } from "../../model/maklumat_program_model";
+// import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
 interface CheckBoxProps {
-  mp: MaklumatProgramModel;
+  // mp: MaklumatProgramModel;
+  // formData: FormData;
 }
 
-const CheckBox: React.FC<CheckBoxProps> = ({ mp }) => {
+const CheckBox: React.FC<CheckBoxProps> = ({}) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +19,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({ mp }) => {
 
     setSelectedValues(updatedValues);
 
-    mp.setModPenyampaian(updatedValues.join(","));
+    // formData.set("mod_penyampaian", updatedValues.join(","));
   };
 
   return (

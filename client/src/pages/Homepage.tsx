@@ -14,6 +14,14 @@ const Homepage = () => {
                 Daftar Permohonan Program
               </Link>
             </li>
+            <li className="list-item">
+              <Link
+                to="/MsaForm_onepage"
+                className="text-blue-500 hover:underline"
+              >
+                Daftar Permohonan Program (satu section)
+              </Link>
+            </li>
             <li>
               <Link
                 to="/program-list"

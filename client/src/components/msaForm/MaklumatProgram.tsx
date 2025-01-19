@@ -17,15 +17,25 @@ import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
 interface Props {
   mp: MaklumatProgramModel;
+  formData: FormData;
 }
 
-const MaklumatProgram: React.FC<Props> = ({ mp }) => {
+const MaklumatProgram: React.FC<Props> = ({ formData }) => {
   const [namaProgram, setNamaProgram] = useState("");
   const [nec, setNec] = useState("");
   const [modPenawaran, setModPenawaran] = useState("");
   const [fakulti, setFakulti] = useState("");
   const [struktur, setStruktur] = useState("");
 
+  // useEffect(() => {
+  //   setNamaProgram(mp.getNamaProgram());
+  // }, [mp]);
+
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newValue = e.target.value;
+  //   setNamaProgram(newValue);
+  //   mp.setNamaProgram(newValue);
+  // };
   return (
     // <form onSubmit={postMaklumatProgram} method="POST">
     <div className="container mb-32 mx-auto flex flex-col bg-gray-100 p-6 rounded-md shadow-md">
@@ -34,22 +44,27 @@ const MaklumatProgram: React.FC<Props> = ({ mp }) => {
           label={"Nama Program"}
           name={"nama_program"}
           placeholder="Sila Masukkan Nama Program"
+          // value={namaProgram}
+          // onChange={handleInputChange}
           value={namaProgram}
           onChange={(e) => {
+            // mp.setNamaProgram(e.target.value);
+            formData.append("nama_program", e.target.value);
             setNamaProgram(e.target.value);
-            mp.setNamaProgram(e.target.value);
           }}
         />
-        <KKMField mp={mp} />
+        <KKMField formData={formData} />
         <DropdownMenu
           label={"Code NEC"}
           options={Nec_Code_List}
           labelId={"code_nec"}
           onChange={(e) => {
             setNec(e.target.value);
-            mp.setCodeNEC(e.target.value);
+            // mp.setCodeNEC(e.target.value);
+            formData.append("code_nec", e.target.value);
           }}
           value={nec}
+          // value={mp.getCodeNEC()}
           placeholderOptions={"Sila Pilih Code NEC"}
         />
         <DropdownMenu
@@ -58,7 +73,8 @@ const MaklumatProgram: React.FC<Props> = ({ mp }) => {
           labelId={"mode_penawaran"}
           onChange={(e) => {
             setModPenawaran(e.target.value);
-            mp.setModePenawaran(e.target.value);
+            // mp.setModePenawaran(e.target.value);
+            formData.append("mode_penawaran", e.target.value);
           }}
           value={modPenawaran}
           placeholderOptions={"Sila Pilih Mod Penawaran"}
@@ -70,14 +86,15 @@ const MaklumatProgram: React.FC<Props> = ({ mp }) => {
           value={fakulti}
           onChange={(e) => {
             setFakulti(e.target.value);
-            mp.setFakulti(e.target.value);
+            // mp.setFakulti(e.target.value);
+            formData.append("fakulti", e.target.value);
           }}
           placeholderOptions={"Sila Pilih Fakulti"}
         />
-        <JangkaPengajianSepenuhMasa mp={mp} />
-        <JangkaPengajianSeparuhMasa mp={mp} />
+        <JangkaPengajianSepenuhMasa formData={formData} />
+        <JangkaPengajianSeparuhMasa formData={formData} />
 
-        <CheckBox mp={mp} />
+        <CheckBox formData={formData} />
 
         <DropdownMenu
           label={"Struktur Program"}
@@ -85,12 +102,13 @@ const MaklumatProgram: React.FC<Props> = ({ mp }) => {
           labelId={"struktur_program"}
           onChange={(e) => {
             setStruktur(e.target.value);
-            mp.setStrukturProgram(e.target.value);
+            // mp.setStrukturProgram(e.target.value);
+            formData.append("struktur_program", e.target.value);
           }}
           value={struktur}
           placeholderOptions={"Sila Pilih Struktur Program"}
         />
-        <ProgramKerjasama mp={mp} />
+        <ProgramKerjasama formData={formData} />
 
         <div className="flex space-x-4 justify-end">
           <input

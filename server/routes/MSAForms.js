@@ -18,51 +18,31 @@ const upload = multer({ storage: storage });
 //insert data into maklumat program
 router.post(
   "/maklumat-program",
-  upload.single("minitJKPT"),
+  upload.fields([
+    { name: "minitJKPT", maxCount: 1 },
+    { name: "minitJKA", maxCount: 1 },
+  ]),
   async function (req, res) {
-    const msaFilePath = `/uploads/documents/${req.file.filename}`;
+    const minitJKPT = `/uploads/documents/${req.files.minitJKPT[0].filename}`;
+    const minitJKA = `/uploads/documents/${req.files.minitJKA[0].filename}`;
     const query = `
     INSERT INTO maklumat_program 
-(nama_program, 
- tahapMQF, 
- sektorAkademik, 
- code_nec, 
- mode_penawaran, 
- fakulti, 
- Sepenuh_max_Tahun, 
- Sepenuh_max_Minggu, 
- Sepenuh_max_Semester, 
- Sepenuh_min_Tahun, 
- Sepenuh_min_Minggu, 
- Sepenuh_min_Semester, 
- Sepenuh_SemesterPanjang_Semester, 
- Sepenuh_SemesterPendek_Semester, 
- Sepenuh_LatihanIndustri_Semester, 
- Separuh_max_Tahun, 
- Separuh_max_Minggu, 
- Separuh_max_Semester, 
- Separuh_min_Tahun, 
- Separuh_min_Minggu, 
- Separuh_min_Semester, 
- Separuh_SemesterPanjang_Semester, 
- Separuh_SemesterPendek_Semester, 
- Separuh_LatihanIndustri_Semester, 
- mod_penyampaian, 
- struktur_program, 
- program_kerjasama, 
- jenis_kerjasama, 
- tarikhSurat, 
- tarikhTerimaSurat, 
- tarikhMesyuarat, 
- tempohSah, 
- sahSehingga, 
- bilMesyuarat, 
- minitJKPT)
-VALUES (?)
+    (
+  nama_program, tahapMQF, sektorAkademik, code_nec, mode_penawaran, fakulti,
+  Sepenuh_max_Tahun, Sepenuh_max_Minggu, Sepenuh_max_Semester, Sepenuh_min_Tahun,
+  Sepenuh_min_Minggu, Sepenuh_min_Semester, Sepenuh_SemesterPanjang_Semester,
+  Sepenuh_SemesterPendek_Semester, Sepenuh_LatihanIndustri_Semester, Separuh_max_Tahun,
+  Separuh_max_Minggu, Separuh_max_Semester, Separuh_min_Tahun, Separuh_min_Minggu,
+  Separuh_min_Semester, Separuh_SemesterPanjang_Semester, Separuh_SemesterPendek_Semester,
+  Separuh_LatihanIndustri_Semester, mod_penyampaian, struktur_program, program_kerjasama,
+  jenis_kerjasama, tarikhSurat, tarikhTerimaSurat, tarikhMesyuarat, tempohSah,
+  sahSehingga, bilMesyuarat, minitJKPT, tarikMesyJKA, bilMesyuaratJKA, minitJKA
+    ) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);
   `;
     const maklumat = [
       req.body.nama_program,
-      req.body.tahapMQF,
+      req.body.tahapKKM,
       req.body.sektorAkademik,
       req.body.code_nec,
       req.body.mode_penawaran,
@@ -92,13 +72,16 @@ VALUES (?)
       req.body.tarikhSurat,
       req.body.tarikhTerimaSurat,
       req.body.tarikhMesyuarat,
-      req.body.sahSehingga,
       req.body.tempohSah,
+      req.body.sahSehingga,
       req.body.bilMesyuarat,
-      msaFilePath,
+      minitJKPT,
+      req.body.tarikhMesyuaratJKA,
+      req.body.bilMesyuaratJKA,
+      minitJKA,
     ];
     try {
-      console.log(maklumat);
+      console.table(maklumat);
 
       await db.query(query, maklumat);
       res.sendStatus(200);

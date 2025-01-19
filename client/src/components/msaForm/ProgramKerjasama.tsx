@@ -1,12 +1,18 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { bentuk_kerjasama } from "../../constants/maklumatProgram_constant";
-import { MaklumatProgramModel } from "../../model/maklumat_program_model";
+// import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
 interface ProgramKerjasamaProps {
-  mp: MaklumatProgramModel;
+  // mp: MaklumatProgramModel;
+  // formData: FormData;
 }
 
-const ProgramKerjasama: React.FC<ProgramKerjasamaProps> = ({mp}) => {
+const ProgramKerjasama: React.FC<ProgramKerjasamaProps> = (
+  {
+    // mp,
+    // formData,
+  }
+) => {
   const [isKerjasama, setIsKerjasama] = useState(false);
   // const mp = new MaklumatProgramModel();
 
@@ -23,11 +29,12 @@ const ProgramKerjasama: React.FC<ProgramKerjasamaProps> = ({mp}) => {
           name="program_kerjasama"
           id="program-kerjasama"
           className="select select-bordered w-1/4 mr-2"
-          onChange={(e) => {setIsKerjasama(e.target.value === "True"); mp.setProgramKerjasama(e.target.value)}}
+          onChange={(e) => {
+            setIsKerjasama(e.target.value === "True");
+            // formData.set("program_kerjasama", e.target.value);
+          }}
         >
-          <option value="False" >
-            Tidak
-          </option>
+          <option value="False">Tidak</option>
           <option value="True">Ya</option>
         </select>
         {isKerjasama && (
@@ -35,7 +42,7 @@ const ProgramKerjasama: React.FC<ProgramKerjasamaProps> = ({mp}) => {
             name="jenis_kerjasama"
             id="jenisKerjasama"
             className="select select-bordered w-3/4"
-            onChange={(e) => mp.setJenisKerjasama(e.target.value)}
+            // onChange={(e) => formData.set("jenis_kerjasama", e.target.value)}
           >
             <option value="" disabled selected hidden>
               Sila Pilih Jenis Kerjasama

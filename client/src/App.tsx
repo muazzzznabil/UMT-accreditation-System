@@ -7,7 +7,7 @@ import Header from "./components/Header.tsx";
 import TabbedForm from "./pages/testMultiStepForm.tsx";
 import ProgramList from "./pages/ProgramList.tsx";
 import UpdateMaklumat from "./components/msaForm/updateMaklumat.tsx";
-
+import MsaForm_onePage from "./pages/MsaForm_onePage.tsx";
 
 function App() {
   return (
@@ -17,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/MsaForm" element={<MsaForm />} />
+          <Route path="/MsaForm_onepage" element={<MsaForm_onePage />} />
           <Route path="/program-list" element={<ProgramList />} />
           <Route path="/testMultiStepForm" element={<TabbedForm />} />
           <Route path="/edit-program/:id" element={<UpdateMaklumat />} />

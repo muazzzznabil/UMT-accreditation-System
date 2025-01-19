@@ -1,11 +1,16 @@
-import { MaklumatProgramModel } from "../../model/maklumat_program_model";
+// import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
 interface JangkaPengajianSeparuhMasaProps {
-  mp: MaklumatProgramModel;
+  // mp: MaklumatProgramModel;
+  // formData: FormData;
 }
 
-const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({mp}) => {
-
+const JangkaPengajianSeparuhMasa: React.FC<JangkaPengajianSeparuhMasaProps> = (
+  {
+    // mp,
+    // formData,
+  }
+) => {
   // const mp = new MaklumatProgramModel();
 
   return (
@@ -23,7 +28,9 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
               name="Separuh_max_Tahun"
               id="Separuh_max_Tahun"
               className="select select-bordered "
-              onChange={(e) => mp.setSeparuhMaxTahun(e.target.value)}
+              // onChange={(e) =>
+              //   // formData.set("Separuh_max_Tahun", e.target.value)
+              // }
             >
               <option
                 value=""
@@ -44,7 +51,9 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
               name="Separuh_max_Minggu"
               id="Separuh_max_Minggu"
               className="select select-bordered "
-              onChange={(e) => mp.setSeparuhMaxMinggu(e.target.value)}
+              // onChange={(e) =>
+              //   // formData.set("Separuh_max_Minggu", e.target.value)
+              // }
             >
               <option
                 value=""
@@ -66,7 +75,9 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
             name="Separuh_max_Semester"
             id="Separuh_max_Semester"
             className="select select-bordered w-full mt-2"
-            onChange={(e) => mp.setSeparuhMaxSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Separuh_max_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
@@ -87,7 +98,9 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
               name="Separuh_min_Tahun"
               id="Separuh_min_Tahun"
               className="select select-bordered "
-              onChange={(e) => mp.setSeparuhMinTahun(e.target.value)}
+              // onChange={(e) =>
+              //   formData.set("Separuh_min_Tahun", e.target.value)
+              // }
             >
               <option
                 value=""
@@ -108,7 +121,9 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
               name="Separuh_min_Minggu"
               id="Separuh_min_Minggu"
               className="select select-bordered "
-              onChange={(e) => mp.setSeparuhMinMinggu(e.target.value)}
+              // onChange={(e) =>
+              //   formData.set("Separuh_min_Minggu", e.target.value)
+              // }
             >
               <option
                 value=""
@@ -130,7 +145,9 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
             name="Separuh_min_Semester"
             id="Separuh_min_Semester"
             className="select select-bordered w-full mt-2"
-            onChange={(e) => mp.setSeparuhMinSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Separuh_min_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
@@ -151,7 +168,9 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
             name="Separuh_SemesterPanjang_Semester"
             id="Separuh_SemesterPanjang_Semester"
             className="select select-bordered w-full"
-            onChange={(e) => mp.setSeparuhSemesterPanjangSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Separuh_SemesterPanjang_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
@@ -171,7 +190,9 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
             name="Separuh_SemesterPendek_Semester"
             id="Separuh_SemesterPendek_Semester"
             className="select select-bordered w-full"
-            onChange={(e) => mp.setSeparuhSemesterPendekSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Separuh_SemesterPendek_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
@@ -191,7 +212,9 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
             name="Separuh_LatihanIndustri_Semester"
             id="Separuh_LatihanIndustri_Semester"
             className="select select-bordered w-full"
-            onChange={(e) => mp.setSeparuhLatihanIndustriSemester(e.target.value)}
+            // onChange={(e) =>
+            //   formData.set("Separuh_LatihanIndustri_Semester", e.target.value)
+            // }
           >
             <option value="" selected disabled hidden className="text-gray-400">
               Semester
@@ -209,4 +232,3 @@ const JangkaPengajianSeparuhMasa:React.FC<JangkaPengajianSeparuhMasaProps> = ({m
 };
 
 export default JangkaPengajianSeparuhMasa;
-

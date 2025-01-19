@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { tahap_mqf } from "../../constants/maklumatProgram_constant";
-import { MaklumatProgramModel } from "../../model/maklumat_program_model";
+// import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
 interface KKMFieldProps {
-  mp: MaklumatProgramModel;
+  // mp: MaklumatProgramModel;
+  // formData: FormData;
 }
 
-const KKMField: React.FC<KKMFieldProps> = ({ mp }) => {
+const KKMField: React.FC<KKMFieldProps> = ({}) => {
   const [tahap, setTahap] = useState("");
 
   interface DropdownProps {
@@ -15,7 +16,11 @@ const KKMField: React.FC<KKMFieldProps> = ({ mp }) => {
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   }
 
-  const SektorAkademikDropdown: React.FC<DropdownProps> = ({ isDisabled, tahapmqf, onChange }) => {
+  const SektorAkademikDropdown: React.FC<DropdownProps> = ({
+    isDisabled,
+    tahapmqf,
+    onChange,
+  }) => {
     return (
       <select
         name="sektorAkademik"
@@ -40,7 +45,7 @@ const KKMField: React.FC<KKMFieldProps> = ({ mp }) => {
   return (
     <div className="flex w-full">
       <label className="text-lg text-gray-700 mb-2 font-bold w-1/4">
-        Tahap KKM
+        Tahap MQF
       </label>
       <div className="w-full flex justify-between">
         <select
@@ -50,11 +55,12 @@ const KKMField: React.FC<KKMFieldProps> = ({ mp }) => {
           value={tahap}
           onChange={(e) => {
             setTahap(e.target.value);
-            mp.setTahapMQF(e.target.value);
+            // mp.setTahapMQF(e.target.value);
+            // formData.set("tahapMQF", e.target.value);
           }}
         >
           <option value="" disabled hidden>
-            Sila Pilih Tahap KKM
+            Sila Pilih Tahap MQF
           </option>
           <option value="8">Tahap 8</option>
           <option value="7">Tahap 7</option>
@@ -65,12 +71,17 @@ const KKMField: React.FC<KKMFieldProps> = ({ mp }) => {
           <option value="2">Tahap 2</option>
           <option value="1">Tahap 1</option>
         </select>
-        {(tahap === "1" || tahap === "2" || tahap === "3" || 
-          tahap === "4" || tahap === "5" || tahap === "6" || 
-          tahap === "7" || tahap === "8") && (
+        {(tahap === "1" ||
+          tahap === "2" ||
+          tahap === "3" ||
+          tahap === "4" ||
+          tahap === "5" ||
+          tahap === "6" ||
+          tahap === "7" ||
+          tahap === "8") && (
           <SektorAkademikDropdown
             tahapmqf={tahap_mqf[`tahap${tahap}`]}
-            onChange={(e) => mp.setSektorAkademik(e.target.value)}
+            // onChange={(e) => formData.set("sektorAkademik", e.target.value)}
             isDisabled={false}
           />
         )}

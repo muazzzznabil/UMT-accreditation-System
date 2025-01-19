@@ -1,5 +1,5 @@
 export class MaklumatProgramModel {
-    private maklumat_program: {
+     maklumat_program: {
         id: number;
         nama_program: string;
         tahapMQF: string;

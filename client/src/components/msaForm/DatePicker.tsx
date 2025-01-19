@@ -7,8 +7,6 @@ interface DatePickerProps {
 }
 
 const DatePicker = ({ name, label, onChange }: DatePickerProps) => {
-
-  
   return (
     <div className="flex mb-4 items-center">
       <label htmlFor={name} className="label-input-msa">
@@ -28,4 +26,3 @@ const DatePicker = ({ name, label, onChange }: DatePickerProps) => {
 };
 
 export default DatePicker;
-

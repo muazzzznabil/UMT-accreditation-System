@@ -7,7 +7,7 @@
     tempohSah: number;
     sahSehingga: Date;
     bilMesyuarat: string;
-    minitJKPT: string | null;
+    minitJKPT: File | null;
   };
 
   constructor() {
@@ -74,7 +74,7 @@
   }
 
   getSahSehingga(): Date {
-    return this.mesyJKPT.sahSehingga || new Date(); // Default to the current date if it's null or undefined.
+    return this.mesyJKPT.sahSehingga ; // Default to the current date if it's null or undefined.
   }
 
   // Setter and Getter for bilMesyuarat
@@ -87,11 +87,11 @@
   }
 
   // Setter and Getter for minitJKPT
-  setMinitJKPT(value: string | null): void {
+  setMinitJKPT(value: File | null): void {
     this.mesyJKPT.minitJKPT = value;
   }
 
-  getMinitJKPT(): string| null {
+  getMinitJKPT(): File| null {
     return this.mesyJKPT.minitJKPT;
   }
 }

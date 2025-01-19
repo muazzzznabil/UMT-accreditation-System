@@ -60,13 +60,10 @@ create table mesy_jpkt (
 SELECT id,nama_program,fakulti FROM maklumat_program;
 
 ALTER TABLE maklumat_program
-ADD COLUMN tarikhSurat DATE,
-ADD COLUMN tarikhTerimaSurat DATE,
-ADD COLUMN tarikhMesyuarat DATE,
-ADD COLUMN tempohSah INT,
-ADD COLUMN sahSehingga DATE,
-ADD COLUMN bilMesyuarat VARCHAR(255),
-ADD COLUMN minitJPKT VARCHAR(255);
+ADD COLUMN tarikMesyJKA DATE,
+ADD COLUMN bilMesyuaratJKA VARCHAR(255),
+ADD COLUMN MinitJKA VARCHAR(255);,
+
 
 show columns from maklumat_program;
 
@@ -84,3 +81,26 @@ alter table
 show COLUMNS FROM testTable;
 
 SELECT COUNT(*) AS total_columns FROM information_schema.columns WHERE table_name = 'maklumat_program';
+
+
+INSERT INTO maklumat_program 
+(
+  nama_program, tahapMQF, sektorAkademik, code_nec, mode_penawaran, fakulti,
+  Sepenuh_max_Tahun, Sepenuh_max_Minggu, Sepenuh_max_Semester, Sepenuh_min_Tahun,
+  Sepenuh_min_Minggu, Sepenuh_min_Semester, Sepenuh_SemesterPanjang_Semester,
+  Sepenuh_SemesterPendek_Semester, Sepenuh_LatihanIndustri_Semester, Separuh_max_Tahun,
+  Separuh_max_Minggu, Separuh_max_Semester, Separuh_min_Tahun, Separuh_min_Minggu,
+  Separuh_min_Semester, Separuh_SemesterPanjang_Semester, Separuh_SemesterPendek_Semester,
+  Separuh_LatihanIndustri_Semester, mod_penyampaian, struktur_program, program_kerjasama,
+  jenis_kerjasama, tarikhSurat, tarikhTerimaSurat, tarikhMesyuarat, tempohSah,
+  sahSehingga, bilMesyuarat, minitJKPT, tarikMesyJKA, bilMesyuaratJKA, minitJKA
+) 
+VALUES (
+  'Software Engineering', '7', 'Sarjana secara kerja kursus', '0011: Basic programmes and qualifications',
+  'Mod Industri', 'Fakulti Teknologi Kejuruteraan Kelautan (FTKK)', '3', '3', '3', '3',
+  '2', '2', '3', '3', '3', '4', '4', '3', '4', '4', '2', '4', '5', '4', 'on',
+  'Major-minor', 'True', 'Ijazah Bersama (Joint Degree)', '2025-01-18', '2025-01-09',
+  '2027-01-09', 2, '2027-01-09', '4/2025', '/uploads/documents/_uploads_documents_SRS_S65752 (1).pdf',
+  '2025-01-17', '4/25','/uploads/documents/SRS_S65752.pdf'
+);
+
