@@ -25,6 +25,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
       <select
         id={labelId}
         name={labelId}
+        required
         className="select select-bordered w-full"
         onChange={onChange}
         value={value} // Bind the current selected value
@@ -43,4 +44,3 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
 };
 
 export default DropdownMenu;
-

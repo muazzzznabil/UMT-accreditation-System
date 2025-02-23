@@ -2,11 +2,6 @@ import { useContext, useState } from "react";
 import { TarikhSuratContext } from "./MesyJPKT";
 // import { MesyJKPT } from "../../model/mesyJKPT_model";
 
-interface Props {
-  // mesyJKPT: MesyJKPT;
-  // formData: FormData;
-}
-
 const TempohSah = () => {
   const tarikhSurat = useContext(TarikhSuratContext);
   const [tempohSah, setTempohSah] = useState<string>("");
@@ -35,6 +30,7 @@ const TempohSah = () => {
           name="tempohSah"
           className="input input-bordered w-1/6"
           placeholder="Tahun"
+          required
           value={tempohSah}
           onChange={(e) => {
             setTempohSah(e.target.value); //should be number instead of String
@@ -54,6 +50,7 @@ const TempohSah = () => {
           type="hidden"
           id="sah-sehingga"
           name="sah-sehingga"
+          required
           className="input input-bordered w-3/4"
           value={calculateTempohSah(tempohSah)}
         />

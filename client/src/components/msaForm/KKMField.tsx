@@ -3,11 +3,14 @@ import { tahap_mqf } from "../../constants/maklumatProgram_constant";
 // import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
 interface KKMFieldProps {
-  // mp: MaklumatProgramModel;
-  // formData: FormData;
+  valueMQF?: string;
+  valueSektorAkademik?: string;
 }
 
-const KKMField: React.FC<KKMFieldProps> = ({}) => {
+const KKMField: React.FC<KKMFieldProps> = ({
+  valueMQF,
+  valueSektorAkademik,
+}) => {
   const [tahap, setTahap] = useState("");
 
   interface DropdownProps {
@@ -28,6 +31,8 @@ const KKMField: React.FC<KKMFieldProps> = ({}) => {
         className="select ml-2 select-bordered w-3/4"
         disabled={isDisabled}
         defaultValue={""}
+        value={valueSektorAkademik}
+        required
         onChange={onChange}
       >
         <option value="" disabled hidden>

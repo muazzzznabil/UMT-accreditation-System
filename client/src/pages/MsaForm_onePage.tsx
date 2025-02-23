@@ -12,19 +12,14 @@ import KKMField from "../components/msaForm/KKMField";
 import DropdownMenu from "../components/msaForm/DropdownMenu";
 import JangkaPengajianSeparuhMasa from "../components/msaForm/JangkaPengajianSeparuhMasa";
 import JangkaPengajianSepenuhMasa from "../components/msaForm/JangkaPengajianSepenuhMasa";
-import CheckBox from "../components/msaForm/CheckBox";
+// import CheckBox from "../components/msaForm/CheckBox";
 import ProgramKerjasama from "../components/msaForm/ProgramKerjasama";
 import DatePicker from "../components/msaForm/DatePicker";
 import { TarikhSuratContext } from "../components/msaForm/MesyJPKT";
 import TempohSah from "../components/msaForm/TempohSah";
 import BilMesyuarat from "../components/msaForm/BilMesyuarat";
 import MuatNaikSurat from "../components/msaForm/MuatNaikSurat";
-import { MesyJKPT } from "../model/mesyJKPT_model";
-import { MaklumatProgramModel } from "../model/maklumat_program_model";
-import { useForm } from "react-hook-form";
 import axios from "axios";
-
-// import Header from "../components/Header";
 
 const MsaForm_onePage = () => {
   const breadcrumbs = useBreadcrumbs();
@@ -33,17 +28,22 @@ const MsaForm_onePage = () => {
   const [modPenawaran, setModPenawaran] = useState("");
   const [fakulti, setFakulti] = useState("");
   const [struktur, setStruktur] = useState("");
-  //   const [formData] = useState(new FormData());
-  //   const formData = new FormData(e.target as HTMLFormElement);
   const [tarikhSurat, setTarikhSurat] = useState("");
-  //   const {register,handleSubmit} = useState(useForm());
-  //   const { register, handleSubmit } = useForm();
-  //   const [jkpt] = useState(new MesyJKPT());
-  //   const [mp] = useState(new MaklumatProgramModel());
+  const [modPenyampaian, setModPenyampaian] = useState<string[]>([]);
 
+  const handleModPenyampaianChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value, checked } = e.target;
+    setModPenyampaian((prev) =>
+      checked ? [...prev, value] : prev.filter((item) => item !== value)
+    );
+  };
   const handleSubmitForm = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
+    formData.set("mod_penyampaian", modPenyampaian.join(" , "));
+
     for (const [key, value] of formData.entries()) {
       console.table(`${key}: ${value}`);
     }
@@ -63,74 +63,6 @@ const MsaForm_onePage = () => {
       alert("Data Gagal Disimpan");
     }
   };
-
-  //   const sahSehingga = jkpt.getSahSehingga();
-
-  //   formData.append("nama_program", mp.getNamaProgram());
-  //   formData.append("tahapMQF", mp.getTahapMQF());
-  //   formData.append("sektorAkademik", mp.getSektorAkademik());
-  //   formData.append("code_nec", mp.getCodeNEC());
-  //   formData.append("mode_penawaran", mp.getModePenawaran());
-  //   formData.append("fakulti", mp.getFakulti());
-  //   formData.append("Sepenuh_max_Tahun", mp.getSepenuhMaxTahun().toString());
-  //   formData.append("Sepenuh_max_Minggu", mp.getSepenuhMaxMinggu().toString());
-  //   formData.append(
-  //     "Sepenuh_max_Semester",
-  //     mp.getSepenuhMaxSemester().toString()
-  //   );
-  //   formData.append("Sepenuh_min_Tahun", mp.getSepenuhMinTahun().toString());
-  //   formData.append("Sepenuh_min_Minggu", mp.getSepenuhMinMinggu().toString());
-  //   formData.append(
-  //     "Sepenuh_min_Semester",
-  //     mp.getSepenuhMinSemester().toString()
-  //   );
-  //   formData.append(
-  //     "Sepenuh_SemesterPanjang_Semester",
-  //     mp.getSepenuhSemesterPanjangSemester().toString()
-  //   );
-  //   formData.append(
-  //     "Sepenuh_SemesterPendek_Semester",
-  //     mp.getSepenuhSemesterPendekSemester().toString()
-  //   );
-  //   formData.append(
-  //     "Sepenuh_LatihanIndustri_Semester",
-  //     mp.getSepenuhLatihanIndustriSemester().toString()
-  //   );
-  //   formData.append("Separuh_max_Tahun", mp.getSeparuhMaxTahun().toString());
-  //   formData.append("Separuh_max_Minggu", mp.getSeparuhMaxMinggu().toString());
-  //   formData.append(
-  //     "Separuh_max_Semester",
-  //     mp.getSeparuhMaxSemester().toString()
-  //   );
-  //   formData.append("Separuh_min_Tahun", mp.getSeparuhMinTahun().toString());
-  //   formData.append("Separuh_min_Minggu", mp.getSeparuhMinMinggu().toString());
-  //   formData.append(
-  //     "Separuh_min_Semester",
-  //     mp.getSeparuhMinSemester().toString()
-  //   );
-  //   formData.append(
-  //     "Separuh_SemesterPanjang_Semester",
-  //     mp.getSeparuhSemesterPanjangSemester().toString()
-  //   );
-  //   formData.append(
-  //     "Separuh_SemesterPendek_Semester",
-  //     mp.getSeparuhSemesterPendekSemester().toString()
-  //   );
-  //   formData.append(
-  //     "Separuh_LatihanIndustri_Semester",
-  //     mp.getSeparuhLatihanIndustriSemester().toString()
-  //   );
-  //   formData.append("mod_penyampaian", mp.getModPenyampaian());
-  //   formData.append("struktur_program", mp.getStrukturProgram());
-  //   formData.append("program_kerjasama", mp.getProgramKerjasama());
-  //   formData.append("jenis_kerjasama", mp.getJenisKerjasama());
-  //   formData.append("tarikhSurat", jkpt.getTarikhSurat().toISOString());
-  //   formData.append(
-  //     "tarikhTerimaSurat",
-  //     jkpt.getTarikhTerimaSurat().toISOString()
-  //   );
-  //   formData.append("tarikhMesyuarat", jkpt.getTarikhMesyuarat().toISOString());
-  //   formData.append("sahSehingga", jkpt.getSahSehingga().toISOString());
 
   return (
     <form method="post" onSubmit={handleSubmitForm}>
@@ -200,7 +132,41 @@ const MsaForm_onePage = () => {
             <JangkaPengajianSepenuhMasa />
             <JangkaPengajianSeparuhMasa />
 
-            <CheckBox />
+            <div className="flex w-full items-center">
+              <label htmlFor="mod_penyampaian" className="label-input-msa">
+                Mod Penyampaian
+              </label>
+              <div className="w-full flex justify-between">
+                <div className="flex items-start ">
+                  <div className="inline-flex items-center mr-4">
+                    <input
+                      type="checkbox"
+                      name="mod_penyampaian"
+                      id="konvensional"
+                      value={"Konvensional/Terbuka"}
+                      className="checkbox  mr-2"
+                      onChange={handleModPenyampaianChange}
+                    />
+                    <label htmlFor="konvensional" className=" text-md">
+                      Konvensional/Terbuka
+                    </label>
+                  </div>
+                  <div className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      name="mod_penyampaian"
+                      value={"Jarak Jauh (ODL)"}
+                      id="ODL"
+                      className="checkbox  mr-2"
+                      onChange={handleModPenyampaianChange}
+                    />
+                    <label htmlFor="ODL" className=" text-md">
+                      Jarak Jauh (ODL)
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <DropdownMenu
               label={"Struktur Program"}
@@ -224,40 +190,53 @@ const MsaForm_onePage = () => {
               name={"tarikhSurat"}
               onChange={(e) => {
                 setTarikhSurat(e.target.value);
-                // formData.set("tarikhSurat", e.target.value);
               }}
             />
             <DatePicker
               label={"Tarikh Terima Surat"}
               name={"tarikhTerimaSurat"}
-              //   onChange={(e) =>
-              //     // formData.set("tarikhTerimaSurat", e.target.value)
-              //   }
             />
-            <DatePicker
-              label={"Tarikh Mesyuarat"}
-              name={"tarikhMesyuaratJKPT"}
-              //   onChange={(e) => formData.set("tarikhMesyuarat", e.target.value)}
-            />
+            <div className="flex mb-4 items-center">
+              <label htmlFor="tarikhMesyuaratJKPT" className="label-input-msa">
+                Tarikh Mesyuarat
+              </label>
+              <div className="w-full">
+                <input
+                  type="date"
+                  required
+                  id="tarikhMesyuaratJKPT"
+                  name="tarikhMesyuaratJKPT"
+                  className="p-2 h-12 rounded-lg border w-full"
+                />
+              </div>
+            </div>
 
             <TarikhSuratContext.Provider value={tarikhSurat}>
               <TempohSah />
             </TarikhSuratContext.Provider>
             <BilMesyuarat />
-            <MuatNaikSurat
-              label={"Minit JKPT"}
-              name="minitJKPT"
-              //   formData={formData}
-            />
+            <MuatNaikSurat label={"Minit JKPT"} name="minitJKPT" />
 
             {/* Mesy JKA */}
 
             <h2 className="text-xl  font-bold text-center ">Mesyuarat JKA</h2>
-            <DatePicker
-              label={"Tarikh Mesyuarat"}
-              name={"tarikhMesyuaratJKA"}
-              //   onChange={(e) => formData.set("tarikhMesyuarat", e.target.value)}
-            />
+            <div className="flex mb-4 items-center">
+              <label htmlFor="tarikhMesyuaratJKPT" className="label-input-msa">
+                Tarikh Mesyuarat JKA
+              </label>
+              <div className="w-full">
+                <input
+                  type="date"
+                  required
+                  id="tarikhMesyuaratJKA"
+                  name="tarikhMesyuaratJKA"
+                  className="p-2 h-12 rounded-lg border w-full"
+                  // onChange={(e) => {
+
+                  // }}
+                />
+              </div>
+            </div>
             <div className="flex mb-4 items-center">
               <label htmlFor="bilMesyuaratJKA" className="label-input-msa">
                 Bil Mesyuarat
@@ -269,9 +248,7 @@ const MsaForm_onePage = () => {
                   name="bilMesyuaratJKA"
                   className="input input-bordered w-1/6"
                   placeholder=" Bil. / Tahun"
-                  //   onChange={(e) =>
-                  //     // formData.set("bilMesyuaratJKA", e.target.value)
-                  //   }
+                  required
                 />
               </div>
             </div>

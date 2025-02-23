@@ -29,6 +29,7 @@ const InputField: FC<InputFieldProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        required
         // className="bg-white border border-gray-300 rounded-md w-full p-3 focus:ring-blue-500 focus:border-blue-500"
         className="input input-bordered w-full "
       />
@@ -37,4 +38,3 @@ const InputField: FC<InputFieldProps> = ({
 };
 
 export default InputField;
-

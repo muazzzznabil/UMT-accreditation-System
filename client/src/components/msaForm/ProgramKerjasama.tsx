@@ -2,17 +2,7 @@ import { useState } from "react";
 import { bentuk_kerjasama } from "../../constants/maklumatProgram_constant";
 // import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
-interface ProgramKerjasamaProps {
-  // mp: MaklumatProgramModel;
-  // formData: FormData;
-}
-
-const ProgramKerjasama: React.FC<ProgramKerjasamaProps> = (
-  {
-    // mp,
-    // formData,
-  }
-) => {
+const ProgramKerjasama = () => {
   const [isKerjasama, setIsKerjasama] = useState(false);
   // const mp = new MaklumatProgramModel();
 
@@ -33,6 +23,7 @@ const ProgramKerjasama: React.FC<ProgramKerjasamaProps> = (
             setIsKerjasama(e.target.value === "True");
             // formData.set("program_kerjasama", e.target.value);
           }}
+          required
         >
           <option value="False">Tidak</option>
           <option value="True">Ya</option>
@@ -43,6 +34,7 @@ const ProgramKerjasama: React.FC<ProgramKerjasamaProps> = (
             id="jenisKerjasama"
             className="select select-bordered w-3/4"
             // onChange={(e) => formData.set("jenis_kerjasama", e.target.value)}
+            required
           >
             <option value="" disabled selected hidden>
               Sila Pilih Jenis Kerjasama

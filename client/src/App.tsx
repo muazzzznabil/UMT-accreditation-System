@@ -6,8 +6,9 @@ import NoPage from "./pages/NoPage.tsx";
 import Header from "./components/Header.tsx";
 import TabbedForm from "./pages/testMultiStepForm.tsx";
 import ProgramList from "./pages/ProgramList.tsx";
-import UpdateMaklumat from "./components/msaForm/updateMaklumat.tsx";
+import UpdateMaklumat from "./pages/updateMaklumat.tsx";
 import MsaForm_onePage from "./pages/MsaForm_onePage.tsx";
+import ViewFullProgram from "./pages/ViewFullProgram.tsx";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/MsaForm" element={<MsaForm />} />
           <Route path="/MsaForm_onepage" element={<MsaForm_onePage />} />
+          <Route path="/ProgramInfo/:id" element={<ViewFullProgram />} />
           <Route path="/program-list" element={<ProgramList />} />
           <Route path="/testMultiStepForm" element={<TabbedForm />} />
           <Route path="/edit-program/:id" element={<UpdateMaklumat />} />

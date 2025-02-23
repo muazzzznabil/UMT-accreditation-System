@@ -10,16 +10,11 @@ const Homepage = () => {
           <h1 className="text-3xl font-medium">Navigation</h1>
           <ul className="list-disc pl-5 py-3">
             <li className="list-item">
-              <Link to="/MsaForm" className="text-blue-500 hover:underline">
-                Daftar Permohonan Program
-              </Link>
-            </li>
-            <li className="list-item">
               <Link
                 to="/MsaForm_onepage"
                 className="text-blue-500 hover:underline"
               >
-                Daftar Permohonan Program (satu section)
+                Daftar Permohonan Program
               </Link>
             </li>
             <li>

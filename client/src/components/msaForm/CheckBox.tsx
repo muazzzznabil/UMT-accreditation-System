@@ -1,12 +1,7 @@
 import { useState } from "react";
 // import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
-interface CheckBoxProps {
-  // mp: MaklumatProgramModel;
-  // formData: FormData;
-}
-
-const CheckBox: React.FC<CheckBoxProps> = ({}) => {
+const CheckBox = () => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {

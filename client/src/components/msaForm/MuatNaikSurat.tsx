@@ -45,6 +45,7 @@ const MuatNaikSurat = ({ label, name }: Props) => {
           type="file"
           id={name}
           name={name}
+          required
           className="file-input file-input-bordered w-1/2"
           onChange={handleOnChange}
         />
