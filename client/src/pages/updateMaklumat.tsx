@@ -1,30 +1,26 @@
-import JangkaPengajianSepenuhMasa from "../components/msaForm/JangkaPengajianSepenuhMasa";
-import ProgramKerjasama from "../components/msaForm/ProgramKerjasama";
-import JangkaPengajianSeparuhMasa from "../components/msaForm/JangkaPengajianSeparuhMasa";
-import CheckBox from "../components/msaForm/CheckBox";
-// import { MaklumatProgramModel } from "../model/maklumat_program_model";
 import { useEffect, useState } from "react";
-import InputField from "../components/msaForm/InputField";
 import {
   fakulti_List,
   mod_penawaran,
+  // fakulti_List,
   Nec_Code_List,
-  struktur_program,
+  // Nec_Code_List,
+  // struktur_program,
 } from "../constants/maklumatProgram_constant";
-import DropdownMenu from "../components/msaForm/DropdownMenu";
-import KKMField from "../components/msaForm/KKMField";
+// import DropdownMenu from "../components/msaForm/DropdownMenu";
+// import KKMField from "../components/msaForm/KKMField";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import DatePicker from "../components/msaForm/DatePicker";
-// import { TarikhSuratContext } from "../components/msaForm/MesyJPKT";
-// import TempohSah from "../components/msaForm/TempohSah";
-import BilMesyuarat from "../components/msaForm/BilMesyuarat";
-import MuatNaikSurat from "../components/msaForm/MuatNaikSurat";
+import KKMUpdate from "../components/msaForm/KKMUpdate";
+import { SubmitHandler, useForm } from "react-hook-form";
+import DropdownUpdate from "../components/msaForm/DropDownUpdate";
+import SepenuhMasa from "../components/msaForm/SepenuhMasa";
+import SeparuhMasa from "../components/msaForm/SeparuhMasa";
 
 interface Program {
   id: number;
   nama_program: string;
-  tahapKKM: string;
+  tahapMQF: string;
   sektorAkademik: string;
   code_nec: string;
   mode_penawaran: string;
@@ -66,6 +62,7 @@ interface Program {
 const UpdateMaklumat = () => {
   const [program, setProgram] = useState<Program | null>(null);
   const { id } = useParams();
+  const { register, handleSubmit } = useForm();
 
   const getProgram = async () => {
     try {
@@ -79,26 +76,26 @@ const UpdateMaklumat = () => {
     }
   };
 
-  const updateProgram = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const programUpdated = {
-        ...program,
-        id,
-      };
-      const response = await axios.put<Program>(
-        `http://localhost:5000/pendaftaran-program/maklumat-program/${id}/edit`,
-        programUpdated
-      );
-      if (response.status === 200) {
-        alert("Program updated:");
-        window.location.href = "/program-list";
-      }
-      console.table(response.data);
-    } catch (error: unknown) {
-      console.error(error);
-    }
-  };
+  // const onSubmit: SubmitHandler<Program> = async (data) => {
+  //   axios
+  //     .put(
+  //       `http://localhost:5000/pendaftaran-program/maklumat-program/${id}/edit2`,
+  //       data,
+  //       { headers: { "Content-Type": "application/json" } }
+  //     )
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       alert("Program updated:");
+  //       window.location.href = "/program-list";
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.data);
+  //       alert("Program not updated:");
+  //     });
+  // };
+
+  const onSubmit: SubmitHandler<Program> = (data) => console.log(data);
+
   useEffect(() => {
     getProgram();
   }, [id]);
@@ -109,7 +106,7 @@ const UpdateMaklumat = () => {
 
   console.log(`program : ${program.id}`);
   return (
-    <form method="POST" onSubmit={updateProgram}>
+    <form method="POST" onSubmit={handleSubmit(onSubmit)}>
       <div className="container mx-auto mt-5 font-sans flex flex-col">
         <h1 className="text-xl  font-bold">UPDATE: {program.nama_program}</h1>
         <div className="breadcrumbs text-md mb-2">
@@ -128,128 +125,121 @@ const UpdateMaklumat = () => {
             Maklumat Program
           </h2>
           <div className="w-full space-y-4">
-            <InputField
-              label={"Nama Program"}
-              name={"nama_program"}
-              placeholder={program.nama_program}
-              value={program.nama_program}
-              onChange={(e) => {
-                setProgram({ ...program, nama_program: e.target.value });
-              }}
+            <div className="flex mb-4 items-center">
+              <label htmlFor="nama_program" className="label-input-msa">
+                Nama Program
+              </label>
+              <input
+                id="nama_program"
+                defaultValue={program.nama_program}
+                placeholder={program.nama_program}
+                required
+                className="input input-bordered w-full"
+                {...register("nama_program")}
+              />
+            </div>
+            <KKMUpdate
+              valueMQF={program.tahapMQF}
+              valueSektorAkademik={program.sektorAkademik}
+              register={register}
             />
-            <KKMField valueSektorAkademik="{program.sektorAkademik}" />
-            <DropdownMenu
+            <DropdownUpdate
               label={"Code NEC"}
               options={Nec_Code_List}
               labelId={"code_nec"}
-              onChange={(e) => {
-                setProgram({ ...program, code_nec: e.target.value });
-              }}
-              value={program.code_nec}
+              defaultValue={program.code_nec}
               placeholderOptions={"Sila Pilih Code NEC"}
+              register={register}
             />
-            <DropdownMenu
-              label={"Mod Penawaran"}
+            <DropdownUpdate
+              label={"Mode Penawaran"}
               options={mod_penawaran}
               labelId={"mode_penawaran"}
-              onChange={(e) => {
-                setProgram({ ...program, mode_penawaran: e.target.value });
-              }}
-              value={program.mode_penawaran}
-              placeholderOptions={"Sila Pilih Mod Penawaran"}
+              defaultValue={program.mode_penawaran}
+              placeholderOptions={"Sila Pilih Mode Penawaran"}
+              register={register}
             />
-            <DropdownMenu
+            <DropdownUpdate
               label={"Fakulti"}
               options={fakulti_List}
               labelId={"fakulti"}
-              value={program.fakulti}
-              onChange={(e) => {
-                setProgram({ ...program, fakulti: e.target.value });
-              }}
+              defaultValue={program.fakulti}
               placeholderOptions={"Sila Pilih Fakulti"}
+              register={register}
             />
-            <JangkaPengajianSepenuhMasa />
-            <JangkaPengajianSeparuhMasa />
-            <CheckBox />
-            <DropdownMenu
-              label={"Struktur Program"}
-              options={struktur_program}
-              labelId={"struktur_program"}
-              onChange={(e) => {
-                setProgram({ ...program, struktur_program: e.target.value });
-              }}
-              value={program.struktur_program}
-              placeholderOptions={"Sila Pilih Struktur Program"}
+            <SepenuhMasa
+              register={register}
+              Sepenuh_max_Tahun={parseInt(program.Sepenuh_max_Tahun)}
+              Sepenuh_max_Minggu={parseInt(program.Sepenuh_max_Minggu)}
+              Sepenuh_max_Semester={program.Sepenuh_max_Semester}
+              Sepenuh_min_Tahun={program.Sepenuh_min_Tahun}
+              Sepenuh_min_Minggu={program.Sepenuh_min_Minggu}
+              Sepenuh_min_Semester={program.Sepenuh_min_Semester}
+              Sepenuh_SemesterPanjang_Semester={
+                program.Sepenuh_SemesterPanjang_Semester
+              }
+              Sepenuh_SemesterPendek_Semester={
+                program.Sepenuh_SemesterPendek_Semester
+              }
+              Sepenuh_LatihanIndustri_Semester={
+                program.Sepenuh_LatihanIndustri_Semester
+              }
             />
-            <ProgramKerjasama />
-
-            <h2 className="text-xl  font-bold text-center ">Mesyuarat JKPT</h2>
-
-            {/* <DatePicker
-              label={"Tarikh Surat"}
-              name={"tarikhSurat"}
-              onChange={(e) => {
-                setTarikhSurat(e.target.value);
-              }}
-            /> */}
-            <DatePicker
-              label={"Tarikh Terima Surat"}
-              // dateValue={program.tarikhTerimaSurat}
-              name={"tarikhTerimaSurat"}
-            />
-            <DatePicker
-              label={"Tarikh Mesyuarat"}
-              name={"tarikhMesyuaratJKPT"}
+            <SeparuhMasa
+              register={register}
+              separuh_max_Tahun={parseInt(program.Separuh_max_Tahun)}
+              separuh_max_Minggu={parseInt(program.Separuh_max_Minggu)}
+              separuh_max_Semester={program.Separuh_max_Semester}
+              separuh_min_Tahun={program.Separuh_min_Tahun}
+              separuh_min_Minggu={program.Separuh_min_Minggu}
+              separuh_min_Semester={program.Separuh_min_Semester}
+              separuh_SemesterPanjang_Semester={
+                program.Separuh_SemesterPanjang_Semester
+              }
+              separuh_SemesterPendek_Semester={
+                program.Separuh_SemesterPendek_Semester
+              }
+              separuh_LatihanIndustri_Semester={
+                program.Separuh_LatihanIndustri_Semester
+              }
             />
 
-            {/* <TarikhSuratContext.Provider value={tarikhSurat}>
-              <TempohSah />
-            </TarikhSuratContext.Provider> */}
-            <BilMesyuarat bilMesyuarat={program.bilMesyuarat} />
-            <MuatNaikSurat label={"Minit JKPT"} name="minitJKPT" />
-
-            {/* Mesy JKA */}
-            <h2 className="text-xl  font-bold text-center ">Mesyuarat JKA</h2>
-            <div className="flex mb-4 items-center">
-              <label htmlFor="tarikhMesyuaratJKA" className="label-input-msa">
-                Tarikh Mesyuarat JKA
+            <div className="flex w-full items-center">
+              <label htmlFor="mod_penyampaian" className="label-input-msa">
+                Mod Penyampaian
               </label>
-              <div className="w-full">
-                <input
-                  type="date"
-                  required
-                  id="tarikhMesyuaratJKA"
-                  name="tarikhMesyuaratJKA"
-                  // value={
-                  //   new Date(program.tarikhMesyuaratJKA)
-                  //     .toISOString()
-                  //     .split("T")[0]
-                  // }
-                  className="p-2 h-12 rounded-lg border w-full"
-                />
+              <div className="w-full flex justify-between">
+                <div className="flex items-start ">
+                  <div className="inline-flex items-center mr-4">
+                    <input
+                      type="checkbox"
+                      id="konvensional"
+                      value={"Konvensional/Terbuka"}
+                      className="checkbox  mr-2"
+                      {...register("konvensional")}
+                      // onChange={handleModPenyampaianChange}
+                    />
+                    <label htmlFor="konvensional" className=" text-md">
+                      Konvensional/Terbuka
+                    </label>
+                  </div>
+                  <div className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      value={"Jarak Jauh (ODL)"}
+                      id="ODL"
+                      {...register("ODL")}
+                      className="checkbox  mr-2"
+                      // onChange={handleModPenyampaianChange}
+                    />
+                    <label htmlFor="ODL" className=" text-md">
+                      Jarak Jauh (ODL)
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex mb-4 items-center">
-              <label htmlFor="bilMesyuaratJKA" className="label-input-msa">
-                Bil Mesyuarat
-              </label>
-              <div className="w-full flex items-center ">
-                <input
-                  type="text"
-                  id="bilMesyuaratJKA"
-                  name="bilMesyuaratJKA"
-                  value={program.bilMesyuaratJKA}
-                  className="input input-bordered w-1/6"
-                  placeholder=" Bil. / Tahun"
-                  required
-                />
-              </div>
-            </div>
-            <MuatNaikSurat
-              label={"Minit JKA"}
-              name="minitJKA"
-              //   formData={formData}
-            />
+
             <div className="flex space-x-4 justify-end">
               <input
                 type="reset"

@@ -109,7 +109,7 @@ router.get("/maklumat-program/:id", async function (req, res) {
   const query = "SELECT * FROM maklumat_program where id = ?";
   try {
     const [result] = await db.query(query, req.params.id);
-    console.table(result);
+    // console.table(result);
     res.json(result);
   } catch (error) {
     console.error(error);
@@ -206,6 +206,66 @@ router.delete("/maklumat-program/:id/delete", async function (req, res) {
 
 //--------------------testing--------------------
 //insert data into maklumat program with file
+
+router.put("/maklumat-program/:id/edit2", async function (req, res) {
+  const { id } = req.params;
+  const query = `
+  UPDATE maklumat_program 
+
+  SET 
+  nama_program = ?,
+  tahapMQF = ?,
+  sektorAkademik = ?,
+  code_nec=?,
+  mode_penawaran=?,
+  fakulti=?,
+  Sepenuh_max_Tahun = ?, 
+  Sepenuh_max_Minggu = ?,
+  Sepenuh_max_Semester = ?, 
+  Sepenuh_min_Tahun = ?,
+  Sepenuh_min_Minggu = ?,
+  Sepenuh_min_Semester = ?, 
+  Sepenuh_SemesterPanjang_Semester = ?,
+  Sepenuh_SemesterPendek_Semester = ?, 
+  Sepenuh_LatihanIndustri_Semester = ?
+
+  WHERE id = ?`;
+  try {
+    await db.query(query, [
+      req.body.nama_program,
+      req.body.tahapMQF,
+      req.body.sektorAkademik,
+      req.body.code_nec,
+      req.body.mode_penawaran,
+      req.body.fakulti,
+      req.body.Sepenuh_max_Tahun,
+      req.body.Sepenuh_max_Minggu,
+      req.body.Sepenuh_max_Semester,
+      req.body.Sepenuh_min_Tahun,
+      req.body.Sepenuh_min_Minggu,
+      req.body.Sepenuh_min_Semester,
+      req.body.Sepenuh_SemesterPanjang_Semester,
+      req.body.Sepenuh_SemesterPendek_Semester,
+      req.body.Sepenuh_LatihanIndustri_Semester,
+      id,
+    ]);
+    res.sendStatus(200);
+    // console.log(
+    //   "Input",
+    //   req.body.nama_program,
+    //   req.body.tahapMQF,
+    //   req.body.sektorAkademik,
+    //   req.body.code_nec,
+    //   req.body.mode_penawaran,
+    //   req.body.fakulti,
+    //   id
+    // );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
 router.post(
   "/maklumat-program-file-test",
   upload.single("pdfFile"),

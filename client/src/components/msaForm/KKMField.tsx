@@ -8,7 +8,7 @@ interface KKMFieldProps {
 }
 
 const KKMField: React.FC<KKMFieldProps> = ({
-  valueMQF,
+  // valueMQF,
   valueSektorAkademik,
 }) => {
   const [tahap, setTahap] = useState("");
