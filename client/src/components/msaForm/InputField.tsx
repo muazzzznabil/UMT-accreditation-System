@@ -16,6 +16,7 @@ const InputField: FC<InputFieldProps> = ({
   placeholder = "",
   value,
   onChange,
+  // Add this line
 }) => {
   return (
     <div className="flex mb-4 items-center">
@@ -30,8 +31,7 @@ const InputField: FC<InputFieldProps> = ({
         onChange={onChange}
         placeholder={placeholder}
         required
-        // className="bg-white border border-gray-300 rounded-md w-full p-3 focus:ring-blue-500 focus:border-blue-500"
-        className="input input-bordered w-full "
+        className="input input-bordered w-full"
       />
     </div>
   );

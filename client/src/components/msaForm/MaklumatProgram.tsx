@@ -17,24 +17,60 @@ import { MaklumatProgramModel } from "../../model/maklumat_program_model";
 
 interface Props {
   mp: MaklumatProgramModel;
-  formData: FormData;
 }
 
-const MaklumatProgram: React.FC<Props> = ({ formData }) => {
+const MaklumatProgram: React.FC<Props> = ({ mp }) => {
   const [namaProgram, setNamaProgram] = useState("");
   const [nec, setNec] = useState("");
   const [modPenawaran, setModPenawaran] = useState("");
   const [fakulti, setFakulti] = useState("");
   const [struktur, setStruktur] = useState("");
+  // const [mp] = useState(new MaklumatProgramModel());
+  // const mp = new MaklumatProgramModel();
 
-  // useEffect(() => {
-  //   setNamaProgram(mp.getNamaProgram());
-  // }, [mp]);
-
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const newValue = e.target.value;
-  //   setNamaProgram(newValue);
-  //   mp.setNamaProgram(newValue);
+  // const maklumatData = {
+  //   nama_program: mp.setNamaProgram(namaProgram),
+  //   tahapMQF: mp.getTahapMQF(),
+  //   sektorAkademik: mp.getSektorAkademik(),
+  //   code_nec: mp.setCodeNEC(nec),
+  //   mode_penawaran: mp.setModePenawaran(modPenawaran),
+  //   fakulti: mp.setFakulti(fakulti),
+  //   Sepenuh_max_Tahun: mp.getSepenuhMaxTahun(),
+  //   Sepenuh_max_Minggu: mp.getSepenuhMaxMinggu(),
+  //   Sepenuh_max_Semester: mp.getSepenuhMaxSemester(),
+  //   Sepenuh_min_Tahun: mp.getSepenuhMinTahun(),
+  //   Sepenuh_min_Minggu: mp.getSepenuhMinMinggu(),
+  //   Sepenuh_min_Semester: mp.getSepenuhMinSemester(),
+  //   Sepenuh_SemesterPanjang_Semester: mp.getSepenuhSemesterPanjangSemester(),
+  //   Sepenuh_SemesterPendek_Semester: mp.getSepenuhSemesterPendekSemester(),
+  //   Sepenuh_LatihanIndustri_Semester: mp.getSepenuhLatihanIndustriSemester(),
+  //   Separuh_max_Tahun: mp.getSeparuhMaxTahun(),
+  //   Separuh_max_Minggu: mp.getSeparuhMaxMinggu(),
+  //   Separuh_max_Semester: mp.getSeparuhMaxSemester(),
+  //   Separuh_min_Tahun: mp.getSeparuhMinTahun(),
+  //   Separuh_min_Minggu: mp.getSeparuhMinMinggu(),
+  //   Separuh_min_Semester: mp.getSeparuhMinSemester(),
+  //   Separuh_SemesterPanjang_Semester: mp.getSeparuhSemesterPanjangSemester(),
+  //   Separuh_SemesterPendek_Semester: mp.getSeparuhSemesterPendekSemester(),
+  //   Separuh_LatihanIndustri_Semester: mp.getSeparuhLatihanIndustriSemester(),
+  //   mod_penyampaian: mp.getModPenyampaian(),
+  //   struktur_program: struktur,
+  //   program_kerjasama: mp.getProgramKerjasama(),
+  //   jenis_kerjasama: mp.getJenisKerjasama(),
+  // };
+  // const postMaklumatProgram = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   console.table(maklumatData);
+  //   const response = await axios.post(
+  //     "http://localhost:5000/pendaftaran-program/maklumat-program",
+  //     maklumatData
+  //   );
+  //   if (response.status === 200) {
+  //     alert("Data Berjaya Disimpan");
+  //     window.location.href = "/program-list";
+  //   } else {
+  //     alert("Data Gagal Disimpan");
+  //   }
   // };
   return (
     // <form onSubmit={postMaklumatProgram} method="POST">
@@ -44,27 +80,22 @@ const MaklumatProgram: React.FC<Props> = ({ formData }) => {
           label={"Nama Program"}
           name={"nama_program"}
           placeholder="Sila Masukkan Nama Program"
-          // value={namaProgram}
-          // onChange={handleInputChange}
           value={namaProgram}
           onChange={(e) => {
-            // mp.setNamaProgram(e.target.value);
-            formData.append("nama_program", e.target.value);
             setNamaProgram(e.target.value);
+            mp.setNamaProgram(namaProgram);
           }}
         />
-        <KKMField formData={formData} />
+        <KKMField />
         <DropdownMenu
           label={"Code NEC"}
           options={Nec_Code_List}
           labelId={"code_nec"}
           onChange={(e) => {
             setNec(e.target.value);
-            // mp.setCodeNEC(e.target.value);
-            formData.append("code_nec", e.target.value);
+            mp.setCodeNEC(e.target.value);
           }}
           value={nec}
-          // value={mp.getCodeNEC()}
           placeholderOptions={"Sila Pilih Code NEC"}
         />
         <DropdownMenu
@@ -73,8 +104,7 @@ const MaklumatProgram: React.FC<Props> = ({ formData }) => {
           labelId={"mode_penawaran"}
           onChange={(e) => {
             setModPenawaran(e.target.value);
-            // mp.setModePenawaran(e.target.value);
-            formData.append("mode_penawaran", e.target.value);
+            mp.setModePenawaran(e.target.value);
           }}
           value={modPenawaran}
           placeholderOptions={"Sila Pilih Mod Penawaran"}
@@ -86,15 +116,14 @@ const MaklumatProgram: React.FC<Props> = ({ formData }) => {
           value={fakulti}
           onChange={(e) => {
             setFakulti(e.target.value);
-            // mp.setFakulti(e.target.value);
-            formData.append("fakulti", e.target.value);
+            mp.setFakulti(e.target.value);
           }}
           placeholderOptions={"Sila Pilih Fakulti"}
         />
-        <JangkaPengajianSepenuhMasa formData={formData} />
-        <JangkaPengajianSeparuhMasa formData={formData} />
+        <JangkaPengajianSepenuhMasa />
+        <JangkaPengajianSeparuhMasa />
 
-        <CheckBox formData={formData} />
+        <CheckBox />
 
         <DropdownMenu
           label={"Struktur Program"}
@@ -102,13 +131,12 @@ const MaklumatProgram: React.FC<Props> = ({ formData }) => {
           labelId={"struktur_program"}
           onChange={(e) => {
             setStruktur(e.target.value);
-            // mp.setStrukturProgram(e.target.value);
-            formData.append("struktur_program", e.target.value);
+            mp.setStrukturProgram(e.target.value);
           }}
           value={struktur}
           placeholderOptions={"Sila Pilih Struktur Program"}
         />
-        <ProgramKerjasama formData={formData} />
+        <ProgramKerjasama />
 
         <div className="flex space-x-4 justify-end">
           <input

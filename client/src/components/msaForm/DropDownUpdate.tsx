@@ -1,23 +1,26 @@
 import React, { FC } from "react";
+import { UseFormRegister } from "react-hook-form";
 
 interface DropdownMenuProps {
   label: string;
   options: string[];
   value?: string;
   placeholderOptions: string;
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  //   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   labelId: string;
   defaultValue?: string;
+  register: UseFormRegister<FieldValue>;
 }
 
-const DropdownMenu: FC<DropdownMenuProps> = ({
+const DropdownUpdate: FC<DropdownMenuProps> = ({
   label,
   options,
   value,
   placeholderOptions,
-  onChange,
+  //   onChange,
   labelId,
   defaultValue,
+  register,
 }) => {
   return (
     <div className="flex items-center w-full">
@@ -26,12 +29,11 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
       </label>
       <select
         id={labelId}
-        name={labelId}
         required
         className="select select-bordered w-full"
-        onChange={onChange}
         value={value} // Bind the current selected value
         defaultValue={defaultValue}
+        {...register(labelId)}
       >
         <option value="" disabled hidden className="text-gray-400">
           {placeholderOptions}
@@ -46,4 +48,4 @@ const DropdownMenu: FC<DropdownMenuProps> = ({
   );
 };
 
-export default DropdownMenu;
+export default DropdownUpdate;
