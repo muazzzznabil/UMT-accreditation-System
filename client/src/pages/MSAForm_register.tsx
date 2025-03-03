@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { SubmitHandler, useForm } from "react-hook-form";
 import KKMUpdate from "../components/msaForm/KKMUpdate";
 import DropdownUpdate from "../components/msaForm/DropDownUpdate";
@@ -48,7 +47,6 @@ const MSAForm_register = () => {
       )
       .then((response) => {
         console.table(response.data);
-
         Swal.fire({
           title: "Program Registered!",
           text: "Program is successfully registered!",
@@ -67,12 +65,6 @@ const MSAForm_register = () => {
           text: "Program Tidak Berjaya Didaftarkan!",
           // footer: '<a href="#">Why do I have this issue?</a>'
         });
-        alert("Program Berjaya Didaftarkan");
-        window.location.href = "/program-list";
-      })
-      .catch((error) => {
-        console.table(error.data);
-        alert("Program Tidak Berjaya Didaftarkan");
       });
   };
 
