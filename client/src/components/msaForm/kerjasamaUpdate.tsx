@@ -4,8 +4,8 @@ import { FieldValue, UseFormRegister } from "react-hook-form";
 
 interface props {
   register: UseFormRegister<FieldValue>;
-  programKerjasama: string;
-  jenisKerjasama: string;
+  programKerjasama?: string;
+  jenisKerjasama?: string;
 }
 
 const KerjasamaUpdate: React.FC<props> = ({
@@ -32,12 +32,15 @@ const KerjasamaUpdate: React.FC<props> = ({
           id="program-kerjasama"
           {...register("program_kerjasama")}
           className="select select-bordered w-1/4 mr-2"
-          defaultValue={programKerjasama}
+          defaultValue={programKerjasama || ""}
           onChange={(e) => {
             setIsKerjasama(e.target.value === "True");
           }}
           required
         >
+          <option value="" disabled hidden>
+            Sila Pilih Program Kerjasama
+          </option>
           <option value="False">Tidak</option>
           <option value="True">Ya</option>
         </select>
@@ -46,10 +49,10 @@ const KerjasamaUpdate: React.FC<props> = ({
             id="jenisKerjasama"
             {...register("jenis_kerjasama")}
             className="select select-bordered w-3/4"
-            defaultValue={jenisKerjasama}
+            defaultValue={jenisKerjasama || ""}
             required
           >
-            <option value="" disabled hidden>
+            <option value="" disabled selected hidden>
               Sila Pilih Jenis Kerjasama
             </option>
             {bentuk_kerjasama.map((option, index) => (

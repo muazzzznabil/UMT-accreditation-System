@@ -2,15 +2,15 @@ import { UseFormRegister } from "react-hook-form";
 
 interface props {
   register: UseFormRegister<FieldValue>;
-  separuh_max_Tahun: number;
-  separuh_max_Minggu: number;
-  separuh_max_Semester: string;
-  separuh_min_Tahun: string;
-  separuh_min_Minggu: string;
-  separuh_min_Semester: string;
-  separuh_SemesterPanjang_Semester: string;
-  separuh_SemesterPendek_Semester: string;
-  separuh_LatihanIndustri_Semester: string;
+  separuh_max_Tahun?: number;
+  separuh_max_Minggu?: number;
+  separuh_max_Semester?: string;
+  separuh_min_Tahun?: string;
+  separuh_min_Minggu?: string;
+  separuh_min_Semester?: string;
+  separuh_SemesterPanjang_Semester?: string;
+  separuh_SemesterPendek_Semester?: string;
+  separuh_LatihanIndustri_Semester?: string;
 }
 
 const SeparuhMasa: React.FC<props> = ({

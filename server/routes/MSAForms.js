@@ -29,24 +29,60 @@ router.post(
   async function (req, res) {
     const minitJKPT = `/uploads/documents/${req.files.minitJKPT[0].filename}`;
     const minitJKA = `/uploads/documents/${req.files.minitJKA[0].filename}`;
+    const setValueKerjasama =
+      req.body.program_kerjasama == "True" ? req.body.jenis_kerjasama : null;
     const query = `
-    INSERT INTO maklumat_program 
-    (
-  nama_program, tahapMQF, sektorAkademik, code_nec, mode_penawaran, fakulti,
-  Sepenuh_max_Tahun, Sepenuh_max_Minggu, Sepenuh_max_Semester, Sepenuh_min_Tahun,
-  Sepenuh_min_Minggu, Sepenuh_min_Semester, Sepenuh_SemesterPanjang_Semester,
-  Sepenuh_SemesterPendek_Semester, Sepenuh_LatihanIndustri_Semester, Separuh_max_Tahun,
-  Separuh_max_Minggu, Separuh_max_Semester, Separuh_min_Tahun, Separuh_min_Minggu,
-  Separuh_min_Semester, Separuh_SemesterPanjang_Semester, Separuh_SemesterPendek_Semester,
-  Separuh_LatihanIndustri_Semester, konvensional,odl, struktur_program, program_kerjasama,
-  jenis_kerjasama, tarikhSurat, tarikhTerimaSurat, tarikhMesyuarat, tempohSah,
-  sahSehingga, bilMesyuarat, minitJKPT, tarikMesyJKA, bilMesyuaratJKA, minitJKA
-    ) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);
-  `;
+      INSERT INTO
+        maklumat_program
+      (
+        nama_program,
+        tahapMQF,
+        sektorAkademik,
+        code_nec,
+        mode_penawaran,
+        fakulti,
+        Sepenuh_max_Tahun,
+        Sepenuh_max_Minggu,
+        Sepenuh_max_Semester,
+        Sepenuh_min_Tahun,
+        Sepenuh_min_Minggu,
+        Sepenuh_min_Semester,
+        Sepenuh_SemesterPanjang_Semester,
+        Sepenuh_SemesterPendek_Semester,
+        Sepenuh_LatihanIndustri_Semester,
+        Separuh_max_Tahun,
+        Separuh_max_Minggu,
+        Separuh_max_Semester,
+        Separuh_min_Tahun,
+        Separuh_min_Minggu,
+        Separuh_min_Semester,
+        Separuh_SemesterPanjang_Semester,
+        Separuh_SemesterPendek_Semester,
+        Separuh_LatihanIndustri_Semester,
+        konvensional,
+        odl,
+        struktur_program,
+        program_kerjasama,
+        jenis_kerjasama,
+        tarikhSurat,
+        tarikhTerimaSurat,
+        tarikhMesyuarat,
+        tempohSah,
+        sahSehingga,
+        bilMesyuarat,
+        minitJKPT,
+        tarikMesyJKA,
+        bilMesyuaratJKA,
+        minitJKA
+      )
+      VALUES
+      (
+        ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
+      );
+    `;
     const maklumat = [
       req.body.nama_program,
-      req.body.tahapKKM,
+      req.body.tahapMQF,
       req.body.sektorAkademik,
       req.body.code_nec,
       req.body.mode_penawaran,
@@ -70,18 +106,18 @@ router.post(
       req.body.Separuh_SemesterPendek_Semester,
       req.body.Separuh_LatihanIndustri_Semester,
       req.body.konvensional,
-      req.body.odl,
+      req.body.ODL,
       req.body.struktur_program,
       req.body.program_kerjasama,
-      req.body.jenis_kerjasama,
+      setValueKerjasama,
       req.body.tarikhSurat,
       req.body.tarikhTerimaSurat,
-      req.body.tarikhMesyuaratJKPT,
-      req.body.tempohSah,
+      req.body.tarikhMesyuarat,
+      req.body.tempohSahLaku,
       req.body.sahSehingga,
       req.body.bilMesyuarat,
       minitJKPT,
-      req.body.tarikhMesyuaratJKA,
+      req.body.tarikMesyJKA,
       req.body.bilMesyuaratJKA,
       minitJKA,
     ];
@@ -280,6 +316,15 @@ router.put(
         Sepenuh_SemesterPanjang_Semester = ?,
         Sepenuh_SemesterPendek_Semester = ?, 
         Sepenuh_LatihanIndustri_Semester = ?,
+        Separuh_max_Tahun = ?, 
+        Separuh_max_Minggu = ?,
+        Separuh_max_Semester = ?, 
+        Separuh_min_Tahun = ?,
+        Separuh_min_Minggu = ?,
+        Separuh_min_Semester = ?, 
+        Separuh_SemesterPanjang_Semester = ?,
+        Separuh_SemesterPendek_Semester = ?, 
+        Separuh_LatihanIndustri_Semester = ?,
         konvensional = ?,
         odl = ?,
         struktur_program = ?,
@@ -314,6 +359,15 @@ router.put(
         req.body.Sepenuh_SemesterPanjang_Semester,
         req.body.Sepenuh_SemesterPendek_Semester,
         req.body.Sepenuh_LatihanIndustri_Semester,
+        req.body.Separuh_max_Tahun,
+        req.body.Separuh_max_Minggu,
+        req.body.Separuh_max_Semester,
+        req.body.Separuh_min_Tahun,
+        req.body.Separuh_min_Minggu,
+        req.body.Separuh_min_Semester,
+        req.body.Separuh_SemesterPanjang_Semester,
+        req.body.Separuh_SemesterPendek_Semester,
+        req.body.Separuh_LatihanIndustri_Semester,
         req.body.konvensional,
         req.body.ODL,
         req.body.struktur_program,
@@ -332,7 +386,7 @@ router.put(
         id,
       ]);
       res.sendStatus(200);
-      console.log("Input", minitJKPT, minitJKA);
+      console.log("konv,odl", req.body.konvensional, req.body.ODL);
     } catch (error) {
       console.error(error);
       res.status(500).send(error);

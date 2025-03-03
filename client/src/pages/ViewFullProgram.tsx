@@ -132,11 +132,11 @@ const ViewFullProgram = () => {
                 </tr>
                 <tr>
                   <td className="font-medium">Konvensional:</td>
-                  <td>{program.konvensional == "1" ? "Yes" : "No"}</td>
+                  <td>{program.konvensional == "true" ? "Yes" : "No"}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">ODL:</td>
-                  <td>{program.odl == "1" ? "Yes" : "No"}</td>
+                  <td>{program.odl == "true" ? "Yes" : "No"}</td>
                 </tr>
               </tbody>
             </table>
