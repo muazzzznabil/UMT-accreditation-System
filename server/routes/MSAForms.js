@@ -3,18 +3,22 @@ const router = express.Router();
 const db = require("../data/database");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../uploads/documents/"));
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const { id } = req.params; // Get the program ID from the request parameters
+    const fileExtension = path.extname(file.originalname); // Get the file extension
+    const baseName = path.basename(file.originalname, fileExtension); // Get the base name of the file
+    const newFileName = `${baseName}_${id}${fileExtension}`; // Construct the new file name with the program ID
+    cb(null, newFileName);
   },
 });
-// const upload = multer({ dest: "/uploads/documents" });
-const upload = multer({ storage: storage });
 
+const upload = multer({ storage: storage });
 //insert data into maklumat program
 router.post(
   "/maklumat-program",
@@ -34,7 +38,7 @@ router.post(
   Sepenuh_SemesterPendek_Semester, Sepenuh_LatihanIndustri_Semester, Separuh_max_Tahun,
   Separuh_max_Minggu, Separuh_max_Semester, Separuh_min_Tahun, Separuh_min_Minggu,
   Separuh_min_Semester, Separuh_SemesterPanjang_Semester, Separuh_SemesterPendek_Semester,
-  Separuh_LatihanIndustri_Semester, mod_penyampaian, struktur_program, program_kerjasama,
+  Separuh_LatihanIndustri_Semester, konvensional,odl, struktur_program, program_kerjasama,
   jenis_kerjasama, tarikhSurat, tarikhTerimaSurat, tarikhMesyuarat, tempohSah,
   sahSehingga, bilMesyuarat, minitJKPT, tarikMesyJKA, bilMesyuaratJKA, minitJKA
     ) 
@@ -65,7 +69,8 @@ router.post(
       req.body.Separuh_SemesterPanjang_Semester,
       req.body.Separuh_SemesterPendek_Semester,
       req.body.Separuh_LatihanIndustri_Semester,
-      req.body.mod_penyampaian,
+      req.body.konvensional,
+      req.body.odl,
       req.body.struktur_program,
       req.body.program_kerjasama,
       req.body.jenis_kerjasama,
@@ -153,7 +158,8 @@ router.put(
       req.body.Separuh_SemesterPanjang_Semester,
       req.body.Separuh_SemesterPendek_Semester,
       req.body.Separuh_LatihanIndustri_Semester,
-      req.body.mod_penyampaian,
+      req.body.konvensional,
+      req.body.odl,
       req.body.struktur_program,
       req.body.program_kerjasama,
       req.body.jenis_kerjasama,
@@ -178,7 +184,7 @@ router.put(
     Sepenuh_LatihanIndustri_Semester = ?, Separuh_max_Tahun = ?, Separuh_max_Minggu = ?, 
     Separuh_max_Semester = ?, Separuh_min_Tahun = ?, Separuh_min_Minggu = ?, 
     Separuh_min_Semester = ?, Separuh_SemesterPanjang_Semester = ?, Separuh_SemesterPendek_Semester = ?, 
-    Separuh_LatihanIndustri_Semester = ?, mod_penyampaian = ?, struktur_program = ?, program_kerjasama = ?, 
+    Separuh_LatihanIndustri_Semester = ?, kovensional = ?,odl = ?, struktur_program = ?, program_kerjasama = ?, 
     jenis_kerjasama = ?, tarikhSurat = ?, tarikhTerimaSurat = ?, tarikhMesyuarat = ?, tempohSah = ?, 
     sahSehingga = ?, bilMesyuarat = ?, minitJKPT = ?, tarikMesyJKA = ?, bilMesyuaratJKA = ?, minitJKA = ?
     WHERE id = ?`;
@@ -207,64 +213,132 @@ router.delete("/maklumat-program/:id/delete", async function (req, res) {
 //--------------------testing--------------------
 //insert data into maklumat program with file
 
-router.put("/maklumat-program/:id/edit2", async function (req, res) {
-  const { id } = req.params;
-  const query = `
-  UPDATE maklumat_program 
+router.put(
+  "/maklumat-program/:id/edit2",
+  upload.fields([
+    { name: "minitJKPT", maxCount: 1 },
+    { name: "minitJKA", maxCount: 1 },
+  ]),
+  async function (req, res) {
+    const { id } = req.params;
+    const setValueKerjasama =
+      req.body.program_kerjasama == "True" ? req.body.jenis_kerjasama : null;
 
-  SET 
-  nama_program = ?,
-  tahapMQF = ?,
-  sektorAkademik = ?,
-  code_nec=?,
-  mode_penawaran=?,
-  fakulti=?,
-  Sepenuh_max_Tahun = ?, 
-  Sepenuh_max_Minggu = ?,
-  Sepenuh_max_Semester = ?, 
-  Sepenuh_min_Tahun = ?,
-  Sepenuh_min_Minggu = ?,
-  Sepenuh_min_Semester = ?, 
-  Sepenuh_SemesterPanjang_Semester = ?,
-  Sepenuh_SemesterPendek_Semester = ?, 
-  Sepenuh_LatihanIndustri_Semester = ?
+    // Handle minitJKPT file
+    const minitJKPT =
+      req.files.minitJKPT && req.files.minitJKPT[0]
+        ? `/uploads/documents/${req.files.minitJKPT[0].filename}`
+        : req.body.existingMinitJKPT;
 
-  WHERE id = ?`;
-  try {
-    await db.query(query, [
-      req.body.nama_program,
-      req.body.tahapMQF,
-      req.body.sektorAkademik,
-      req.body.code_nec,
-      req.body.mode_penawaran,
-      req.body.fakulti,
-      req.body.Sepenuh_max_Tahun,
-      req.body.Sepenuh_max_Minggu,
-      req.body.Sepenuh_max_Semester,
-      req.body.Sepenuh_min_Tahun,
-      req.body.Sepenuh_min_Minggu,
-      req.body.Sepenuh_min_Semester,
-      req.body.Sepenuh_SemesterPanjang_Semester,
-      req.body.Sepenuh_SemesterPendek_Semester,
-      req.body.Sepenuh_LatihanIndustri_Semester,
-      id,
-    ]);
-    res.sendStatus(200);
-    // console.log(
-    //   "Input",
-    //   req.body.nama_program,
-    //   req.body.tahapMQF,
-    //   req.body.sektorAkademik,
-    //   req.body.code_nec,
-    //   req.body.mode_penawaran,
-    //   req.body.fakulti,
-    //   id
-    // );
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error);
+    // Delete old JKPT file if new one is uploaded and old one exists
+    if (req.files.minitJKPT && req.body.existingMinitJKPT) {
+      const oldJKPTPath = path.join(
+        __dirname,
+        "..",
+        req.body.existingMinitJKPT
+      );
+      try {
+        fs.unlinkSync(oldJKPTPath);
+        console.log("Old JKPT file deleted:", oldJKPTPath);
+      } catch (err) {
+        console.error("Error deleting old JKPT file:", err);
+      }
+    }
+
+    // Handle minitJKA file
+    const minitJKA =
+      req.files.minitJKA && req.files.minitJKA[0]
+        ? `/uploads/documents/${req.files.minitJKA[0].filename}`
+        : req.body.existingMinitJKA;
+
+    // Delete old JKA file if new one is uploaded and old one exists
+    if (req.files.minitJKA && req.body.existingMinitJKA) {
+      const oldJKAPath = path.join(__dirname, "..", req.body.existingMinitJKA);
+      try {
+        fs.unlinkSync(oldJKAPath);
+        console.log("Old JKA file deleted:", oldJKAPath);
+      } catch (err) {
+        console.error("Error deleting old JKA file:", err);
+      }
+    }
+
+    const query = `
+      UPDATE maklumat_program 
+      SET 
+        nama_program = ?,
+        tahapMQF = ?,
+        sektorAkademik = ?,
+        code_nec=?,
+        mode_penawaran=?,
+        fakulti=?,
+        Sepenuh_max_Tahun = ?, 
+        Sepenuh_max_Minggu = ?,
+        Sepenuh_max_Semester = ?, 
+        Sepenuh_min_Tahun = ?,
+        Sepenuh_min_Minggu = ?,
+        Sepenuh_min_Semester = ?, 
+        Sepenuh_SemesterPanjang_Semester = ?,
+        Sepenuh_SemesterPendek_Semester = ?, 
+        Sepenuh_LatihanIndustri_Semester = ?,
+        konvensional = ?,
+        odl = ?,
+        struktur_program = ?,
+        program_kerjasama = ?,
+        jenis_kerjasama = ?,
+        tarikhSurat = ?,
+        tarikhTerimaSurat = ?,
+        tarikhMesyuarat = ?,
+        tempohSah = ?,
+        sahSehingga = ?,
+        bilMesyuarat = ?,
+        minitJKPT = ?,
+        tarikMesyJKA = ?,
+        bilMesyuaratJKA = ?,
+        minitJKA = ?
+      WHERE id = ?`;
+
+    try {
+      await db.query(query, [
+        req.body.nama_program,
+        req.body.tahapMQF,
+        req.body.sektorAkademik,
+        req.body.code_nec,
+        req.body.mode_penawaran,
+        req.body.fakulti,
+        req.body.Sepenuh_max_Tahun,
+        req.body.Sepenuh_max_Minggu,
+        req.body.Sepenuh_max_Semester,
+        req.body.Sepenuh_min_Tahun,
+        req.body.Sepenuh_min_Minggu,
+        req.body.Sepenuh_min_Semester,
+        req.body.Sepenuh_SemesterPanjang_Semester,
+        req.body.Sepenuh_SemesterPendek_Semester,
+        req.body.Sepenuh_LatihanIndustri_Semester,
+        req.body.konvensional,
+        req.body.ODL,
+        req.body.struktur_program,
+        req.body.program_kerjasama,
+        setValueKerjasama,
+        req.body.tarikhSurat,
+        req.body.tarikhTerimaSurat,
+        req.body.tarikhMesyuarat,
+        req.body.tempohSahLaku,
+        req.body.sahSehingga,
+        req.body.bilMesyuarat,
+        minitJKPT,
+        req.body.tarikMesyJKA,
+        req.body.bilMesyuaratJKA,
+        minitJKA,
+        id,
+      ]);
+      res.sendStatus(200);
+      console.log("Input", minitJKPT, minitJKA);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
   }
-});
+);
 
 router.post(
   "/maklumat-program-file-test",

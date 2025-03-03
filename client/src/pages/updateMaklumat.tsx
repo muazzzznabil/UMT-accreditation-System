@@ -2,13 +2,9 @@ import { useEffect, useState } from "react";
 import {
   fakulti_List,
   mod_penawaran,
-  // fakulti_List,
   Nec_Code_List,
-  // Nec_Code_List,
-  // struktur_program,
+  struktur_program,
 } from "../constants/maklumatProgram_constant";
-// import DropdownMenu from "../components/msaForm/DropdownMenu";
-// import KKMField from "../components/msaForm/KKMField";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import KKMUpdate from "../components/msaForm/KKMUpdate";
@@ -16,8 +12,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import DropdownUpdate from "../components/msaForm/DropDownUpdate";
 import SepenuhMasa from "../components/msaForm/SepenuhMasa";
 import SeparuhMasa from "../components/msaForm/SeparuhMasa";
+import KerjasamaUpdate from "../components/msaForm/kerjasamaUpdate";
+import DateUpdate from "../components/msaForm/DateUpdate";
+import SahLaku from "../components/msaForm/SahSehinggaUpdate";
+import dayjs from "dayjs";
 
 interface Program {
+  MinitJKA: any;
   id: number;
   nama_program: string;
   tahapMQF: string;
@@ -43,18 +44,19 @@ interface Program {
   Separuh_SemesterPanjang_Semester: string;
   Separuh_SemesterPendek_Semester: string;
   Separuh_LatihanIndustri_Semester: string;
-  mod_penyampaian: string[];
+  konvensional: string;
+  odl: string;
   struktur_program: string;
   program_kerjasama: string;
   jenis_kerjasama: string;
-  tarikhSurat: string;
-  tarikhTerimaSurat: string;
-  tarikhMesyuarat: string;
+  tarikhSurat: Date;
+  tarikhTerimaSurat: Date;
+  tarikhMesyuarat: Date;
   tempohSah: string;
   sahSehingga: string;
   bilMesyuarat: string;
   minitJKPT: string;
-  tarikhMesyuaratJKA: string;
+  tarikMesyJKA: Date;
   bilMesyuaratJKA: string;
   minitJKA: string;
 }
@@ -62,39 +64,74 @@ interface Program {
 const UpdateMaklumat = () => {
   const [program, setProgram] = useState<Program | null>(null);
   const { id } = useParams();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const [tarikhSurat2, setTarikhSurat2] = useState<Date | null>(null);
 
   const getProgram = async () => {
     try {
       const response = await axios.get<Program[]>(
         `http://localhost:5000/pendaftaran-program/maklumat-program/${id}`
       );
-      console.table(response.data);
+      console.table(response.data[0]);
       setProgram(response.data[0]);
+      setTarikhSurat2(response.data[0].tarikhSurat);
     } catch (error) {
       console.error(error);
     }
   };
 
-  // const onSubmit: SubmitHandler<Program> = async (data) => {
-  //   axios
-  //     .put(
-  //       `http://localhost:5000/pendaftaran-program/maklumat-program/${id}/edit2`,
-  //       data,
-  //       { headers: { "Content-Type": "application/json" } }
-  //     )
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       alert("Program updated:");
-  //       window.location.href = "/program-list";
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.data);
-  //       alert("Program not updated:");
-  //     });
-  // };
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      if ((key === "minitJKPT" || key === "minitJKA") && data[key].length > 0) {
+        formData.append(key, data[key][0]);
+      } else {
+        formData.append(key, data[key]);
+      }
+    }
 
-  const onSubmit: SubmitHandler<Program> = (data) => console.log(data);
+    // Log the FormData entries for debugging
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    axios
+      .put(
+        `http://localhost:5000/pendaftaran-program/maklumat-program/${id}/edit2`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      )
+      .then((response) => {
+        console.table(response.data);
+        alert("Program updated:");
+        window.location.href = "/program-list";
+      })
+      .catch((error) => {
+        console.table(error.data);
+        alert("Program not updated:");
+      });
+  };
+
+  // const onSubmit: SubmitHandler<any> = (data) => {
+  //   const formData = new FormData();
+  //   console.log(data);
+
+  //   for (const key in data) {
+  //     if (key === "minitJKPT") {
+  //       formData.append(key, data[key][0]);
+  //     } else {
+  //       formData.append(key, data[key]);
+  //     }
+  //   }
+  //   for (const [key, value] of formData.entries()) {
+  //     console.log(`${key}: ${value}`);
+  //   }
+  // };
 
   useEffect(() => {
     getProgram();
@@ -108,7 +145,7 @@ const UpdateMaklumat = () => {
   return (
     <form method="POST" onSubmit={handleSubmit(onSubmit)}>
       <div className="container mx-auto mt-5 font-sans flex flex-col">
-        <h1 className="text-xl  font-bold">UPDATE: {program.nama_program}</h1>
+        <h1 className="text-xl font-bold">UPDATE: {program.nama_program}</h1>
         <div className="breadcrumbs text-md mb-2">
           <ul>
             <li>
@@ -121,7 +158,7 @@ const UpdateMaklumat = () => {
           </ul>
         </div>
         <div className="container mt-10 mb-32 mx-auto flex flex-col bg-gray-100 p-6 rounded-md shadow-md">
-          <h2 className="text-xl  font-bold text-center mb-5">
+          <h2 className="text-xl font-bold text-center mb-5">
             Maklumat Program
           </h2>
           <div className="w-full space-y-4">
@@ -203,7 +240,6 @@ const UpdateMaklumat = () => {
                 program.Separuh_LatihanIndustri_Semester
               }
             />
-
             <div className="flex w-full items-center">
               <label htmlFor="mod_penyampaian" className="label-input-msa">
                 Mod Penyampaian
@@ -214,10 +250,14 @@ const UpdateMaklumat = () => {
                     <input
                       type="checkbox"
                       id="konvensional"
-                      value={"Konvensional/Terbuka"}
+                      defaultChecked={
+                        program.konvensional == "1" ? true : false
+                      }
                       className="checkbox  mr-2"
                       {...register("konvensional")}
-                      // onChange={handleModPenyampaianChange}
+                      onChange={(e) =>
+                        setValue("konvensional", e.target.checked)
+                      }
                     />
                     <label htmlFor="konvensional" className=" text-md">
                       Konvensional/Terbuka
@@ -226,11 +266,11 @@ const UpdateMaklumat = () => {
                   <div className="inline-flex items-center">
                     <input
                       type="checkbox"
-                      value={"Jarak Jauh (ODL)"}
+                      defaultChecked={program.odl == "1" ? true : false}
                       id="ODL"
                       {...register("ODL")}
                       className="checkbox  mr-2"
-                      // onChange={handleModPenyampaianChange}
+                      onChange={(e) => setValue("ODL", e.target.checked)}
                     />
                     <label htmlFor="ODL" className=" text-md">
                       Jarak Jauh (ODL)
@@ -239,18 +279,185 @@ const UpdateMaklumat = () => {
                 </div>
               </div>
             </div>
-
+            <DropdownUpdate
+              label={"Struktur Program"}
+              options={struktur_program}
+              labelId={"struktur_program"}
+              defaultValue={program.struktur_program}
+              placeholderOptions={"Sila Pilih Struktur Program"}
+              register={register}
+            />
+            <KerjasamaUpdate
+              register={register}
+              programKerjasama={program.program_kerjasama}
+              jenisKerjasama={program.jenis_kerjasama}
+            />
+            {/* mesy jkpt */}
+            <h2 className="text-xl  font-bold text-center ">Mesyuarat JKPT</h2>
+            <DateUpdate
+              name="tarikhSurat"
+              label="Tarikh Surat"
+              defValue={program.tarikhSurat}
+              register={register}
+              onChange={(e) => setTarikhSurat2(dayjs(e.target.value).toDate())}
+            />
+            <DateUpdate
+              name="tarikhTerimaSurat"
+              label="Tarikh Terima Surat"
+              defValue={program.tarikhTerimaSurat}
+              register={register}
+            />
+            <DateUpdate
+              name="tarikhMesyuarat"
+              label="Tarikh Mesyuarat"
+              defValue={program.tarikhMesyuarat}
+              register={register}
+            />
+            <SahLaku
+              register={register}
+              defValueTahun={parseInt(program.tempohSah)}
+              // defValueSahSehingga={new Date(program.sahSehingga)}
+              tarikhSurat={dayjs(tarikhSurat2).toDate()}
+              setValue={setValue}
+            />
+            {/* Bil Mesyuarat */}
+            <div className="flex mb-4 items-center">
+              <label htmlFor="bilMesyuarat" className="label-input-msa">
+                Bil Mesyuarat JKPT
+              </label>
+              <div className="w-full flex items-center ">
+                <input
+                  type="text"
+                  id="bilMesyuarat"
+                  required
+                  defaultValue={program.bilMesyuarat}
+                  {...register("bilMesyuarat", {
+                    pattern: /^[0-9]+\/[0-9]{4}$/,
+                  })}
+                  className="input input-bordered w-1/6"
+                  placeholder=" Bil. / Tahun"
+                />
+                {errors.bilMesyuarat &&
+                  errors.bilMesyuarat.type === "pattern" && (
+                    <p className="text-red-500 text-md mt-1 ml-4">
+                      Format haruslah seperti :{" "}
+                      <span className="font-semibold">" Bil./Tahun "</span>
+                    </p>
+                  )}
+              </div>
+            </div>
+            {/* Bil Mesyuarat */}
+            {/* Muat Naik Surat */}
+            <div className="flex mb-4 items-center">
+              <label htmlFor="name" className="label-input-msa">
+                Minit JKPT
+              </label>
+              <div className="w-full flex items-center">
+                <input
+                  type="file"
+                  id="minitJKPT"
+                  {...register("minitJKPT")}
+                  className="file-input file-input-bordered w-1/2"
+                />
+                <a
+                  href={`http://localhost:5000${program.minitJKPT}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline ml-4"
+                >
+                  {program.minitJKPT.split("/").pop()}
+                </a>
+              </div>
+            </div>{" "}
+            <input
+              type="hidden"
+              {...register("existingMinitJKPT")}
+              value={program.minitJKPT}
+            />
+            {/* Muat Naik Surat */}
+            {/* Mesyuarat JKA */}
+            <h2 className="text-xl  font-bold text-center ">Mesyuarat JKA</h2>
+            <DateUpdate
+              name="tarikMesyJKA"
+              label="Tarikh Mesyuarat JKA"
+              defValue={program.tarikMesyJKA}
+              register={register}
+            />
+            {/* Bil Mesyuarat */}
+            <div className="flex mb-4 items-center">
+              <label htmlFor="bilMesyuaratJKA" className="label-input-msa">
+                Bil Mesyuarat JKA
+              </label>
+              <div className="w-full flex items-center ">
+                <input
+                  type="text"
+                  id="bilMesyuaratJKA"
+                  required
+                  defaultValue={program.bilMesyuaratJKA}
+                  {...register("bilMesyuaratJKA", {
+                    pattern: /^[0-9]+\/[0-9]{4}$/,
+                  })}
+                  className="input input-bordered w-1/6"
+                  placeholder=" Bil. / Tahun"
+                />
+                {errors.bilMesyuaratJKA &&
+                  errors.bilMesyuaratJKA.type === "pattern" && (
+                    <p className="text-red-500 text-md mt-1 ml-4">
+                      Format haruslah seperti :{" "}
+                      <span className="font-semibold">" Bil./Tahun "</span>
+                    </p>
+                  )}
+              </div>
+            </div>
+            {/* Bil Mesyuarat */}
+            {/* Muat Naik Surat */}
+            <div className="flex mb-4 items-center">
+              <label htmlFor="name" className="label-input-msa">
+                Minit JKA
+              </label>
+              <div className="w-full flex items-center">
+                <input
+                  type="file"
+                  id="minitJKA"
+                  {...register("minitJKA")}
+                  className="file-input file-input-bordered w-1/2"
+                />
+                <a
+                  href={`http://localhost:5000${program.MinitJKA}`}
+                  className="text-blue-500 underline ml-4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {program.MinitJKA.split("/").pop()}
+                </a>
+              </div>
+            </div>{" "}
+            <input
+              type="hidden"
+              {...register("existingMinitJKA")}
+              value={program.MinitJKA}
+            />
             <div className="flex space-x-4 justify-end">
               <input
                 type="reset"
                 value="Reset"
                 className="btn btn-error shadow-md text-white"
               />
-              <input
+              <button
                 type="submit"
-                value="Save"
                 className="btn btn-primary shadow-md text-white"
-              />
+                onClick={(e) => {
+                  e.preventDefault();
+                  const confirmSave = window.confirm(
+                    "Anda pasti untuk menyimpan perubahan?"
+                  );
+                  if (confirmSave) {
+                    handleSubmit(onSubmit)(); // Call handleSubmit with onSubmit as the argument
+                  }
+                }}
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
