@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 /* eslint-disable @typescript-eslint/no-explicit-any */
-=======
->>>>>>> origin/main
 import { useEffect, useState } from "react";
 import {
   fakulti_List,
@@ -20,11 +17,7 @@ import KerjasamaUpdate from "../components/msaForm/kerjasamaUpdate";
 import DateUpdate from "../components/msaForm/DateUpdate";
 import SahLaku from "../components/msaForm/SahSehinggaUpdate";
 import dayjs from "dayjs";
-<<<<<<< HEAD
 import Swal from "sweetalert2";
-=======
->>>>>>> origin/main
-
 interface Program {
   MinitJKA: any;
   id: number;
@@ -77,10 +70,6 @@ const UpdateMaklumat = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-<<<<<<< HEAD
-=======
-    watch,
->>>>>>> origin/main
   } = useForm();
   const [tarikhSurat2, setTarikhSurat2] = useState<Date | null>(null);
 

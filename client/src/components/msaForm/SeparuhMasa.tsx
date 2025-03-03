@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UseFormRegister } from "react-hook-form";
 
 interface props {
-  register: UseFormRegister<FieldValue>;
+  register: UseFormRegister<any>;
   separuh_max_Tahun?: number;
   separuh_max_Minggu?: number;
   separuh_max_Semester?: string;

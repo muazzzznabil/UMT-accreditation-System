@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 /* eslint-disable @typescript-eslint/no-explicit-any */
-=======
->>>>>>> origin/main
+
 import { SubmitHandler, useForm } from "react-hook-form";
 import KKMUpdate from "../components/msaForm/KKMUpdate";
 import DropdownUpdate from "../components/msaForm/DropDownUpdate";
@@ -19,10 +17,7 @@ import SahLaku from "../components/msaForm/SahSehinggaUpdate";
 import dayjs from "dayjs";
 import { useState } from "react";
 import axios from "axios";
-<<<<<<< HEAD
 import Swal from "sweetalert2";
-=======
->>>>>>> origin/main
 
 const MSAForm_register = () => {
   const {
@@ -53,7 +48,7 @@ const MSAForm_register = () => {
       )
       .then((response) => {
         console.table(response.data);
-<<<<<<< HEAD
+
         Swal.fire({
           title: "Program Registered!",
           text: "Program is successfully registered!",
