@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { bentuk_kerjasama } from "../../constants/maklumatProgram_constant";
-import { FieldValue, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 
 interface props {
-  register: UseFormRegister<FieldValue>;
+  register: UseFormRegister<any>;
   programKerjasama?: string;
   jenisKerjasama?: string;
 }

@@ -67,14 +67,12 @@ const MSAForm_register = () => {
           text: "Program Tidak Berjaya Didaftarkan!",
           // footer: '<a href="#">Why do I have this issue?</a>'
         });
-=======
         alert("Program Berjaya Didaftarkan");
         window.location.href = "/program-list";
       })
       .catch((error) => {
         console.table(error.data);
         alert("Program Tidak Berjaya Didaftarkan");
->>>>>>> origin/main
       });
   };
 
@@ -324,7 +322,6 @@ const MSAForm_register = () => {
                 className="btn btn-primary shadow-md text-white"
                 onClick={(e) => {
                   e.preventDefault();
-<<<<<<< HEAD
                   Swal.fire({
                     title: "Simpan Permohonan Program?",
                     showDenyButton: true,
@@ -337,14 +334,6 @@ const MSAForm_register = () => {
                       Swal.fire("Changes are not saved", "", "info");
                     }
                   });
-=======
-                  const confirmSave = window.confirm(
-                    "Anda pasti untuk menyimpan data?"
-                  );
-                  if (confirmSave) {
-                    handleSubmit(onSubmit)(); // Call handleSubmit with onSubmit as the argument
-                  }
->>>>>>> origin/main
                 }}
               >
                 Save

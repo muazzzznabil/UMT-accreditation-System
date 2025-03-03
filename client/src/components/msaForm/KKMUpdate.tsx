@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
 import { tahap_mqf } from "../../constants/maklumatProgram_constant";
-import { FieldValue, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 
 type TahapNumber = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "";
 
 interface Props {
   valueMQF?: string;
   valueSektorAkademik?: string;
-  register: UseFormRegister<FieldValue>;
+  register: UseFormRegister<any>;
 }
 
 const KKMUpdate: React.FC<Props> = ({
