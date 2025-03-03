@@ -20,8 +20,10 @@ import dayjs from "dayjs";
 import Swal from "sweetalert2";
 interface Program {
   MinitJKA: any;
+  MinitJKA: any;
   id: number;
   nama_program: string;
+  tahapMQF: string;
   tahapMQF: string;
   sektorAkademik: string;
   code_nec: string;
@@ -47,9 +49,14 @@ interface Program {
   Separuh_LatihanIndustri_Semester: string;
   konvensional: string;
   odl: string;
+  konvensional: string;
+  odl: string;
   struktur_program: string;
   program_kerjasama: string;
   jenis_kerjasama: string;
+  tarikhSurat: Date;
+  tarikhTerimaSurat: Date;
+  tarikhMesyuarat: Date;
   tarikhSurat: Date;
   tarikhTerimaSurat: Date;
   tarikhMesyuarat: Date;
@@ -57,6 +64,7 @@ interface Program {
   sahSehingga: string;
   bilMesyuarat: string;
   minitJKPT: string;
+  tarikMesyJKA: Date;
   tarikMesyJKA: Date;
   bilMesyuaratJKA: string;
   minitJKA: string;
@@ -79,7 +87,9 @@ const UpdateMaklumat = () => {
         `http://localhost:5000/pendaftaran-program/maklumat-program/${id}`
       );
       console.table(response.data[0]);
+      console.table(response.data[0]);
       setProgram(response.data[0]);
+      setTarikhSurat2(response.data[0].tarikhSurat);
       setTarikhSurat2(response.data[0].tarikhSurat);
     } catch (error) {
       console.error(error);
@@ -147,7 +157,9 @@ const UpdateMaklumat = () => {
   console.log(`program : ${program.id}`);
   return (
     <form method="POST" onSubmit={handleSubmit(onSubmit)}>
+    <form method="POST" onSubmit={handleSubmit(onSubmit)}>
       <div className="container mx-auto mt-5 font-sans flex flex-col">
+        <h1 className="text-xl font-bold">UPDATE: {program.nama_program}</h1>
         <h1 className="text-xl font-bold">UPDATE: {program.nama_program}</h1>
         <div className="breadcrumbs text-md mb-2">
           <ul>
@@ -161,6 +173,7 @@ const UpdateMaklumat = () => {
           </ul>
         </div>
         <div className="container mt-10 mb-32 mx-auto flex flex-col bg-gray-100 p-6 rounded-md shadow-md">
+          <h2 className="text-xl font-bold text-center mb-5">
           <h2 className="text-xl font-bold text-center mb-5">
             Maklumat Program
           </h2>
@@ -184,13 +197,36 @@ const UpdateMaklumat = () => {
               register={register}
             />
             <DropdownUpdate
+            <div className="flex mb-4 items-center">
+              <label htmlFor="nama_program" className="label-input-msa">
+                Nama Program
+              </label>
+              <input
+                id="nama_program"
+                defaultValue={program.nama_program}
+                placeholder={program.nama_program}
+                required
+                className="input input-bordered w-full"
+                {...register("nama_program")}
+              />
+            </div>
+            <KKMUpdate
+              valueMQF={program.tahapMQF}
+              valueSektorAkademik={program.sektorAkademik}
+              register={register}
+            />
+            <DropdownUpdate
               label={"Code NEC"}
               options={Nec_Code_List}
               labelId={"code_nec"}
               defaultValue={program.code_nec}
+              defaultValue={program.code_nec}
               placeholderOptions={"Sila Pilih Code NEC"}
               register={register}
+              register={register}
             />
+            <DropdownUpdate
+              label={"Mode Penawaran"}
             <DropdownUpdate
               label={"Mode Penawaran"}
               options={mod_penawaran}
@@ -198,15 +234,91 @@ const UpdateMaklumat = () => {
               defaultValue={program.mode_penawaran}
               placeholderOptions={"Sila Pilih Mode Penawaran"}
               register={register}
+              defaultValue={program.mode_penawaran}
+              placeholderOptions={"Sila Pilih Mode Penawaran"}
+              register={register}
             />
+            <DropdownUpdate
             <DropdownUpdate
               label={"Fakulti"}
               options={fakulti_List}
               labelId={"fakulti"}
               defaultValue={program.fakulti}
+              defaultValue={program.fakulti}
               placeholderOptions={"Sila Pilih Fakulti"}
               register={register}
+              register={register}
             />
+            <SepenuhMasa
+              register={register}
+              Sepenuh_max_Tahun={program.Sepenuh_max_Tahun}
+              Sepenuh_max_Minggu={program.Sepenuh_max_Minggu}
+              Sepenuh_max_Semester={program.Sepenuh_max_Semester}
+              Sepenuh_min_Tahun={program.Sepenuh_min_Tahun}
+              Sepenuh_min_Minggu={program.Sepenuh_min_Minggu}
+              Sepenuh_min_Semester={program.Sepenuh_min_Semester}
+              Sepenuh_SemesterPanjang_Semester={
+                program.Sepenuh_SemesterPanjang_Semester
+              }
+              Sepenuh_SemesterPendek_Semester={
+                program.Sepenuh_SemesterPendek_Semester
+              }
+              Sepenuh_LatihanIndustri_Semester={
+                program.Sepenuh_LatihanIndustri_Semester
+              }
+            />
+            <SeparuhMasa
+              register={register}
+              separuh_max_Tahun={parseInt(program.Separuh_max_Tahun)}
+              separuh_max_Minggu={parseInt(program.Separuh_max_Minggu)}
+              separuh_max_Semester={program.Separuh_max_Semester}
+              separuh_min_Tahun={program.Separuh_min_Tahun}
+              separuh_min_Minggu={program.Separuh_min_Minggu}
+              separuh_min_Semester={program.Separuh_min_Semester}
+              separuh_SemesterPanjang_Semester={
+                program.Separuh_SemesterPanjang_Semester
+              }
+              separuh_SemesterPendek_Semester={
+                program.Separuh_SemesterPendek_Semester
+              }
+              separuh_LatihanIndustri_Semester={
+                program.Separuh_LatihanIndustri_Semester
+              }
+            />
+            <div className="flex w-full items-center">
+              <label htmlFor="mod_penyampaian" className="label-input-msa">
+                Mod Penyampaian
+              </label>
+              <div className="w-full flex justify-between">
+                <div className="flex items-start ">
+                  <div className="inline-flex items-center mr-4">
+                    <input
+                      type="checkbox"
+                      id="konvensional"
+                      defaultChecked={program.konvensional == "true"}
+                      className="checkbox mr-2"
+                      {...register("konvensional")}
+                    />
+                    <label htmlFor="konvensional" className=" text-md">
+                      Konvensional/Terbuka
+                    </label>
+                  </div>
+                  <div className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      id="ODL"
+                      defaultChecked={program.odl === "true"}
+                      className="checkbox mr-2"
+                      {...register("ODL")}
+                    />
+                    <label htmlFor="ODL" className=" text-md">
+                      Jarak Jauh (ODL)
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <DropdownUpdate
             <SepenuhMasa
               register={register}
               Sepenuh_max_Tahun={program.Sepenuh_max_Tahun}
@@ -281,7 +393,9 @@ const UpdateMaklumat = () => {
               options={struktur_program}
               labelId={"struktur_program"}
               defaultValue={program.struktur_program}
+              defaultValue={program.struktur_program}
               placeholderOptions={"Sila Pilih Struktur Program"}
+              register={register}
               register={register}
             />
             <KerjasamaUpdate
@@ -290,7 +404,25 @@ const UpdateMaklumat = () => {
               jenisKerjasama={program.jenis_kerjasama}
             />
             {/* mesy jkpt */}
+            <KerjasamaUpdate
+              register={register}
+              programKerjasama={program.program_kerjasama}
+              jenisKerjasama={program.jenis_kerjasama}
+            />
+            {/* mesy jkpt */}
             <h2 className="text-xl  font-bold text-center ">Mesyuarat JKPT</h2>
+            <DateUpdate
+              name="tarikhSurat"
+              label="Tarikh Surat"
+              defValue={program.tarikhSurat}
+              register={register}
+              onChange={(e) => setTarikhSurat2(dayjs(e.target.value).toDate())}
+            />
+            <DateUpdate
+              name="tarikhTerimaSurat"
+              label="Tarikh Terima Surat"
+              defValue={program.tarikhTerimaSurat}
+              register={register}
             <DateUpdate
               name="tarikhSurat"
               label="Tarikh Surat"
@@ -318,15 +450,48 @@ const UpdateMaklumat = () => {
               setValue={setValue}
             />
             {/* Bil Mesyuarat */}
+            <DateUpdate
+              name="tarikhMesyuarat"
+              label="Tarikh Mesyuarat"
+              defValue={program.tarikhMesyuarat}
+              register={register}
+            />
+            <SahLaku
+              register={register}
+              defValueTahun={parseInt(program.tempohSah)}
+              // defValueSahSehingga={new Date(program.sahSehingga)}
+              tarikhSurat={dayjs(tarikhSurat2).toDate()}
+              setValue={setValue}
+            />
+            {/* Bil Mesyuarat */}
             <div className="flex mb-4 items-center">
+              <label htmlFor="bilMesyuarat" className="label-input-msa">
+                Bil Mesyuarat JKPT
               <label htmlFor="bilMesyuarat" className="label-input-msa">
                 Bil Mesyuarat JKPT
               </label>
               <div className="w-full flex items-center ">
+              <div className="w-full flex items-center ">
                 <input
                   type="text"
                   id="bilMesyuarat"
+                  type="text"
+                  id="bilMesyuarat"
                   required
+                  defaultValue={program.bilMesyuarat}
+                  {...register("bilMesyuarat", {
+                    pattern: /^[0-9]+\/[0-9]{4}$/,
+                  })}
+                  className="input input-bordered w-1/6"
+                  placeholder=" Bil. / Tahun"
+                />
+                {errors.bilMesyuarat &&
+                  errors.bilMesyuarat.type === "pattern" && (
+                    <p className="text-red-500 text-md mt-1 ml-4">
+                      Format haruslah seperti :{" "}
+                      <span className="font-semibold">" Bil./Tahun "</span>
+                    </p>
+                  )}
                   defaultValue={program.bilMesyuarat}
                   {...register("bilMesyuarat", {
                     pattern: /^[0-9]+\/[0-9]{4}$/,
@@ -381,8 +546,47 @@ const UpdateMaklumat = () => {
               register={register}
             />
             {/* Bil Mesyuarat */}
+            {/* Bil Mesyuarat */}
+            {/* Muat Naik Surat */}
+            <div className="flex mb-4 items-center">
+              <label htmlFor="name" className="label-input-msa">
+                Minit JKPT
+              </label>
+              <div className="w-full flex items-center">
+                <input
+                  type="file"
+                  id="minitJKPT"
+                  {...register("minitJKPT")}
+                  className="file-input file-input-bordered w-1/2"
+                />
+                <a
+                  href={`http://localhost:5000${program.minitJKPT}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline ml-4"
+                >
+                  {program.minitJKPT.split("/").pop()}
+                </a>
+              </div>
+            </div>{" "}
+            <input
+              type="hidden"
+              {...register("existingMinitJKPT")}
+              value={program.minitJKPT}
+            />
+            {/* Muat Naik Surat */}
+            {/* Mesyuarat JKA */}
+            <h2 className="text-xl  font-bold text-center ">Mesyuarat JKA</h2>
+            <DateUpdate
+              name="tarikMesyJKA"
+              label="Tarikh Mesyuarat JKA"
+              defValue={program.tarikMesyJKA}
+              register={register}
+            />
+            {/* Bil Mesyuarat */}
             <div className="flex mb-4 items-center">
               <label htmlFor="bilMesyuaratJKA" className="label-input-msa">
+                Bil Mesyuarat JKA
                 Bil Mesyuarat JKA
               </label>
               <div className="w-full flex items-center ">
@@ -394,8 +598,21 @@ const UpdateMaklumat = () => {
                   {...register("bilMesyuaratJKA", {
                     pattern: /^[0-9]+\/[0-9]{4}$/,
                   })}
+                  required
+                  defaultValue={program.bilMesyuaratJKA}
+                  {...register("bilMesyuaratJKA", {
+                    pattern: /^[0-9]+\/[0-9]{4}$/,
+                  })}
                   className="input input-bordered w-1/6"
                   placeholder=" Bil. / Tahun"
+                />
+                {errors.bilMesyuaratJKA &&
+                  errors.bilMesyuaratJKA.type === "pattern" && (
+                    <p className="text-red-500 text-md mt-1 ml-4">
+                      Format haruslah seperti :{" "}
+                      <span className="font-semibold">" Bil./Tahun "</span>
+                    </p>
+                  )}
                 />
                 {errors.bilMesyuaratJKA &&
                   errors.bilMesyuaratJKA.type === "pattern" && (
@@ -433,6 +650,33 @@ const UpdateMaklumat = () => {
               type="hidden"
               {...register("existingMinitJKA")}
               value={program.MinitJKA}
+            {/* Bil Mesyuarat */}
+            {/* Muat Naik Surat */}
+            <div className="flex mb-4 items-center">
+              <label htmlFor="name" className="label-input-msa">
+                Minit JKA
+              </label>
+              <div className="w-full flex items-center">
+                <input
+                  type="file"
+                  id="minitJKA"
+                  {...register("minitJKA")}
+                  className="file-input file-input-bordered w-1/2"
+                />
+                <a
+                  href={`http://localhost:5000${program.MinitJKA}`}
+                  className="text-blue-500 underline ml-4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {program.MinitJKA.split("/").pop()}
+                </a>
+              </div>
+            </div>{" "}
+            <input
+              type="hidden"
+              {...register("existingMinitJKA")}
+              value={program.MinitJKA}
             />
             <div className="flex space-x-4 justify-end">
               <input
@@ -440,6 +684,7 @@ const UpdateMaklumat = () => {
                 value="Batal"
                 className="btn btn-error shadow-md text-white"
               />
+              <button
               <button
                 type="submit"
                 className="btn btn-primary shadow-md text-white"
