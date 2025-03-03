@@ -1,90 +1,29 @@
-import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import KKMUpdate from "../components/msaForm/KKMUpdate";
+import DropdownUpdate from "../components/msaForm/DropDownUpdate";
 import {
   fakulti_List,
   mod_penawaran,
   Nec_Code_List,
   struktur_program,
 } from "../constants/maklumatProgram_constant";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import KKMUpdate from "../components/msaForm/KKMUpdate";
-import { SubmitHandler, useForm } from "react-hook-form";
-import DropdownUpdate from "../components/msaForm/DropDownUpdate";
 import SepenuhMasa from "../components/msaForm/SepenuhMasa";
 import SeparuhMasa from "../components/msaForm/SeparuhMasa";
 import KerjasamaUpdate from "../components/msaForm/kerjasamaUpdate";
 import DateUpdate from "../components/msaForm/DateUpdate";
 import SahLaku from "../components/msaForm/SahSehinggaUpdate";
 import dayjs from "dayjs";
+import { useState } from "react";
+import axios from "axios";
 
-interface Program {
-  MinitJKA: any;
-  id: number;
-  nama_program: string;
-  tahapMQF: string;
-  sektorAkademik: string;
-  code_nec: string;
-  mode_penawaran: string;
-  fakulti: string;
-  Sepenuh_max_Tahun: string;
-  Sepenuh_max_Minggu: string;
-  Sepenuh_max_Semester: string;
-  Sepenuh_min_Tahun: string;
-  Sepenuh_min_Minggu: string;
-  Sepenuh_min_Semester: string;
-  Sepenuh_SemesterPanjang_Semester: string;
-  Sepenuh_SemesterPendek_Semester: string;
-  Sepenuh_LatihanIndustri_Semester: string;
-  Separuh_max_Tahun: string;
-  Separuh_max_Minggu: string;
-  Separuh_max_Semester: string;
-  Separuh_min_Tahun: string;
-  Separuh_min_Minggu: string;
-  Separuh_min_Semester: string;
-  Separuh_SemesterPanjang_Semester: string;
-  Separuh_SemesterPendek_Semester: string;
-  Separuh_LatihanIndustri_Semester: string;
-  konvensional: string;
-  odl: string;
-  struktur_program: string;
-  program_kerjasama: string;
-  jenis_kerjasama: string;
-  tarikhSurat: Date;
-  tarikhTerimaSurat: Date;
-  tarikhMesyuarat: Date;
-  tempohSah: string;
-  sahSehingga: string;
-  bilMesyuarat: string;
-  minitJKPT: string;
-  tarikMesyJKA: Date;
-  bilMesyuaratJKA: string;
-  minitJKA: string;
-}
-
-const UpdateMaklumat = () => {
-  const [program, setProgram] = useState<Program | null>(null);
-  const { id } = useParams();
+const MSAForm_register = () => {
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-    watch,
   } = useForm();
-  const [tarikhSurat2, setTarikhSurat2] = useState<Date | null>(null);
-
-  const getProgram = async () => {
-    try {
-      const response = await axios.get<Program[]>(
-        `http://localhost:5000/pendaftaran-program/maklumat-program/${id}`
-      );
-      console.table(response.data[0]);
-      setProgram(response.data[0]);
-      setTarikhSurat2(response.data[0].tarikhSurat);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [tarikhSurat2, setTarikhSurat2] = useState<Date>(new Date());
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const formData = new FormData();
@@ -95,55 +34,40 @@ const UpdateMaklumat = () => {
         formData.append(key, data[key]);
       }
     }
-
-    // Log the FormData entries for debugging
     for (const [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
-
     axios
-      .put(
-        `http://localhost:5000/pendaftaran-program/maklumat-program/${id}/edit2`,
+      .post(
+        `http://localhost:5000/pendaftaran-program/maklumat-program`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       )
       .then((response) => {
         console.table(response.data);
-        alert("Program updated:");
+        alert("Program Berjaya Didaftarkan");
         window.location.href = "/program-list";
       })
       .catch((error) => {
         console.table(error.data);
-        alert("Program not updated:");
+        alert("Program Tidak Berjaya Didaftarkan");
       });
   };
 
-  // const onSubmit: SubmitHandler<any> = async (data) => {
-  //   console.table(data);
-  // };
+  //   const onSubmit: SubmitHandler<any> = async (data) => {
+  //     console.table(data);
+  //   };
 
-  useEffect(() => {
-    getProgram();
-  }, [id]);
-
-  if (!program) {
-    return <div>Loading...</div>;
-  }
-
-  console.log(`program : ${program.id}`);
   return (
     <form method="POST" onSubmit={handleSubmit(onSubmit)}>
       <div className="container mx-auto mt-5 font-sans flex flex-col">
-        <h1 className="text-xl font-bold">UPDATE: {program.nama_program}</h1>
+        <h1 className="text-xl  font-bold">PERMOHONAN PROGRAM</h1>
         <div className="breadcrumbs text-md mb-2">
           <ul>
             <li>
               <a href="/">Home</a>
             </li>
-            <li>
-              <a href="/program-list">Program List For MSA Application</a>
-            </li>
-            <li>Update : {program.nama_program}</li>
+            <li>Daftar Program Baru</li>
           </ul>
         </div>
         <div className="container mt-10 mb-32 mx-auto flex flex-col bg-gray-100 p-6 rounded-md shadow-md">
@@ -157,23 +81,23 @@ const UpdateMaklumat = () => {
               </label>
               <input
                 id="nama_program"
-                defaultValue={program.nama_program}
-                placeholder={program.nama_program}
+                // defaultValue={program.nama_program}
+                placeholder="Sila Masukkan Nama Program"
                 required
                 className="input input-bordered w-full"
                 {...register("nama_program")}
               />
             </div>
             <KKMUpdate
-              valueMQF={program.tahapMQF}
-              valueSektorAkademik={program.sektorAkademik}
+              //   valueMQF={program.tahapMQF}
+              //   valueSektorAkademik={program.sektorAkademik}
               register={register}
             />
             <DropdownUpdate
               label={"Code NEC"}
               options={Nec_Code_List}
               labelId={"code_nec"}
-              defaultValue={program.code_nec}
+              defaultValue={"placeholder"}
               placeholderOptions={"Sila Pilih Code NEC"}
               register={register}
             />
@@ -181,7 +105,7 @@ const UpdateMaklumat = () => {
               label={"Mode Penawaran"}
               options={mod_penawaran}
               labelId={"mode_penawaran"}
-              defaultValue={program.mode_penawaran}
+              defaultValue={"placeholder"}
               placeholderOptions={"Sila Pilih Mode Penawaran"}
               register={register}
             />
@@ -189,46 +113,23 @@ const UpdateMaklumat = () => {
               label={"Fakulti"}
               options={fakulti_List}
               labelId={"fakulti"}
-              defaultValue={program.fakulti}
+              defaultValue={"placeholder"}
               placeholderOptions={"Sila Pilih Fakulti"}
               register={register}
             />
             <SepenuhMasa
               register={register}
-              Sepenuh_max_Tahun={program.Sepenuh_max_Tahun}
-              Sepenuh_max_Minggu={program.Sepenuh_max_Minggu}
-              Sepenuh_max_Semester={program.Sepenuh_max_Semester}
-              Sepenuh_min_Tahun={program.Sepenuh_min_Tahun}
-              Sepenuh_min_Minggu={program.Sepenuh_min_Minggu}
-              Sepenuh_min_Semester={program.Sepenuh_min_Semester}
-              Sepenuh_SemesterPanjang_Semester={
-                program.Sepenuh_SemesterPanjang_Semester
-              }
-              Sepenuh_SemesterPendek_Semester={
-                program.Sepenuh_SemesterPendek_Semester
-              }
-              Sepenuh_LatihanIndustri_Semester={
-                program.Sepenuh_LatihanIndustri_Semester
-              }
+              Sepenuh_LatihanIndustri_Semester={"placeholder"}
+              Sepenuh_SemesterPendek_Semester="placeholder"
+              Sepenuh_SemesterPanjang_Semester="placeholder"
+              Sepenuh_min_Minggu="placeholder"
+              Sepenuh_min_Semester="placeholder"
+              Sepenuh_min_Tahun="placeholder"
+              Sepenuh_max_Minggu="placeholder"
+              Sepenuh_max_Semester="placeholder"
+              Sepenuh_max_Tahun="placeholder"
             />
-            <SeparuhMasa
-              register={register}
-              separuh_max_Tahun={parseInt(program.Separuh_max_Tahun)}
-              separuh_max_Minggu={parseInt(program.Separuh_max_Minggu)}
-              separuh_max_Semester={program.Separuh_max_Semester}
-              separuh_min_Tahun={program.Separuh_min_Tahun}
-              separuh_min_Minggu={program.Separuh_min_Minggu}
-              separuh_min_Semester={program.Separuh_min_Semester}
-              separuh_SemesterPanjang_Semester={
-                program.Separuh_SemesterPanjang_Semester
-              }
-              separuh_SemesterPendek_Semester={
-                program.Separuh_SemesterPendek_Semester
-              }
-              separuh_LatihanIndustri_Semester={
-                program.Separuh_LatihanIndustri_Semester
-              }
-            />
+            <SeparuhMasa register={register} />
             <div className="flex w-full items-center">
               <label htmlFor="mod_penyampaian" className="label-input-msa">
                 Mod Penyampaian
@@ -239,9 +140,9 @@ const UpdateMaklumat = () => {
                     <input
                       type="checkbox"
                       id="konvensional"
-                      defaultChecked={program.konvensional == "true"}
-                      className="checkbox mr-2"
                       {...register("konvensional")}
+                      className="checkbox  mr-2"
+                      onChange={(e) => setValue("konvensional", e.target.value)}
                     />
                     <label htmlFor="konvensional" className=" text-md">
                       Konvensional/Terbuka
@@ -251,9 +152,8 @@ const UpdateMaklumat = () => {
                     <input
                       type="checkbox"
                       id="ODL"
-                      defaultChecked={program.odl === "true"}
-                      className="checkbox mr-2"
                       {...register("ODL")}
+                      className="checkbox  mr-2"
                     />
                     <label htmlFor="ODL" className=" text-md">
                       Jarak Jauh (ODL)
@@ -266,42 +166,40 @@ const UpdateMaklumat = () => {
               label={"Struktur Program"}
               options={struktur_program}
               labelId={"struktur_program"}
-              defaultValue={program.struktur_program}
+              defaultValue={"placeholder"}
               placeholderOptions={"Sila Pilih Struktur Program"}
               register={register}
             />
             <KerjasamaUpdate
               register={register}
-              programKerjasama={program.program_kerjasama}
-              jenisKerjasama={program.jenis_kerjasama}
+              programKerjasama="placeholder"
+              jenisKerjasama="placeholder"
             />
             {/* mesy jkpt */}
             <h2 className="text-xl  font-bold text-center ">Mesyuarat JKPT</h2>
             <DateUpdate
               name="tarikhSurat"
               label="Tarikh Surat"
-              defValue={program.tarikhSurat}
+              placeholder="Tarikh Surat"
               register={register}
               onChange={(e) => setTarikhSurat2(dayjs(e.target.value).toDate())}
             />
             <DateUpdate
               name="tarikhTerimaSurat"
               label="Tarikh Terima Surat"
-              defValue={program.tarikhTerimaSurat}
               register={register}
+              placeholder="Tarikh Terima Surat"
             />
             <DateUpdate
               name="tarikhMesyuarat"
               label="Tarikh Mesyuarat"
-              defValue={program.tarikhMesyuarat}
+              placeholder="Tarikh Mesyuarat"
               register={register}
             />
             <SahLaku
               register={register}
-              defValueTahun={parseInt(program.tempohSah)}
-              // defValueSahSehingga={new Date(program.sahSehingga)}
-              tarikhSurat={dayjs(tarikhSurat2).toDate()}
               setValue={setValue}
+              tarikhSurat={dayjs(tarikhSurat2).toDate()}
             />
             {/* Bil Mesyuarat */}
             <div className="flex mb-4 items-center">
@@ -313,7 +211,6 @@ const UpdateMaklumat = () => {
                   type="text"
                   id="bilMesyuarat"
                   required
-                  defaultValue={program.bilMesyuarat}
                   {...register("bilMesyuarat", {
                     pattern: /^[0-9]+\/[0-9]{4}$/,
                   })}
@@ -342,28 +239,14 @@ const UpdateMaklumat = () => {
                   {...register("minitJKPT")}
                   className="file-input file-input-bordered w-1/2"
                 />
-                <a
-                  href={`http://localhost:5000${program.minitJKPT}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline ml-4"
-                >
-                  {program.minitJKPT.split("/").pop()}
-                </a>
               </div>
             </div>{" "}
-            <input
-              type="hidden"
-              {...register("existingMinitJKPT")}
-              value={program.minitJKPT}
-            />
             {/* Muat Naik Surat */}
             {/* Mesyuarat JKA */}
             <h2 className="text-xl  font-bold text-center ">Mesyuarat JKA</h2>
             <DateUpdate
               name="tarikMesyJKA"
               label="Tarikh Mesyuarat JKA"
-              defValue={program.tarikMesyJKA}
               register={register}
             />
             {/* Bil Mesyuarat */}
@@ -376,7 +259,6 @@ const UpdateMaklumat = () => {
                   type="text"
                   id="bilMesyuaratJKA"
                   required
-                  defaultValue={program.bilMesyuaratJKA}
                   {...register("bilMesyuaratJKA", {
                     pattern: /^[0-9]+\/[0-9]{4}$/,
                   })}
@@ -405,21 +287,8 @@ const UpdateMaklumat = () => {
                   {...register("minitJKA")}
                   className="file-input file-input-bordered w-1/2"
                 />
-                <a
-                  href={`http://localhost:5000${program.MinitJKA}`}
-                  className="text-blue-500 underline ml-4"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {program.MinitJKA.split("/").pop()}
-                </a>
               </div>
             </div>{" "}
-            <input
-              type="hidden"
-              {...register("existingMinitJKA")}
-              value={program.MinitJKA}
-            />
             <div className="flex space-x-4 justify-end">
               <input
                 type="reset"
@@ -432,7 +301,7 @@ const UpdateMaklumat = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   const confirmSave = window.confirm(
-                    "Anda pasti untuk menyimpan perubahan?"
+                    "Anda pasti untuk menyimpan data?"
                   );
                   if (confirmSave) {
                     handleSubmit(onSubmit)(); // Call handleSubmit with onSubmit as the argument
@@ -449,4 +318,4 @@ const UpdateMaklumat = () => {
   );
 };
 
-export default UpdateMaklumat;
+export default MSAForm_register;

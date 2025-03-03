@@ -5,7 +5,7 @@ import { FieldValue, UseFormRegister, UseFormSetValue } from "react-hook-form";
 interface Props {
   register: UseFormRegister<FieldValue>;
   setValue: UseFormSetValue<FieldValue>;
-  defValueTahun: number;
+  defValueTahun?: number;
   //   defValueSahSehingga: Date;
   tarikhSurat: Date;
 }

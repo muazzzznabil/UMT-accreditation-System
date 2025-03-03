@@ -17,7 +17,6 @@ const DropdownUpdate: FC<DropdownMenuProps> = ({
   options,
   value,
   placeholderOptions,
-  //   onChange,
   labelId,
   defaultValue,
   register,
@@ -35,7 +34,7 @@ const DropdownUpdate: FC<DropdownMenuProps> = ({
         defaultValue={defaultValue}
         {...register(labelId)}
       >
-        <option value="" disabled hidden className="text-gray-400">
+        <option value="placeholder" disabled hidden className="text-gray-400">
           {placeholderOptions}
         </option>
         {options.map((option, index) => (

@@ -2,15 +2,15 @@ import { FieldValue, UseFormRegister } from "react-hook-form";
 
 interface props {
   register: UseFormRegister<FieldValue>;
-  Sepenuh_max_Tahun: number;
-  Sepenuh_max_Minggu: number;
-  Sepenuh_max_Semester: string;
-  Sepenuh_min_Tahun: string;
-  Sepenuh_min_Minggu: string;
-  Sepenuh_min_Semester: string;
-  Sepenuh_SemesterPanjang_Semester: string;
-  Sepenuh_SemesterPendek_Semester: string;
-  Sepenuh_LatihanIndustri_Semester: string;
+  Sepenuh_max_Tahun?: string;
+  Sepenuh_max_Minggu?: string;
+  Sepenuh_max_Semester?: string;
+  Sepenuh_min_Tahun?: string;
+  Sepenuh_min_Minggu?: string;
+  Sepenuh_min_Semester?: string;
+  Sepenuh_SemesterPanjang_Semester?: string;
+  Sepenuh_SemesterPendek_Semester?: string;
+  Sepenuh_LatihanIndustri_Semester?: string;
 }
 
 const SepenuhMasa: React.FC<props> = ({
@@ -42,7 +42,12 @@ const SepenuhMasa: React.FC<props> = ({
               className="select select-bordered "
               defaultValue={Sepenuh_max_Tahun}
             >
-              <option value="" disabled hidden className="text-gray-400">
+              <option
+                value="placeholder"
+                disabled
+                hidden
+                className="text-gray-400"
+              >
                 Tahun
               </option>
               {[...Array(10).keys()].map((i) => (
@@ -57,7 +62,12 @@ const SepenuhMasa: React.FC<props> = ({
               className="select select-bordered "
               defaultValue={Sepenuh_max_Minggu}
             >
-              <option value="" disabled hidden className="text-gray-400">
+              <option
+                value="placeholder"
+                disabled
+                hidden
+                className="text-gray-400"
+              >
                 Minggu
               </option>
               {[...Array(52).keys()].map((i) => (
@@ -73,7 +83,12 @@ const SepenuhMasa: React.FC<props> = ({
             className="select select-bordered w-full mt-2"
             defaultValue={Sepenuh_max_Semester}
           >
-            <option value="" disabled hidden className="text-gray-400">
+            <option
+              value="placeholder"
+              disabled
+              hidden
+              className="text-gray-400"
+            >
               Semester
             </option>
             {[...Array(12).keys()].map((i) => (
@@ -94,7 +109,12 @@ const SepenuhMasa: React.FC<props> = ({
               className="select select-bordered "
               defaultValue={Sepenuh_min_Tahun}
             >
-              <option value="" disabled hidden className="text-gray-400">
+              <option
+                value="placeholder"
+                disabled
+                hidden
+                className="text-gray-400"
+              >
                 Tahun
               </option>
               {[...Array(10).keys()].map((i) => (
@@ -109,7 +129,12 @@ const SepenuhMasa: React.FC<props> = ({
               className="select select-bordered "
               defaultValue={Sepenuh_min_Minggu}
             >
-              <option value="" disabled hidden className="text-gray-400">
+              <option
+                value="placeholder"
+                disabled
+                hidden
+                className="text-gray-400"
+              >
                 Minggu
               </option>
               {[...Array(52).keys()].map((i) => (
@@ -125,7 +150,12 @@ const SepenuhMasa: React.FC<props> = ({
             className="select select-bordered w-full mt-2"
             defaultValue={Sepenuh_min_Semester}
           >
-            <option value="" disabled hidden className="text-gray-400">
+            <option
+              value="placeholder"
+              disabled
+              hidden
+              className="text-gray-400"
+            >
               Semester
             </option>
             {[...Array(12).keys()].map((i) => (
@@ -147,7 +177,12 @@ const SepenuhMasa: React.FC<props> = ({
             className="select select-bordered w-full"
             defaultValue={Sepenuh_SemesterPanjang_Semester}
           >
-            <option value="" disabled hidden className="text-gray-400">
+            <option
+              value="placeholder"
+              disabled
+              hidden
+              className="text-gray-400"
+            >
               Semester
             </option>
             {[...Array(12).keys()].map((i) => (
@@ -167,7 +202,12 @@ const SepenuhMasa: React.FC<props> = ({
             className="select select-bordered w-full"
             defaultValue={Sepenuh_SemesterPendek_Semester}
           >
-            <option value="" disabled hidden className="text-gray-400">
+            <option
+              value="placeholder"
+              disabled
+              hidden
+              className="text-gray-400"
+            >
               Semester
             </option>
             {[...Array(12).keys()].map((i) => (
@@ -189,7 +229,12 @@ const SepenuhMasa: React.FC<props> = ({
             className="select select-bordered w-full"
             defaultValue={Sepenuh_LatihanIndustri_Semester}
           >
-            <option value="" disabled hidden className="text-gray-400">
+            <option
+              value="placeholder"
+              disabled
+              hidden
+              className="text-gray-400"
+            >
               Semester
             </option>
             {[...Array(12).keys()].map((i) => (

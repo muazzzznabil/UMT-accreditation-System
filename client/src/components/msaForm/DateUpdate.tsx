@@ -9,6 +9,7 @@ interface DatePickerProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   register: UseFormRegister<FieldValue>;
   defValue?: Date;
+  placeholder?: string;
 }
 
 const DateUpdate = ({
@@ -17,6 +18,7 @@ const DateUpdate = ({
   onChange,
   register,
   defValue,
+  placeholder,
 }: DatePickerProps) => {
   return (
     <div className="flex mb-4 items-center">
@@ -28,6 +30,7 @@ const DateUpdate = ({
           type="date"
           required
           id={name}
+          placeholder={placeholder}
           {...register(name)}
           onChange={onChange}
           defaultValue={
