@@ -104,3 +104,4 @@ VALUES (
   '2025-01-17', '4/25','/uploads/documents/SRS_S65752.pdf'
 );
 
+SELECT * FROM maklumat_program WHERE id = 27;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SubmitHandler, useForm } from "react-hook-form";
 import KKMUpdate from "../components/msaForm/KKMUpdate";
 import DropdownUpdate from "../components/msaForm/DropDownUpdate";
@@ -15,6 +16,7 @@ import SahLaku from "../components/msaForm/SahSehinggaUpdate";
 import dayjs from "dayjs";
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const MSAForm_register = () => {
   const {
@@ -45,12 +47,24 @@ const MSAForm_register = () => {
       )
       .then((response) => {
         console.table(response.data);
-        alert("Program Berjaya Didaftarkan");
-        window.location.href = "/program-list";
+        Swal.fire({
+          title: "Program Registered!",
+          text: "Program is successfully registered!",
+          icon: "success",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/program-list";
+          }
+        });
       })
       .catch((error) => {
         console.table(error.data);
-        alert("Program Tidak Berjaya Didaftarkan");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Program Tidak Berjaya Didaftarkan!",
+          // footer: '<a href="#">Why do I have this issue?</a>'
+        });
       });
   };
 
@@ -300,12 +314,18 @@ const MSAForm_register = () => {
                 className="btn btn-primary shadow-md text-white"
                 onClick={(e) => {
                   e.preventDefault();
-                  const confirmSave = window.confirm(
-                    "Anda pasti untuk menyimpan data?"
-                  );
-                  if (confirmSave) {
-                    handleSubmit(onSubmit)(); // Call handleSubmit with onSubmit as the argument
-                  }
+                  Swal.fire({
+                    title: "Simpan Permohonan Program?",
+                    showDenyButton: true,
+                    confirmButtonText: "Simpan",
+                    denyButtonText: `Batal`,
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      handleSubmit(onSubmit)();
+                    } else if (result.isDenied) {
+                      Swal.fire("Changes are not saved", "", "info");
+                    }
+                  });
                 }}
               >
                 Save

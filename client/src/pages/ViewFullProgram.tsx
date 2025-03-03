@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ViewFullProgram = () => {
   const [program, setProgram] = useState<Program | null>(null);
@@ -56,8 +58,19 @@ const ViewFullProgram = () => {
       );
       console.table(response.data);
       setProgram(response.data[0]);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Gagal Mendapatkan Program",
+        text: "Berlaku ralat semasa mendapatkan program",
+        footer: "Ralat :" + error.message,
+        confirmButtonText: "Cuba Lagi",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          getProgram();
+        }
+      });
     }
   };
 

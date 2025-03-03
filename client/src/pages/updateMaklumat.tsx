@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import {
   fakulti_List,
@@ -16,6 +17,7 @@ import KerjasamaUpdate from "../components/msaForm/kerjasamaUpdate";
 import DateUpdate from "../components/msaForm/DateUpdate";
 import SahLaku from "../components/msaForm/SahSehinggaUpdate";
 import dayjs from "dayjs";
+import Swal from "sweetalert2";
 
 interface Program {
   MinitJKA: any;
@@ -69,7 +71,6 @@ const UpdateMaklumat = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-    watch,
   } = useForm();
   const [tarikhSurat2, setTarikhSurat2] = useState<Date | null>(null);
 
@@ -109,12 +110,26 @@ const UpdateMaklumat = () => {
       )
       .then((response) => {
         console.table(response.data);
-        alert("Program updated:");
-        window.location.href = "/program-list";
+        Swal.fire({
+          title: "Program Updated!",
+          text: "Program is successfully Updated!",
+          icon: "success",
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/program-list";
+          }
+        });
+        // window.location.href = "/program-list";
       })
       .catch((error) => {
         console.table(error.data);
-        alert("Program not updated:");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Program Tidak Berjaya Dikemaskini!",
+          footer: "Error" + error,
+        });
       });
   };
 
@@ -423,7 +438,7 @@ const UpdateMaklumat = () => {
             <div className="flex space-x-4 justify-end">
               <input
                 type="reset"
-                value="Reset"
+                value="Batal"
                 className="btn btn-error shadow-md text-white"
               />
               <button
@@ -431,15 +446,22 @@ const UpdateMaklumat = () => {
                 className="btn btn-primary shadow-md text-white"
                 onClick={(e) => {
                   e.preventDefault();
-                  const confirmSave = window.confirm(
-                    "Anda pasti untuk menyimpan perubahan?"
-                  );
-                  if (confirmSave) {
-                    handleSubmit(onSubmit)(); // Call handleSubmit with onSubmit as the argument
-                  }
+
+                  Swal.fire({
+                    title: "Adekah anda pasti untuk kemaskini?",
+                    showDenyButton: true,
+                    confirmButtonText: "Kemaskini",
+                    denyButtonText: `Batal`,
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      handleSubmit(onSubmit)();
+                    } else if (result.isDenied) {
+                      Swal.fire("Kemaskini tidak berjaya", "", "info");
+                    }
+                  });
                 }}
               >
-                Save
+                Simpan
               </button>
             </div>
           </div>

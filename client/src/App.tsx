@@ -10,24 +10,27 @@ import UpdateMaklumat from "./pages/updateMaklumat.tsx";
 // import MsaForm_onePage from "./pages/MsaForm_onePage.tsx";
 import ViewFullProgram from "./pages/ViewFullProgram.tsx";
 import MSAForm_register from "./pages/MSAForm_register.tsx";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <Router>
-      <div className="font-sans">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/MsaForm" element={<MsaForm />} />
-          <Route path="/MsaForm_onepage" element={<MSAForm_register />} />
-          <Route path="/ProgramInfo/:id" element={<ViewFullProgram />} />
-          <Route path="/program-list" element={<ProgramList />} />
-          <Route path="/testMultiStepForm" element={<TabbedForm />} />
-          <Route path="/edit-program/:id" element={<UpdateMaklumat />} />
-          <Route path="*" element={<NoPage />} />
-        </Routes>
-      </div>
-    </Router>
+    <>
+      <Router>
+        <div className="font-sans">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/MsaForm" element={<MsaForm />} />
+            <Route path="/MsaForm_onepage" element={<MSAForm_register />} />
+            <Route path="/ProgramInfo/:id" element={<ViewFullProgram />} />
+            <Route path="/program-list" element={<ProgramList />} />
+            <Route path="/testMultiStepForm" element={<TabbedForm />} />
+            <Route path="/edit-program/:id" element={<UpdateMaklumat />} />
+            <Route path="*" element={<NoPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </>
   );
 }
 

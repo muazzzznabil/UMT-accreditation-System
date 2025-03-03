@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 interface Program {
   id: number;
@@ -34,11 +35,21 @@ const ProgramList: React.FC = () => {
 
       setListProgram(listProgram.filter((program) => program.id !== id));
       if (response.status === 200) {
+        Swal.fire({
+          title: "Dihapus!",
+          text: "Program berjaya dihapus.",
+          icon: "success",
+        });
         console.log("Program deleted:", response.data);
       }
     } catch (error: unknown) {
       setError("Error deleting program: " + (error as Error).message);
-      console.error(error as Error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: "Error deleting program: " + (error as Error).message,
+      });
     }
   };
 
@@ -115,13 +126,37 @@ const ProgramList: React.FC = () => {
                 </button>
                 <button
                   onClick={() => {
-                    if (
-                      window.confirm(
-                        "Are you sure you want to delete this program?"
-                      )
-                    ) {
-                      deleteProgram(program.id);
-                    }
+                    //   if (
+                    //     window.confirm(
+                    //       "Are you sure you want to delete this program?"
+                    //     )
+                    //   ) {
+                    //     deleteProgram(program.id);
+                    //   }
+                    Swal.fire({
+                      title: "Padam Program?",
+                      text: `Anda pasti untuk padam program ${program.nama_program} !`,
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonColor: "#3085d6",
+                      cancelButtonColor: "#d33",
+                      confirmButtonText: "Hapus",
+                      // })
+                      // .then((result) => {
+                      //   if (result.isConfirmed) {
+                      //     Swal.fire({
+                      //       title: "Dihapus!",
+                      //       text: "Program berjaya dihapus.",
+                      //       icon: "success",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        deleteProgram(program.id);
+                      } else if (result.isDenied) {
+                        Swal.fire("Changes are not saved", "", "info");
+                      }
+                    });
+                    //   }
+                    // });
                   }}
                   className="btn btn-error text-white"
                 >
