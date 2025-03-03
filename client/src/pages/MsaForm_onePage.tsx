@@ -29,20 +29,20 @@ const MsaForm_onePage = () => {
   const [fakulti, setFakulti] = useState("");
   const [struktur, setStruktur] = useState("");
   const [tarikhSurat, setTarikhSurat] = useState("");
-  const [modPenyampaian, setModPenyampaian] = useState<string[]>([]);
+  // const [modPenyampaian, setModPenyampaian] = useState<string[]>([]);
 
-  const handleModPenyampaianChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { value, checked } = e.target;
-    setModPenyampaian((prev) =>
-      checked ? [...prev, value] : prev.filter((item) => item !== value)
-    );
-  };
+  // const handleModPenyampaianChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const { value, checked } = e.target;
+  //   setModPenyampaian((prev) =>
+  //     checked ? [...prev, value] : prev.filter((item) => item !== value)
+  //   );
+  // };
   const handleSubmitForm = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    formData.set("mod_penyampaian", modPenyampaian.join(" , "));
+    // formData.set("mod_penyampaian", modPenyampaian.join(" , "));
 
     for (const [key, value] of formData.entries()) {
       console.table(`${key}: ${value}`);
@@ -141,11 +141,11 @@ const MsaForm_onePage = () => {
                   <div className="inline-flex items-center mr-4">
                     <input
                       type="checkbox"
-                      name="mod_penyampaian"
+                      name="konvensional"
                       id="konvensional"
                       value={"Konvensional/Terbuka"}
                       className="checkbox  mr-2"
-                      onChange={handleModPenyampaianChange}
+                      // onChange={handleModPenyampaianChange}
                     />
                     <label htmlFor="konvensional" className=" text-md">
                       Konvensional/Terbuka
@@ -154,11 +154,11 @@ const MsaForm_onePage = () => {
                   <div className="inline-flex items-center">
                     <input
                       type="checkbox"
-                      name="mod_penyampaian"
+                      name="odl"
                       value={"Jarak Jauh (ODL)"}
                       id="ODL"
                       className="checkbox  mr-2"
-                      onChange={handleModPenyampaianChange}
+                      // onChange={handleModPenyampaianChange}
                     />
                     <label htmlFor="ODL" className=" text-md">
                       Jarak Jauh (ODL)

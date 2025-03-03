@@ -32,7 +32,8 @@ const ViewFullProgram = () => {
     Separuh_SemesterPanjang_Semester: string;
     Separuh_SemesterPendek_Semester: string;
     Separuh_LatihanIndustri_Semester: string;
-    mod_penyampaian: string;
+    konvensional: string;
+    odl: string;
     struktur_program: string;
     program_kerjasama: string;
     jenis_kerjasama: string;
@@ -128,6 +129,14 @@ const ViewFullProgram = () => {
                 <tr>
                   <td className="font-medium">Jenis Kerjasama:</td>
                   <td>{program.jenis_kerjasama}</td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Konvensional:</td>
+                  <td>{program.konvensional == "1" ? "Yes" : "No"}</td>
+                </tr>
+                <tr>
+                  <td className="font-medium">ODL:</td>
+                  <td>{program.odl == "1" ? "Yes" : "No"}</td>
                 </tr>
               </tbody>
             </table>
