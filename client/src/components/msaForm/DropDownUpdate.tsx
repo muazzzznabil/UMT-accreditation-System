@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC } from "react";
 import { UseFormRegister } from "react-hook-form";
 
 interface DropdownMenuProps {
@@ -9,7 +10,7 @@ interface DropdownMenuProps {
   //   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   labelId: string;
   defaultValue?: string;
-  register: UseFormRegister<FieldValue>;
+  register: UseFormRegister<any>;
 }
 
 const DropdownUpdate: FC<DropdownMenuProps> = ({

@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import dayjs from "dayjs";
 import React, { useState, useEffect } from "react";
-import { FieldValue, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 interface Props {
-  register: UseFormRegister<FieldValue>;
-  setValue: UseFormSetValue<FieldValue>;
+  register: UseFormRegister<any>;
+  setValue: UseFormSetValue<any>;
   defValueTahun?: number;
   //   defValueSahSehingga: Date;
   tarikhSurat: Date;
@@ -17,7 +18,7 @@ const SahLaku: React.FC<Props> = ({
   //   defValueSahSehingga,
   tarikhSurat,
 }) => {
-  const [bilTahun, setBilTahun] = useState(defValueTahun);
+  const [bilTahun, setBilTahun] = useState<any>(defValueTahun);
 
   useEffect(() => {
     const newSahSehingga = dayjs(tarikhSurat)
