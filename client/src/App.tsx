@@ -10,7 +10,7 @@ import UpdateMaklumat from "./pages/updateMaklumat.tsx";
 // import MsaForm_onePage from "./pages/MsaForm_onePage.tsx";
 import ViewFullProgram from "./pages/ViewFullProgram.tsx";
 import MSAForm_register from "./pages/MSAForm_register.tsx";
-<<<<<<< HEAD
+
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {

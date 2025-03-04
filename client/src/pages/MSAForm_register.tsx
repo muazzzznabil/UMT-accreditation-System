@@ -14,9 +14,10 @@ import KerjasamaUpdate from "../components/msaForm/kerjasamaUpdate";
 import DateUpdate from "../components/msaForm/DateUpdate";
 import SahLaku from "../components/msaForm/SahSehinggaUpdate";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Slide, toast, ToastContainer } from "react-toastify";
 
 const MSAForm_register = () => {
   const {
@@ -72,8 +73,47 @@ const MSAForm_register = () => {
   //     console.table(data);
   //   };
 
+  useEffect(() => {
+    if (errors) {
+      if (errors.bilMesyuarat && errors.bilMesyuarat.type === "pattern") {
+        toast.error("Format Bil Mesyuarat is invalid!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error("Please fill in all required fields!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
+  }, [errors]);
+
   return (
     <form method="POST" onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Slide}
+      />
       <div className="container mx-auto mt-5 font-sans flex flex-col">
         <h1 className="text-xl  font-bold">PERMOHONAN PROGRAM</h1>
         <div className="breadcrumbs text-md mb-2">
@@ -99,7 +139,7 @@ const MSAForm_register = () => {
                 placeholder="Sila Masukkan Nama Program"
                 required
                 className="input input-bordered w-full"
-                {...register("nama_program")}
+                {...register("nama_program", { required: true })}
               />
             </div>
             <KKMUpdate
@@ -224,7 +264,6 @@ const MSAForm_register = () => {
                 <input
                   type="text"
                   id="bilMesyuarat"
-                  required
                   {...register("bilMesyuarat", {
                     pattern: /^[0-9]+\/[0-9]{4}$/,
                   })}
@@ -250,9 +289,14 @@ const MSAForm_register = () => {
                 <input
                   type="file"
                   id="minitJKPT"
-                  {...register("minitJKPT")}
+                  {...register("minitJKPT", { required: true })}
                   className="file-input file-input-bordered w-1/2"
                 />
+                {/* {errors.minitJKPT && (
+                  <p className="text-red-500 text-md mt-1 ml-4">
+                    Minit JKPT is required!
+                  </p>
+                )} */}
               </div>
             </div>{" "}
             {/* Muat Naik Surat */}
@@ -298,7 +342,7 @@ const MSAForm_register = () => {
                 <input
                   type="file"
                   id="minitJKA"
-                  {...register("minitJKA")}
+                  {...register("minitJKA", { required: true })}
                   className="file-input file-input-bordered w-1/2"
                 />
               </div>

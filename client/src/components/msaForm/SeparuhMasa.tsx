@@ -38,10 +38,9 @@ const SeparuhMasa: React.FC<props> = ({
           </label>
           <div className="flex space-x-2">
             <select
-              {...register("Separuh_max_Tahun")}
+              {...register("Separuh_max_Tahun", { required: true })}
               id="Separuh_max_Tahun"
               className="select select-bordered "
-              required
               defaultValue={separuh_max_Tahun}
             >
               <option
@@ -60,10 +59,9 @@ const SeparuhMasa: React.FC<props> = ({
               ))}
             </select>
             <select
-              {...register("Separuh_max_Minggu")}
+              {...register("Separuh_max_Minggu", { required: true })}
               id="Separuh_max_Minggu"
               className="select select-bordered "
-              required
               defaultValue={separuh_max_Minggu}
             >
               <option
@@ -83,10 +81,9 @@ const SeparuhMasa: React.FC<props> = ({
             </select>
           </div>
           <select
-            {...register("Separuh_max_Semester")}
+            {...register("Separuh_max_Semester", { required: true })}
             id="Separuh_max_Semester"
             className="select select-bordered w-full mt-2"
-            required
             defaultValue={separuh_max_Semester}
           >
             <option value="" selected disabled hidden className="text-gray-400">
@@ -105,10 +102,9 @@ const SeparuhMasa: React.FC<props> = ({
           </label>
           <div className="flex space-x-2">
             <select
-              {...register("Separuh_min_Tahun")}
+              {...register("Separuh_min_Tahun", { required: true })}
               id="Separuh_min_Tahun"
               className="select select-bordered "
-              required
               defaultValue={separuh_min_Tahun}
             >
               <option
@@ -127,10 +123,9 @@ const SeparuhMasa: React.FC<props> = ({
               ))}
             </select>
             <select
-              {...register("Separuh_min_Minggu")}
+              {...register("Separuh_min_Minggu", { required: true })}
               id="Separuh_min_Minggu"
               className="select select-bordered "
-              required
               defaultValue={separuh_min_Minggu}
             >
               <option
@@ -150,10 +145,9 @@ const SeparuhMasa: React.FC<props> = ({
             </select>
           </div>
           <select
-            {...register("Separuh_min_Semester")}
+            {...register("Separuh_min_Semester", { required: true })}
             id="Separuh_min_Semester"
             className="select select-bordered w-full mt-2"
-            required
             defaultValue={separuh_min_Semester}
           >
             <option value="" selected disabled hidden className="text-gray-400">
@@ -172,10 +166,11 @@ const SeparuhMasa: React.FC<props> = ({
           </label>
 
           <select
-            {...register("Separuh_SemesterPanjang_Semester")}
+            {...register("Separuh_SemesterPanjang_Semester", {
+              required: true,
+            })}
             id="Separuh_SemesterPanjang_Semester"
             className="select select-bordered w-full"
-            required
             defaultValue={separuh_SemesterPanjang_Semester}
           >
             <option value="" selected disabled hidden className="text-gray-400">
@@ -193,10 +188,9 @@ const SeparuhMasa: React.FC<props> = ({
             Semester Pendek
           </label>
           <select
-            {...register("Separuh_SemesterPendek_Semester")}
+            {...register("Separuh_SemesterPendek_Semester", { required: true })}
             id="Separuh_SemesterPendek_Semester"
             className="select select-bordered w-full"
-            required
             defaultValue={separuh_SemesterPendek_Semester}
           >
             <option value="" selected disabled hidden className="text-gray-400">
@@ -214,10 +208,11 @@ const SeparuhMasa: React.FC<props> = ({
             Latihan Industri
           </label>
           <select
-            {...register("Separuh_LatihanIndustri_Semester")}
+            {...register("Separuh_LatihanIndustri_Semester", {
+              required: true,
+            })}
             id="Separuh_LatihanIndustri_Semester"
             className="select select-bordered w-full"
-            required
             defaultValue={separuh_LatihanIndustri_Semester}
           >
             <option value="" selected disabled hidden className="text-gray-400">

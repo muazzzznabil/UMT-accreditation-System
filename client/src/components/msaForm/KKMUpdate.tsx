@@ -51,7 +51,10 @@ const KKMUpdate: React.FC<Props> = ({
           // onChange={handleTahapChange}
           value={selectedTahap}
           required
-          {...register("tahapMQF", { onChange: handleTahapChange })}
+          {...register("tahapMQF", {
+            onChange: handleTahapChange,
+            required: true,
+          })}
         >
           <option value="" disabled hidden>
             Sila Pilih Tahap MQF
@@ -71,7 +74,7 @@ const KKMUpdate: React.FC<Props> = ({
           id="sektorAkademik"
           className="select select-bordered w-3/4 ml-2"
           defaultValue={valueSektorAkademik}
-          {...register("sektorAkademik")}
+          {...register("sektorAkademik", { required: true })}
         >
           <option value="" disabled hidden>
             Sila Pilih Sektor Akademik

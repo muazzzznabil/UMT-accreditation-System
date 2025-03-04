@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import dayjs from "dayjs";
 import React from "react";
-import { FieldValue, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 
 interface DatePickerProps {
   name: string;
   label: string;
   // dateValue?: Date;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  register: UseFormRegister<FieldValue>;
+  register: UseFormRegister<any>;
   defValue?: Date;
   placeholder?: string;
 }
@@ -28,7 +29,6 @@ const DateUpdate = ({
       <div className="w-full">
         <input
           type="date"
-          required
           id={name}
           placeholder={placeholder}
           {...register(name)}

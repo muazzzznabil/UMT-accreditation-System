@@ -29,9 +29,9 @@ const DropdownUpdate: FC<DropdownMenuProps> = ({
       </label>
       <select
         id={labelId}
-        required
         className="select select-bordered w-full"
         value={value} // Bind the current selected value
+        required
         defaultValue={defaultValue}
         {...register(labelId)}
       >

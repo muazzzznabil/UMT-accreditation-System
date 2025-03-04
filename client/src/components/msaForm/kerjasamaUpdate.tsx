@@ -31,7 +31,7 @@ const KerjasamaUpdate: React.FC<props> = ({
       <div className="w-full flex justify-between">
         <select
           id="program-kerjasama"
-          {...register("program_kerjasama")}
+          {...register("program_kerjasama", { required: true })}
           className="select select-bordered w-1/4 mr-2"
           defaultValue={programKerjasama || ""}
           onChange={(e) => {
@@ -48,7 +48,7 @@ const KerjasamaUpdate: React.FC<props> = ({
         {isKerjasama && (
           <select
             id="jenisKerjasama"
-            {...register("jenis_kerjasama")}
+            {...register("jenis_kerjasama", { required: true })}
             className="select select-bordered w-3/4"
             defaultValue={jenisKerjasama || ""}
             required
