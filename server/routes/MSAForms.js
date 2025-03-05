@@ -31,6 +31,7 @@ router.post(
     const minitJKA = `/uploads/documents/${req.files.minitJKA[0].filename}`;
     const setValueKerjasama =
       req.body.program_kerjasama == "True" ? req.body.jenis_kerjasama : null;
+
     const query = `
       INSERT INTO
         maklumat_program

@@ -70,6 +70,7 @@ const UpdateMaklumat = () => {
     register,
     handleSubmit,
     setValue,
+
     formState: { errors },
   } = useForm();
   const [tarikhSurat2, setTarikhSurat2] = useState<Date | null>(null);

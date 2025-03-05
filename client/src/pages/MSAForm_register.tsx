@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import KKMUpdate from "../components/msaForm/KKMUpdate";
 import DropdownUpdate from "../components/msaForm/DropDownUpdate";
 import {
@@ -18,14 +18,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Slide, toast, ToastContainer } from "react-toastify";
+import Select from "react-select";
 
 const MSAForm_register = () => {
   const {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors },
   } = useForm();
+
   const [tarikhSurat2, setTarikhSurat2] = useState<Date>(new Date());
 
   const onSubmit: SubmitHandler<any> = async (data) => {
@@ -69,9 +72,9 @@ const MSAForm_register = () => {
       });
   };
 
-  //   const onSubmit: SubmitHandler<any> = async (data) => {
-  //     console.table(data);
-  //   };
+  // const onSubmit: SubmitHandler<any> = async (data) => {
+  //   console.table(data);
+  // };
 
   useEffect(() => {
     if (errors) {
@@ -147,14 +150,67 @@ const MSAForm_register = () => {
               //   valueSektorAkademik={program.sektorAkademik}
               register={register}
             />
-            <DropdownUpdate
+            {/* Code Nec */}
+            <div className="flex items-center w-full">
+              <label htmlFor="code_nec" className="label-input-msa">
+                Code Nec
+              </label>
+              <div className="w-full">
+                <Controller
+                  name="code_nec"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      unstyled
+                      components={{
+                        DropdownIndicator: () => null,
+                        IndicatorSeparator: () => null,
+                      }}
+                      placeholder="Sila Pilih Code NEC"
+                      classNames={{
+                        control: () =>
+                          "select select-bordered w-full p-2 border border-gray-300 rounded-md bg-white focus:ring focus:ring-blue-500",
+                        menu: () =>
+                          "bg-white border border-gray-300 shadow-md rounded-md mt-1",
+                        option: ({ isFocused, isSelected }) =>
+                          `p-2 cursor-pointer ${
+                            isSelected
+                              ? "bg-blue-500 text-white"
+                              : isFocused
+                              ? "bg-gray-200"
+                              : "bg-white text-gray-900"
+                          }`,
+                        singleValue: () => "text-gray-900",
+                      }}
+                      options={Nec_Code_List.map((code) => ({
+                        value: code,
+                        label: code,
+                      }))}
+                      value={
+                        field.value
+                          ? Nec_Code_List.find((c) => c === field.value)
+                            ? { value: field.value, label: field.value }
+                            : null
+                          : null
+                      }
+                      onChange={(selectedOption) =>
+                        field.onChange(selectedOption?.value)
+                      }
+                    />
+                  )}
+                />
+              </div>
+            </div>
+            {/* Code Nec */}
+            {/* <DropdownUpdate
               label={"Code NEC"}
               options={Nec_Code_List}
               labelId={"code_nec"}
               defaultValue={"placeholder"}
               placeholderOptions={"Sila Pilih Code NEC"}
               register={register}
-            />
+            /> */}
             <DropdownUpdate
               label={"Mode Penawaran"}
               options={mod_penawaran}
