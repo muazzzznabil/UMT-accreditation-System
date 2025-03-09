@@ -12,12 +12,17 @@ import ViewFullProgram from "./pages/ViewFullProgram.tsx";
 import MSAForm_register from "./pages/MSAForm_register.tsx";
 
 import "react-toastify/dist/ReactToastify.css";
+import { useThemeStore } from "./utils/useThemeStore.ts";
 
 function App() {
+  const themeStore = useThemeStore();
   return (
     <>
       <Router>
-        <div className="font-sans">
+        <div
+          className="font-sans flex space-x-8"
+          data-theme={themeStore.darkMode ? "dark" : "light"}
+        >
           <Header />
           <Routes>
             <Route path="/" element={<Homepage />} />

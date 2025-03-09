@@ -19,6 +19,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Slide, toast, ToastContainer } from "react-toastify";
 import Select from "react-select";
+import { useThemeStore } from "../utils/useThemeStore";
 
 const MSAForm_register = () => {
   const {
@@ -29,6 +30,7 @@ const MSAForm_register = () => {
     formState: { errors },
   } = useForm();
 
+  const themeStore = useThemeStore();
   const [tarikhSurat2, setTarikhSurat2] = useState<Date>(new Date());
 
   const onSubmit: SubmitHandler<any> = async (data) => {
@@ -127,13 +129,17 @@ const MSAForm_register = () => {
             <li>Daftar Program Baru</li>
           </ul>
         </div>
-        <div className="container mt-10 mb-32 mx-auto flex flex-col bg-gray-100 p-6 rounded-md shadow-md">
+        <div
+          className={`container mt-10 mb-32 mx-auto flex flex-col ${
+            themeStore.darkMode ? "bg-gray-800" : "bg-gray-100"
+          } p-6 rounded-md shadow-md`}
+        >
           <h2 className="text-xl font-bold text-center mb-5">
             Maklumat Program
           </h2>
           <div className="w-full space-y-4">
             <div className="flex mb-4 items-center">
-              <label htmlFor="nama_program" className="label-input-msa">
+              <label htmlFor="nama_program" className="label-input-msa ">
                 Nama Program
               </label>
               <input
@@ -170,18 +176,38 @@ const MSAForm_register = () => {
                       placeholder="Sila Pilih Code NEC"
                       classNames={{
                         control: () =>
-                          "select select-bordered w-full p-2 border border-gray-300 rounded-md bg-white focus:ring focus:ring-blue-500",
+                          `select select-bordered w-full p-2 border rounded-lg ${
+                            themeStore.darkMode
+                              ? "bg-base-200 border-gray-600 text-gray-300"
+                              : "bg-white border-gray-300 text-gray-900"
+                          } focus:ring focus:ring-primary`,
+
                         menu: () =>
-                          "bg-white border border-gray-300 shadow-md rounded-md mt-1",
+                          `border shadow-md rounded-md mt-1 ${
+                            themeStore.darkMode
+                              ? "bg-base-200 border-gray-600"
+                              : "bg-white border-gray-300"
+                          }`,
+
                         option: ({ isFocused, isSelected }) =>
                           `p-2 cursor-pointer ${
                             isSelected
-                              ? "bg-blue-500 text-white"
+                              ? "bg-primary text-white"
                               : isFocused
-                              ? "bg-gray-200"
+                              ? themeStore.darkMode
+                                ? "bg-primary/20 text-gray-300"
+                                : "bg-gray-200 text-gray-900"
+                              : themeStore.darkMode
+                              ? "bg-base-200 text-gray-300"
                               : "bg-white text-gray-900"
                           }`,
-                        singleValue: () => "text-gray-900",
+
+                        singleValue: () =>
+                          `${
+                            themeStore.darkMode
+                              ? "text-gray-300"
+                              : "text-gray-900"
+                          }`,
                       }}
                       options={Nec_Code_List.map((code) => ({
                         value: code,
@@ -252,7 +278,7 @@ const MSAForm_register = () => {
                       id="konvensional"
                       {...register("konvensional")}
                       className="checkbox  mr-2"
-                      onChange={(e) => setValue("konvensional", e.target.value)}
+                      // onChange={(e) => setValue("konvensional", e.target.value)}
                     />
                     <label htmlFor="konvensional" className=" text-md">
                       Konvensional/Terbuka

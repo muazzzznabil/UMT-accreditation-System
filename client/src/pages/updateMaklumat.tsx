@@ -18,6 +18,7 @@ import DateUpdate from "../components/msaForm/DateUpdate";
 import SahLaku from "../components/msaForm/SahSehinggaUpdate";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
+import { useThemeStore } from "../utils/useThemeStore";
 
 interface Program {
   MinitJKA: any;
@@ -87,6 +88,7 @@ const UpdateMaklumat = () => {
       console.error(error);
     }
   };
+  const themeStore = useThemeStore();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const formData = new FormData();
@@ -162,7 +164,11 @@ const UpdateMaklumat = () => {
             <li>Update : {program.nama_program}</li>
           </ul>
         </div>
-        <div className="container mt-10 mb-32 mx-auto flex flex-col bg-gray-100 p-6 rounded-md shadow-md">
+        <div
+          className={`container mt-10 mb-32 mx-auto flex flex-col ${
+            themeStore.darkMode ? "bg-gray-800" : "bg-gray-100"
+          } p-6 rounded-md shadow-md`}
+        >
           <h2 className="text-xl font-bold text-center mb-5">
             Maklumat Program
           </h2>

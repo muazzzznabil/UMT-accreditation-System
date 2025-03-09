@@ -3,10 +3,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useThemeStore } from "../utils/useThemeStore";
 
 const ViewFullProgram = () => {
   const [program, setProgram] = useState<Program | null>(null);
   const { id } = useParams();
+  const themeStore = useThemeStore();
 
   interface Program {
     id: number;
@@ -84,7 +86,7 @@ const ViewFullProgram = () => {
 
   return (
     <>
-      <div className="container mx-auto mt-5 font-sans space-y-6">
+      <div className="container mx-auto mt-5 font-sans space-y-6 ">
         <h1 className="text-3xl font-bold  mb-6">{program.nama_program}</h1>
         <div className="breadcrumbs text-md mb-2">
           <ul>
@@ -99,7 +101,11 @@ const ViewFullProgram = () => {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Program Details */}
-          <div className="card shadow-lg p-6 bg-white rounded-lg">
+          <div
+            className={`card shadow-lg p-6 ${
+              themeStore.darkMode ? "bg-[#1f2937]" : "bg-white"
+            } rounded-lg`}
+          >
             <h2 className="text-2xl font-semibold mb-4">Program Details</h2>
             <table className="table table-auto w-full">
               <tbody>
@@ -127,7 +133,11 @@ const ViewFullProgram = () => {
             </table>
           </div>
           {/* Additional Details */}
-          <div className="card shadow-lg p-6 bg-white rounded-lg">
+          <div
+            className={`card shadow-lg p-6 ${
+              themeStore.darkMode ? "bg-[#1f2937]" : "bg-white"
+            } rounded-lg`}
+          >
             <h2 className="text-2xl font-semibold mb-4">Additional Details</h2>
             <table className="table table-auto w-full">
               <tbody>
@@ -144,18 +154,23 @@ const ViewFullProgram = () => {
                   <td>{program.jenis_kerjasama}</td>
                 </tr>
                 <tr>
-                  <td className="font-medium">Konvensional:</td>
+                  <td className="font-medium">Konvensional/Terbuka:</td>
                   <td>{program.konvensional == "true" ? "Yes" : "No"}</td>
                 </tr>
                 <tr>
-                  <td className="font-medium">ODL:</td>
+                  <td className="font-medium">Jarak Jauh (ODL):</td>
                   <td>{program.odl == "true" ? "Yes" : "No"}</td>
                 </tr>
               </tbody>
             </table>
           </div>
           {/* Full-time Study Details */}
-          <div className="card shadow-lg p-6 bg-white rounded-lg">
+          <div
+            className={`card shadow-lg p-6 ${
+              themeStore.darkMode ? "bg-[#1f2937]" : "bg-white"
+            } rounded-lg`}
+          >
+            {" "}
             <h2 className="text-2xl font-semibold mb-4">
               Full-time Study Details
             </h2>
@@ -163,34 +178,51 @@ const ViewFullProgram = () => {
               <tbody>
                 <tr>
                   <td className="font-medium">Max Years:</td>
-                  <td>{program.Sepenuh_max_Tahun}</td>
+                  <td>{program.Sepenuh_max_Tahun} Tahun</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Max Weeks:</td>
-                  <td>{program.Sepenuh_max_Minggu}</td>
+                  <td>{program.Sepenuh_max_Minggu} Minggu</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Max Semesters:</td>
-                  <td>{program.Sepenuh_max_Semester}</td>
+                  <td>{program.Sepenuh_max_Semester} Semester</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Min Years:</td>
-                  <td>{program.Sepenuh_min_Tahun}</td>
+                  <td>{program.Sepenuh_min_Tahun} Tahun</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Min Weeks:</td>
-                  <td>{program.Sepenuh_min_Minggu}</td>
+                  <td>{program.Sepenuh_min_Minggu} Minggu</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Min Semesters:</td>
-                  <td>{program.Sepenuh_min_Semester}</td>
+                  <td>{program.Sepenuh_min_Semester} Semester</td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Semester Panjang:</td>
+                  <td>{program.Sepenuh_SemesterPanjang_Semester} Semester</td>
+                </tr>
+                <tr>
+                  <td className="font-medium"> Semesters Pendek:</td>
+                  <td>{program.Sepenuh_SemesterPendek_Semester} Semester</td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Latihan Industri:</td>
+                  <td>{program.Sepenuh_LatihanIndustri_Semester} Semester</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           {/* Part-time Study Details */}
-          <div className="card shadow-lg p-6 bg-white rounded-lg">
+          <div
+            className={`card shadow-lg p-6 ${
+              themeStore.darkMode ? "bg-[#1f2937]" : "bg-white"
+            } rounded-lg`}
+          >
+            {" "}
             <h2 className="text-2xl font-semibold mb-4">
               Part-time Study Details
             </h2>
@@ -198,27 +230,39 @@ const ViewFullProgram = () => {
               <tbody>
                 <tr>
                   <td className="font-medium">Max Years:</td>
-                  <td>{program.Separuh_max_Tahun}</td>
+                  <td>{`${program.Separuh_max_Tahun} Tahun`}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Max Weeks:</td>
-                  <td>{program.Separuh_max_Minggu}</td>
+                  <td>{`${program.Separuh_max_Minggu} Minggu`}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Max Semesters:</td>
-                  <td>{program.Separuh_max_Semester}</td>
+                  <td>{`${program.Separuh_max_Semester} Semester`}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Min Years:</td>
-                  <td>{program.Separuh_min_Tahun}</td>
+                  <td>{`${program.Separuh_min_Tahun} Tahun`}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Min Weeks:</td>
-                  <td>{program.Separuh_min_Minggu}</td>
+                  <td>{`${program.Separuh_min_Minggu} Minggu`}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Min Semesters:</td>
-                  <td>{program.Separuh_min_Semester}</td>
+                  <td>{`${program.Separuh_min_Semester} Semester`}</td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Semester Panjang:</td>
+                  <td>{program.Sepenuh_SemesterPanjang_Semester} Semester</td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Semesters Pendek:</td>
+                  <td>{program.Sepenuh_SemesterPendek_Semester} Semester</td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Latihan Industri:</td>
+                  <td>{program.Sepenuh_LatihanIndustri_Semester} Semester</td>
                 </tr>
               </tbody>
             </table>
@@ -227,7 +271,12 @@ const ViewFullProgram = () => {
           {/* Meeting Dates and Documents */}
           {/* Meeting Dates and Documents */}
           {/* JKPT Meeting Card */}
-          <div className="card shadow-lg p-6 bg-white rounded-lg mb-6">
+          <div
+            className={`card shadow-lg p-6 ${
+              themeStore.darkMode ? "bg-[#1f2937]" : "bg-white"
+            } rounded-lg`}
+          >
+            {" "}
             <h2 className="text-2xl font-semibold mb-4">JKPT Meeting</h2>
             <table className="table table-auto w-full">
               <tbody>
@@ -291,7 +340,12 @@ const ViewFullProgram = () => {
           </div>
 
           {/* JKA Meeting Card */}
-          <div className="card shadow-lg p-6 bg-white rounded-lg">
+          <div
+            className={`card shadow-lg p-6 ${
+              themeStore.darkMode ? "bg-[#1f2937]" : "bg-white"
+            } rounded-lg`}
+          >
+            {" "}
             <h2 className="text-2xl font-semibold mb-4">JKA Meeting</h2>
             <table className="table table-auto w-full">
               <tbody>
