@@ -10,7 +10,7 @@ const Sidebar = () => {
       <div className="w-64 min-h-screen bg-white dark:bg-gray-900 shadow-lg">
         <div className="p-5 border-b dark:border-gray-700">
           <a href="/">
-            <img src="/public/image/Logo_UMT.png" alt="Umt" className="w-16 " />
+            <img src="/image/Logo_UMT.png" alt="Umt" className="w-16 " />
           </a>
         </div>
 

@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
 //insert data into maklumat program
 router.post(
   "/maklumat-program",
@@ -159,97 +160,6 @@ router.get("/maklumat-program/:id", async function (req, res) {
   }
 });
 //update table
-router.put(
-  "/maklumat-program/:id/edit",
-  upload.fields([
-    { name: "minitJKPT", maxCount: 1 },
-    { name: "minitJKA", maxCount: 1 },
-  ]),
-  async function (req, res) {
-    const minitJKPT = `/uploads/documents/${req.files.minitJKPT[0].filename}`;
-    const minitJKA = `/uploads/documents/${req.files.minitJKA[0].filename}`;
-
-    const { id } = req.params;
-    const updateMaklumat = [
-      req.body.nama_program,
-      req.body.tahapMQF,
-      req.body.sektorAkademik,
-      req.body.code_nec,
-      req.body.mode_penawaran,
-      req.body.fakulti,
-      req.body.Sepenuh_max_Tahun,
-      req.body.Sepenuh_max_Minggu,
-      req.body.Sepenuh_max_Semester,
-      req.body.Sepenuh_min_Tahun,
-      req.body.Sepenuh_min_Minggu,
-      req.body.Sepenuh_min_Semester,
-      req.body.Sepenuh_SemesterPanjang_Semester,
-      req.body.Sepenuh_SemesterPendek_Semester,
-      req.body.Sepenuh_LatihanIndustri_Semester,
-      req.body.Separuh_max_Tahun,
-      req.body.Separuh_max_Minggu,
-      req.body.Separuh_max_Semester,
-      req.body.Separuh_min_Tahun,
-      req.body.Separuh_min_Minggu,
-      req.body.Separuh_min_Semester,
-      req.body.Separuh_SemesterPanjang_Semester,
-      req.body.Separuh_SemesterPendek_Semester,
-      req.body.Separuh_LatihanIndustri_Semester,
-      req.body.konvensional,
-      req.body.odl,
-      req.body.struktur_program,
-      req.body.program_kerjasama,
-      req.body.jenis_kerjasama,
-      req.body.tarikhSurat,
-      req.body.tarikhTerimaSurat,
-      req.body.tarikhMesyuaratJKPT,
-      req.body.tempohSah,
-      req.body.sahSehingga,
-      req.body.bilMesyuarat,
-      req.body.minitJKPT,
-      req.body.tarikhMesyuaratJKA,
-      req.body.bilMesyuaratJKA,
-      req.body.minitJKA,
-    ];
-
-    const query = `
-    UPDATE maklumat_program
-    SET nama_program = ?, tahapMQF = ?, sektorAkademik = ?, code_nec = ?, mode_penawaran = ?, 
-    fakulti = ?, Sepenuh_max_Tahun = ?, Sepenuh_max_Minggu = ?, Sepenuh_max_Semester = ?, 
-    Sepenuh_min_Tahun = ?, Sepenuh_min_Minggu = ?, Sepenuh_min_Semester = ?, 
-    Sepenuh_SemesterPanjang_Semester = ?, Sepenuh_SemesterPendek_Semester = ?, 
-    Sepenuh_LatihanIndustri_Semester = ?, Separuh_max_Tahun = ?, Separuh_max_Minggu = ?, 
-    Separuh_max_Semester = ?, Separuh_min_Tahun = ?, Separuh_min_Minggu = ?, 
-    Separuh_min_Semester = ?, Separuh_SemesterPanjang_Semester = ?, Separuh_SemesterPendek_Semester = ?, 
-    Separuh_LatihanIndustri_Semester = ?, kovensional = ?,odl = ?, struktur_program = ?, program_kerjasama = ?, 
-    jenis_kerjasama = ?, tarikhSurat = ?, tarikhTerimaSurat = ?, tarikhMesyuarat = ?, tempohSah = ?, 
-    sahSehingga = ?, bilMesyuarat = ?, minitJKPT = ?, tarikMesyJKA = ?, bilMesyuaratJKA = ?, minitJKA = ?
-    WHERE id = ?`;
-
-    try {
-      await db.query(query, updateMaklumat);
-      res.sendStatus(200);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send(error);
-    }
-  }
-);
-
-//delete
-router.delete("/maklumat-program/:id/delete", async function (req, res) {
-  const query = `DELETE FROM maklumat_program where id = ?`;
-  try {
-    await db.query(query, req.params.id);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-//--------------------testing--------------------
-//insert data into maklumat program with file
-
 router.put(
   "/maklumat-program/:id/edit2",
   upload.fields([
@@ -394,6 +304,20 @@ router.put(
     }
   }
 );
+
+//delete
+router.delete("/maklumat-program/:id/delete", async function (req, res) {
+  const query = `DELETE FROM maklumat_program where id = ?`;
+  try {
+    await db.query(query, req.params.id);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+//--------------------testing--------------------
+//insert data into maklumat program with file
 
 router.post(
   "/maklumat-program-file-test",

@@ -105,3 +105,19 @@ VALUES (
 );
 
 SELECT * FROM maklumat_program WHERE id = 27;
+
+CREATE TABLE evaluator (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    evaluator_name VARCHAR(255),
+    evaluator_email VARCHAR(255),
+    evaluator_phone VARCHAR(255),
+    evaluator_faculty VARCHAR(255),
+    evaluator_position VARCHAR(255),
+    evaluator_status VARCHAR(255),
+    evaluator_field VARCHAR(255),
+    evaluator_appointment_date DATE,
+    program_id INT,
+    FOREIGN KEY (program_id) REFERENCES maklumat_program(id)
+);
+
+select * from evaluator;
