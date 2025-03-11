@@ -7,7 +7,7 @@ interface DropdownMenuProps {
   options: string[];
   value?: string;
   placeholderOptions: string;
-  //   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   labelId: string;
   defaultValue?: string;
   register: UseFormRegister<any>;
@@ -33,7 +33,7 @@ const DropdownUpdate: FC<DropdownMenuProps> = ({
         value={value} // Bind the current selected value
         required
         defaultValue={defaultValue}
-        {...register(labelId)}
+        {...register(labelId, { required: true })}
       >
         <option value="placeholder" disabled hidden className="text-gray-400">
           {placeholderOptions}

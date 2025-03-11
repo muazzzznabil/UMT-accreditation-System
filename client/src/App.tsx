@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/Homepage.tsx";
-import MsaForm from "./pages/MsaForm.tsx";
+// import MsaForm from "./pages/MsaForm.tsx";
 import NoPage from "./pages/NoPage.tsx";
 import Header from "./components/Header.tsx";
 import TabbedForm from "./pages/testMultiStepForm.tsx";
@@ -13,6 +13,8 @@ import MSAForm_register from "./pages/MSAForm_register.tsx";
 
 import "react-toastify/dist/ReactToastify.css";
 import { useThemeStore } from "./utils/useThemeStore.ts";
+import Evaluator_List from "./pages/InternalEvaluator_List.tsx";
+import RegisterEvaluator from "./pages/RegisterEvaluator_register.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -26,7 +28,14 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/MsaForm" element={<MsaForm />} />
+            <Route
+              path="/penilai-dalaman/:id/:name"
+              element={<Evaluator_List />}
+            />
+            <Route
+              path="/daftar-penilai/:id/:name"
+              element={<RegisterEvaluator />}
+            />
             <Route path="/MsaForm_onepage" element={<MSAForm_register />} />
             <Route path="/ProgramInfo/:id" element={<ViewFullProgram />} />
             <Route path="/program-list" element={<ProgramList />} />

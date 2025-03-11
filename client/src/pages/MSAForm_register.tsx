@@ -147,7 +147,7 @@ const MSAForm_register = () => {
                 // defaultValue={program.nama_program}
                 placeholder="Sila Masukkan Nama Program"
                 required
-                className="input input-bordered w-full"
+                className="input input-bordered w-full validator"
                 {...register("nama_program", { required: true })}
               />
             </div>
