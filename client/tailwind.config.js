@@ -12,9 +12,4 @@ export default {
       },
     },
   },
-  plugins: [typography, daisyui],
-  daisyui: {
-    // darkTheme: "light",
-    themes: ["light", "dark"],
-  },
 };
