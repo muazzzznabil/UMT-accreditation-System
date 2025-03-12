@@ -11,6 +11,7 @@ interface DatePickerProps {
   register: UseFormRegister<any>;
   defValue?: Date;
   placeholder?: string;
+  required?: boolean;
 }
 
 const DateUpdate = ({
@@ -19,6 +20,7 @@ const DateUpdate = ({
   onChange,
   register,
   defValue,
+  required,
   placeholder,
 }: DatePickerProps) => {
   return (
@@ -27,17 +29,20 @@ const DateUpdate = ({
         {label}
       </label>
       <div className="w-full">
-        <input
-          type="date"
-          id={name}
-          placeholder={placeholder}
-          {...register(name)}
-          onChange={onChange}
-          defaultValue={
-            dayjs(defValue).format("YYYY-MM-DD") || dayjs().format("YYYY-MM-DD")
-          }
-          className="p-2 h-12 rounded-lg border w-full"
-        />
+        <div className="flex flex-col ">
+          <input
+            type="date"
+            id={name}
+            placeholder={placeholder}
+            {...register(name, { required: required })}
+            onChange={onChange}
+            defaultValue={
+              dayjs(defValue).format("YYYY-MM-DD") ||
+              dayjs().format("YYYY-MM-DD")
+            }
+            className="p-2 h-12 rounded-lg border w-full"
+          />
+        </div>
       </div>
     </div>
   );

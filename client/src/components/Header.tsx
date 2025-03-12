@@ -7,7 +7,7 @@ const Sidebar = () => {
   return (
     <div className="flex">
       {/* Sidebar (Not Fixed) */}
-      <div className="w-64 min-h-screen bg-white dark:bg-gray-900 shadow-lg">
+      <div className="w-64 min-h-screen  bg-gray-900 shadow-lg">
         <div className="p-5 border-b dark:border-gray-700">
           <a href="/">
             <img src="/image/Logo_UMT.png" alt="Umt" className="w-16 " />

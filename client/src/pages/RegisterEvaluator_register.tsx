@@ -7,6 +7,8 @@ import { fakulti_List } from "../constants/maklumatProgram_constant";
 import DateUpdate from "../components/msaForm/DateUpdate";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 
 const RegisterEvaluator = () => {
   const { name, id } = useParams();
@@ -15,7 +17,10 @@ const RegisterEvaluator = () => {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm();
+  const [tarikhSurat2, setTarikhSurat2] = useState<Date>(new Date());
+  const [bilTahun, setBilTahun] = useState<any>(2);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
@@ -43,9 +48,19 @@ const RegisterEvaluator = () => {
     }
   };
 
-  //   const onSubmit: SubmitHandler<any> = async (data) => {
-  //     console.table(data);
-  //   };
+  // const onSubmit: SubmitHandler<any> = async (data) => {
+  //   console.table(data);
+  // };
+  const sahSehingga = dayjs(tarikhSurat2)
+    .add(bilTahun, "year")
+    .format("DD-MM-YYYY");
+
+  useEffect(() => {
+    const newSahSehingga = dayjs(tarikhSurat2)
+      .add(bilTahun, "year")
+      .format("YYYY-MM-DD");
+    setValue("evaluator_end_date", newSahSehingga);
+  }, [bilTahun, tarikhSurat2, setValue]);
 
   return (
     <div className="container mx-auto mt-5 font-sans flex flex-col  duration-300">
@@ -181,15 +196,22 @@ const RegisterEvaluator = () => {
               Posisi Penilai
             </label>
             <div className="w-full flex flex-col">
-              <input
+              <select
+                {...register("evaluator_position")}
                 id="evaluator_position"
-                placeholder="e.g : Professor, Ketua Sektor "
-                required
-                className="input input-bordered w-full "
-                {...register("evaluator_position", {
-                  required: true,
-                })}
-              />
+                className=" select select-bordered w-full "
+                // defaultValue={evaluator?.evaluator_position}
+              >
+                <option value="" disabled hidden selected>
+                  Sila Pilih Posisi Penilai
+                </option>
+                <option value="Ketua Panel Penilai Dalaman">
+                  Ketua Panel Penilai Dalaman
+                </option>
+                <option value="Ahli Panel Penilai Dalaman">
+                  Ahli Panel Penilai Dalaman
+                </option>
+              </select>
               {errors.evaluator_position && (
                 <p className="text-red-500 text-xs mt-1">
                   Sila Isikan Posisi Penilai
@@ -253,16 +275,68 @@ const RegisterEvaluator = () => {
           {/* Input for  evaluator field */}
 
           {/* Input for evaluator appointment date */}
-          <div className="flex mb-4 items-center">
+          <div className="flex  items-center">
             <div className="w-full flex-col">
               <DateUpdate
-                name="tarikMesyJKA"
+                name="evaluator_appointment_date"
                 label="Tarikh Lantikan Penilai"
                 register={register}
+                onChange={(e) =>
+                  setTarikhSurat2(dayjs(e.target.value).toDate())
+                }
               />
             </div>
           </div>
           {/* Input for  evaluator  appointment date */}
+
+          {/* Input for evaluator appointment period */}
+          <div className="flex mb-4 items-center">
+            <label htmlFor="" className="  label-input-msa2">
+              Tempoh Lantikan Penilai
+            </label>
+            <div className="w-full flex flex-col">
+              <div className="flex flex-row items-center">
+                <input
+                  type="number"
+                  id="evaluator_appointment_period"
+                  placeholder="Tahun"
+                  required
+                  defaultValue={2}
+                  className="input input-bordered w-1/12"
+                  {...register("evaluator_appointment_period", {
+                    required: true,
+                    onChange: (e) => setBilTahun(parseInt(e.target.value)),
+                  })}
+                />
+                <p className="ml-2">Tahun</p>
+
+                <input
+                  type="hidden"
+                  {...register("evaluator_end_date")}
+                  value={sahSehingga}
+                />
+              </div>
+            </div>
+          </div>
+          {/*Input for evaluator appointment period */}
+
+          {/* Input for evaluator appointment period */}
+          <div className="flex mb-4 items-center">
+            <label htmlFor="" className="  label-input-msa2">
+              Dilantik Sehingga
+            </label>
+            <div className="w-full">
+              <p
+                className={`w-1/8 font-normal py-1 text-md border-gray-300 rounded-sm border border-solid text-center ${
+                  themeStore.darkMode ? "bg-base-700" : "bg-white"
+                }`}
+              >
+                {sahSehingga}
+              </p>
+            </div>
+          </div>
+          {/*Input for evaluator appointment period */}
+
           <div className="flex space-x-4 justify-end">
             <input
               type="reset"

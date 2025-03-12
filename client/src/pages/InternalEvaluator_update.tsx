@@ -21,6 +21,8 @@ interface Evaluator {
   evaluator_status: string;
   evaluator_field: string;
   evaluator_appointment_date: Date;
+  evaluator_end_date: Date;
+  evaluator_appointment_period: number;
   program_id: number;
 }
 
@@ -33,7 +35,15 @@ const InternalEvaluator_update: React.FC = () => {
     formState: { errors },
     handleSubmit,
     reset,
+    setValue,
   } = useForm({});
+
+  const [tarikhSurat2, setTarikhSurat2] = useState<Date>(
+    dayjs(evaluator?.evaluator_appointment_date).toDate()
+  );
+  const [bilTahun, setBilTahun] = useState<any>(
+    evaluator?.evaluator_appointment_period
+  );
 
   useEffect(() => {
     reset({
@@ -47,8 +57,23 @@ const InternalEvaluator_update: React.FC = () => {
       evaluator_appointment_date: dayjs(
         evaluator?.evaluator_appointment_date
       ).format("YYYY-MM-DD"),
+      evaluator_end_date: dayjs(evaluator?.evaluator_end_date).format(
+        "YYYY-MM-DD"
+      ),
+      evaluator_appointment_period: evaluator?.evaluator_appointment_period,
     });
   }, [evaluator, reset]);
+
+  useEffect(() => {
+    const newSahSehingga = dayjs(tarikhSurat2)
+      .add(bilTahun, "year")
+      .format("YYYY-MM-DD");
+    setValue("evaluator_end_date", newSahSehingga);
+  }, [bilTahun, tarikhSurat2, setValue]);
+
+  // const sahSehingga = dayjs(tarikhSurat2)
+  //   .add(bilTahun, "year")
+  //   .format("DD-MM-YYYY");
 
   const getEvaluator = async () => {
     try {
@@ -101,12 +126,13 @@ const InternalEvaluator_update: React.FC = () => {
     }
   };
 
-  //   const onSubmit: SubmitHandler<any> = async (data) => {
-  //     console.table(data);
-  //   };
+  // const onSubmit: SubmitHandler<any> = async (data) => {
+  //   console.table(data);
+  // };
 
   useEffect(() => {
     getEvaluator();
+    setTarikhSurat2(dayjs(evaluator?.evaluator_appointment_date).toDate());
   }, []);
 
   return (
@@ -324,13 +350,16 @@ const InternalEvaluator_update: React.FC = () => {
           {/* Input for  evaluator field */}
 
           {/* Input for evaluator appointment date */}
-          <div className="flex mb-4 items-center">
+          <div className="flex  items-center">
             <div className="w-full flex-col">
               <DateUpdate
                 name="evaluator_appointment_date"
                 label="Tarikh Lantikan Penilai"
                 register={register}
                 required={true}
+                onChange={(e) =>
+                  setTarikhSurat2(dayjs(e.target.value).toDate())
+                }
               />
               {errors.evaluator_appointment_date && (
                 <p className="text-red-500 text-xs mt-1 ml-80">
@@ -340,6 +369,61 @@ const InternalEvaluator_update: React.FC = () => {
             </div>
           </div>
           {/* Input for  evaluator  appointment date */}
+
+          {/* Input for evaluator appointment period */}
+          <div className="flex mb-4 items-center">
+            <label htmlFor="" className="  label-input-msa2">
+              Tempoh Lantikan Penilai
+            </label>
+            <div className="w-full flex flex-col">
+              <div className="flex flex-row items-center">
+                <input
+                  type="number"
+                  id="evaluator_appointment_period"
+                  placeholder="Tahun"
+                  required
+                  defaultValue={2}
+                  className="input input-bordered w-1/12"
+                  {...register("evaluator_appointment_period", {
+                    required: true,
+                    onChange: (e) => setBilTahun(parseInt(e.target.value)),
+                  })}
+                />
+                <p className="ml-2">Tahun</p>
+
+                <input
+                  type="hidden"
+                  id="evaluator_end_date"
+                  defaultValue={dayjs(evaluator?.evaluator_end_date).format(
+                    "YYYY-MM-DD"
+                  )}
+                  {...register("evaluator_end_date")}
+                  // value={sahSehingga}
+                />
+              </div>
+            </div>
+          </div>
+          {/*Input for evaluator appointment period */}
+
+          {/* Input for evaluator appointment period */}
+          <div className="flex mb-4 items-center">
+            <label htmlFor="" className="  label-input-msa2">
+              Dilantik Sehingga
+            </label>
+            <div className="w-full">
+              <p
+                className={`w-1/8 font-normal py-1 text-md border-gray-300 rounded-sm border border-solid text-center ${
+                  themeStore.darkMode ? "bg-base-700" : "bg-white"
+                }`}
+              >
+                {evaluator && evaluator.evaluator_end_date
+                  ? dayjs(evaluator.evaluator_end_date).format("DD/MM/YYYY")
+                  : ""}
+              </p>
+            </div>
+          </div>
+          {/*Input for evaluator appointment period */}
+
           <div className="flex space-x-4 justify-end">
             <input
               type="reset"
