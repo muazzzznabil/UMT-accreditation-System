@@ -181,7 +181,7 @@ const RegisterEvaluator = () => {
               Posisi Penilai
             </label>
             <div className="w-full flex flex-col">
-              {/* <input
+              <input
                 id="evaluator_position"
                 placeholder="e.g : Professor, Ketua Sektor "
                 required
@@ -189,22 +189,7 @@ const RegisterEvaluator = () => {
                 {...register("evaluator_position", {
                   required: true,
                 })}
-              /> */}
-              <select
-                {...register("evaluator_position")}
-                id="evaluator_position"
-                className=" select select-bordered w-full "
-              >
-                <option value="" disabled hidden selected>
-                  Sila Pilih Posisi Penilai
-                </option>
-                <option value="Ketua Panel Penilai Dalaman">
-                  Ketua Panel Penilai Dalaman
-                </option>
-                <option value="Ahli Panel Penilai Dalaman">
-                  Ahli Panel Penilai Dalaman
-                </option>
-              </select>
+              />
               {errors.evaluator_position && (
                 <p className="text-red-500 text-xs mt-1">
                   Sila Isikan Posisi Penilai
@@ -271,7 +256,7 @@ const RegisterEvaluator = () => {
           <div className="flex mb-4 items-center">
             <div className="w-full flex-col">
               <DateUpdate
-                name="evaluator_appointment_date"
+                name="tarikMesyJKA"
                 label="Tarikh Lantikan Penilai"
                 register={register}
               />

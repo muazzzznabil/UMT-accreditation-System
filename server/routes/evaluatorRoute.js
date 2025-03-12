@@ -58,10 +58,10 @@ router.get("/penilai/:id", async function (req, res) {
 });
 
 //update evaluator
-router.put("/penilai/:id/edit", async function (req, res) {
+router.put("/penilai/:id", async function (req, res) {
   const query = `
     UPDATE evaluator
-    SET evaluator_name = ?, evaluator_email = ?, evaluator_phone = ?, evaluator_faculty = ?, evaluator_position = ?, evaluator_status = ?, evaluator_field = ?, evaluator_appointment_date = ?
+    SET evaluator_name = ?, evaluator_email = ?, evaluator_phone = ?, evaluator_faculty = ?, evaluator_position = ?, evaluator_status = ?, evaluator_field = ?, evaluator_appointment_date = ?, program_id = ?
     WHERE id = ?
   `;
   const values = [
@@ -73,7 +73,7 @@ router.put("/penilai/:id/edit", async function (req, res) {
     req.body.evaluator_status,
     req.body.evaluator_field,
     req.body.evaluator_appointment_date,
-    // req.body.program_id,
+    req.body.program_id,
     req.params.id,
   ];
 
@@ -94,26 +94,6 @@ router.delete("/penilai/:id/delete", async function (req, res) {
     res.sendStatus(200);
   } catch (error) {
     console.error(error);
-  }
-});
-
-//delete multiple evaluator
-router.delete("/penilai/delete-multiple", async function (req, res) {
-  const { ids } = req.body; // Expecting an array of IDs
-
-  if (!Array.isArray(ids) || ids.length === 0) {
-    return res.status(400).json({ error: "Invalid or empty ID list" });
-  }
-
-  const placeholders = ids.map(() => "?").join(","); // Create (?, ?, ?...) dynamically
-  const query = `DELETE FROM evaluator WHERE id IN (${placeholders})`;
-
-  try {
-    await db.query(query, ids);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to delete evaluators" });
   }
 });
 

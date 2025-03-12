@@ -15,8 +15,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useThemeStore } from "./utils/useThemeStore.ts";
 import Evaluator_List from "./pages/InternalEvaluator_List.tsx";
 import RegisterEvaluator from "./pages/RegisterEvaluator_register.tsx";
-import InternalEvaluator_update from "./pages/InternalEvaluator_update.tsx";
-import InternalEvaluator_view from "./pages/InternalEvaluator_view.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -30,8 +28,6 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Homepage />} />
-
-            {/* Evaluator */}
             <Route
               path="/penilai-dalaman/:id/:name"
               element={<Evaluator_List />}
@@ -40,24 +36,11 @@ function App() {
               path="/daftar-penilai/:id/:name"
               element={<RegisterEvaluator />}
             />
-            <Route
-              path="/daftar-penilai/:id_program/:id/:name/update"
-              element={<InternalEvaluator_update />}
-            />
-            <Route
-              path="/daftar-penilai/:id_program/:id/:name/evaluator-detail"
-              element={<InternalEvaluator_view />}
-            />
-            {/* Evaluator */}
-
-            {/* Msa Form */}
             <Route path="/MsaForm_onepage" element={<MSAForm_register />} />
             <Route path="/ProgramInfo/:id" element={<ViewFullProgram />} />
             <Route path="/program-list" element={<ProgramList />} />
             <Route path="/testMultiStepForm" element={<TabbedForm />} />
             <Route path="/edit-program/:id" element={<UpdateMaklumat />} />
-            {/* Msa Form */}
-
             <Route path="*" element={<NoPage />} />
           </Routes>
         </div>
