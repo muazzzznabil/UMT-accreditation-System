@@ -10,6 +10,10 @@ export default {
       fontFamily: {
         sans: ["Poppins", "Roboto", "Arial", "sans-serif"],
       },
+      plugins: [typography, daisyui],
+      daisyui: {
+        themes: ["light", "dark"],
+      },
     },
   },
 };
