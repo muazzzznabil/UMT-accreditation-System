@@ -7,29 +7,87 @@ import { fakulti_List } from "../constants/maklumatProgram_constant";
 import DateUpdate from "../components/msaForm/DateUpdate";
 import Swal from "sweetalert2";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
 
-const RegisterEvaluator = () => {
-  const { name, id } = useParams();
+interface Evaluator {
+  id: number;
+  name: string;
+  evaluator_name: string;
+  evaluator_email: string;
+  evaluator_phone: string;
+  evaluator_faculty: string;
+  evaluator_position: string;
+  evaluator_status: string;
+  evaluator_field: string;
+  evaluator_appointment_date: Date;
+  program_id: number;
+}
+
+const InternalEvaluator_update: React.FC = () => {
+  const { name, id, id_program } = useParams();
   const themeStore = useThemeStore();
+  const [evaluator, setEvaluator] = useState<Evaluator | null>(null);
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+    reset,
+  } = useForm({});
+
+  useEffect(() => {
+    reset({
+      evaluator_name: evaluator?.evaluator_name,
+      evaluator_email: evaluator?.evaluator_email,
+      evaluator_phone: evaluator?.evaluator_phone,
+      evaluator_faculty: evaluator?.evaluator_faculty,
+      evaluator_position: evaluator?.evaluator_position,
+      evaluator_status: evaluator?.evaluator_status,
+      evaluator_field: evaluator?.evaluator_field,
+      evaluator_appointment_date: dayjs(
+        evaluator?.evaluator_appointment_date
+      ).format("YYYY-MM-DD"),
+    });
+  }, [evaluator, reset]);
+
+  const getEvaluator = async () => {
+    try {
+      const response = await axios.get<Evaluator[]>(
+        `http://localhost:5000/penilai-dalaman/penilai/${id}`
+      );
+      setEvaluator(response.data[0]);
+      console.table(evaluator);
+    } catch (error: any) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Gagal Mendapatkan Program",
+        text: "Berlaku ralat semasa mendapatkan program",
+        footer: "Ralat :" + error.message,
+        confirmButtonText: "Cuba Lagi",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          getEvaluator();
+        }
+      });
+    }
+  };
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       axios
-        .post(`http://localhost:5000/penilai-dalaman/daftar-penilai`, data)
+        .put(`http://localhost:5000/penilai-dalaman/penilai/${id}/edit`, data)
         .then((response) => {
           console.table(response.data);
+
           Swal.fire({
-            title: "Penilai Didaftarkan!",
-            text: "Penilai Berjaya Didaftarkan!",
+            title: "Maklumat Penilai Dikemaskini!",
+            text: "Maklumat Penilai Berjaya Didaftarkan!",
             icon: "success",
           }).then((result) => {
             if (result.isConfirmed) {
-              window.location.href = "/penilai-dalaman/" + id + "/" + name;
+              window.location.href =
+                "/penilai-dalaman/" + id_program + "/" + name;
             }
           });
         });
@@ -38,7 +96,7 @@ const RegisterEvaluator = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Program Tidak Berjaya Didaftarkan!",
+        text: "Maklumat Tidak Berjaya Dikemaskini!",
       });
     }
   };
@@ -46,6 +104,10 @@ const RegisterEvaluator = () => {
   //   const onSubmit: SubmitHandler<any> = async (data) => {
   //     console.table(data);
   //   };
+
+  useEffect(() => {
+    getEvaluator();
+  }, []);
 
   return (
     <div className="container mx-auto mt-5 font-sans flex flex-col  duration-300">
@@ -62,7 +124,7 @@ const RegisterEvaluator = () => {
             <a href="/program-list">Program List For MSA Application</a>
           </li>
           <li>
-            <a href={`/penilai-dalaman/${id}/${name}`}>
+            <a href={`/penilai-dalaman/${id_program}/${name}`}>
               Senarai Penilai Dalaman
             </a>
           </li>
@@ -87,6 +149,7 @@ const RegisterEvaluator = () => {
                 id="evaluator_name"
                 placeholder="Sila Isikan Nama Lengkap Penilai"
                 required
+                // defaultValue={evaluator?.evaluator_name}
                 className="input input-bordered w-full "
                 {...register("evaluator_name", { required: true })}
               />
@@ -181,19 +244,11 @@ const RegisterEvaluator = () => {
               Posisi Penilai
             </label>
             <div className="w-full flex flex-col">
-              {/* <input
-                id="evaluator_position"
-                placeholder="e.g : Professor, Ketua Sektor "
-                required
-                className="input input-bordered w-full "
-                {...register("evaluator_position", {
-                  required: true,
-                })}
-              /> */}
               <select
                 {...register("evaluator_position")}
                 id="evaluator_position"
                 className=" select select-bordered w-full "
+                defaultValue={evaluator?.evaluator_position}
               >
                 <option value="" disabled hidden selected>
                   Sila Pilih Posisi Penilai
@@ -226,7 +281,7 @@ const RegisterEvaluator = () => {
                 className="radio radio-primary"
                 value="Aktif"
                 id="aktif"
-                defaultChecked
+                defaultChecked={evaluator?.evaluator_status === " aktif"}
               />
               <label htmlFor="aktif" className="ml-2 mr-4">
                 Aktif
@@ -237,6 +292,7 @@ const RegisterEvaluator = () => {
                 className="radio radio-primary"
                 id="tidak_aktif"
                 value="Tidak Aktif"
+                defaultChecked={evaluator?.evaluator_status === "tidak aktif"}
               />
               <label htmlFor="tidak_aktif" className="ml-2 mr-4">
                 Tidak Aktif
@@ -274,7 +330,13 @@ const RegisterEvaluator = () => {
                 name="evaluator_appointment_date"
                 label="Tarikh Lantikan Penilai"
                 register={register}
+                required={true}
               />
+              {errors.evaluator_appointment_date && (
+                <p className="text-red-500 text-xs mt-1 ml-80">
+                  Sila isikan Tarikh Lantikan Penilai
+                </p>
+              )}
             </div>
           </div>
           {/* Input for  evaluator  appointment date */}
@@ -312,4 +374,4 @@ const RegisterEvaluator = () => {
   );
 };
 
-export default RegisterEvaluator;
+export default InternalEvaluator_update;
