@@ -114,7 +114,7 @@ const ProgramList: React.FC = () => {
       )}
 
       {/* Search Bar */}
-      <div className="flex justify-start w-full p-4 ">
+      <div className="flex justify-between w-full p-4 mb-4">
         <div className="relative w-full max-w-sm">
           <input
             type="text"
@@ -143,6 +143,28 @@ const ProgramList: React.FC = () => {
             </svg>
           </div>
         </div>
+        <Link to={`/MsaForm_onepage`}>
+          <button className="btn bg-[#28a745] text-white rounded-lg hover:bg-[#218838] mr-4">
+            <svg
+              className="w-6 h-6 text-gray-800 text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+            Tambah Program
+          </button>
+        </Link>
       </div>
 
       {/* Table Container with Fixed Height */}
