@@ -81,7 +81,7 @@ const ProgramList: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto mt-5 font-sans">
+    <div className="container mx-auto mt-5 font-sans h-screen">
       <h1 className="text-xl font-bold p-2 mt-4 mb-4">
         PROGRAM LIST FOR MSA APPLICATION
       </h1>
@@ -114,7 +114,7 @@ const ProgramList: React.FC = () => {
       )}
 
       {/* Search Bar */}
-      <div className="flex justify-start w-full p-4">
+      <div className="flex justify-start w-full p-4 ">
         <div className="relative w-full max-w-sm">
           <input
             type="text"
@@ -146,7 +146,7 @@ const ProgramList: React.FC = () => {
       </div>
 
       {/* Table Container with Fixed Height */}
-      <div className="h-[510px] rounded-lg shadow-md">
+      <div className="h-[510px] rounded-lg shadow-md z-50">
         <table className="table table-zebra table-pin-rows w-full">
           <thead>
             <tr>

@@ -138,7 +138,8 @@ const InternalEvaluator_update: React.FC = () => {
   return (
     <div className="container mx-auto mt-5 font-sans flex flex-col  duration-300">
       <h1 className="text-xl font-medium mt-4 mb-4">
-        Daftar Penilai Dalaman: <span className="font-bold">{name}</span>
+        Kemaskini Maklumat Penilai Dalaman:{" "}
+        <span className="font-bold">{name}</span>
       </h1>
       {/* Breadcrumbs */}
       <div className="breadcrumbs text-md mb-2">
@@ -154,7 +155,7 @@ const InternalEvaluator_update: React.FC = () => {
               Senarai Penilai Dalaman
             </a>
           </li>
-          <li>Daftar Penilai Program</li>
+          <li>Kemaskini Maklumat Penilai Program</li>
         </ul>
       </div>
 
@@ -436,9 +437,9 @@ const InternalEvaluator_update: React.FC = () => {
               onClick={(e) => {
                 e.preventDefault();
                 Swal.fire({
-                  title: "Tambah Penilai Program?",
+                  title: "Kemaskini Maklumat Penilai Program?",
                   showDenyButton: true,
-                  confirmButtonText: "Simpan",
+                  confirmButtonText: "Kemaskini",
                   denyButtonText: `Batal`,
                 }).then((result) => {
                   if (result.isConfirmed) {
