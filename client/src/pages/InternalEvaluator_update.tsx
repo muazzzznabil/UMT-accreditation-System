@@ -71,10 +71,6 @@ const InternalEvaluator_update: React.FC = () => {
     setValue("evaluator_end_date", newSahSehingga);
   }, [bilTahun, tarikhSurat2, setValue]);
 
-  // const sahSehingga = dayjs(tarikhSurat2)
-  //   .add(bilTahun, "year")
-  //   .format("DD-MM-YYYY");
-
   const getEvaluator = async () => {
     try {
       const response = await axios.get<Evaluator[]>(

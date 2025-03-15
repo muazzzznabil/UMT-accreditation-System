@@ -121,3 +121,8 @@ CREATE TABLE evaluator (
 );
 
 select * from evaluator;
+
+create Table accreditation (
+    accreditation_id INT AUTO_INCREMENT PRIMARY KEY,
+    
+)

@@ -167,8 +167,7 @@ const ProgramList: React.FC = () => {
         </Link>
       </div>
 
-      {/* Table Container with Fixed Height */}
-      <div className="h-[510px] rounded-lg shadow-md z-50">
+      <div className="h-[460px] rounded-lg shadow-md z-50">
         <table className="table table-zebra table-pin-rows w-full">
           <thead>
             <tr>

@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useThemeStore } from "../utils/useThemeStore";
+import { FaArrowRight, FaEdit } from "react-icons/fa";
+import dayjs from "dayjs";
 
 const ViewFullProgram = () => {
   const [program, setProgram] = useState<Program | null>(null);
@@ -99,6 +101,14 @@ const ViewFullProgram = () => {
             <li>View Program : {program.nama_program}</li>
           </ul>
         </div>
+
+        <div className="flex  space-x-4  justify-end">
+          <Link to={`/edit-program/${program.id}`}>
+            <button className="btn btn-warning">
+              <FaEdit className="mr-2" /> Edit
+            </button>
+          </Link>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Program Details */}
           <div
@@ -172,33 +182,48 @@ const ViewFullProgram = () => {
           >
             {" "}
             <h2 className="text-2xl font-semibold mb-4">
-              Full-time Study Details
+              Pengajian Sepenuh Masa
             </h2>
             <table className="table table-auto w-full">
               <tbody>
                 <tr>
-                  <td className="font-medium">Max Years:</td>
-                  <td>{program.Sepenuh_max_Tahun} Tahun</td>
+                  <td className="font-medium">Bilangan Tahun </td>
+
+                  <td className="font-medium">
+                    Minimum : {program.Sepenuh_min_Tahun} Tahun
+                  </td>
+                  <td className="font-medium">
+                    <FaArrowRight />
+                  </td>
+                  <td className="font-medium">
+                    Maximum : {program.Sepenuh_max_Tahun} Tahun
+                  </td>
                 </tr>
                 <tr>
-                  <td className="font-medium">Max Weeks:</td>
-                  <td>{program.Sepenuh_max_Minggu} Minggu</td>
+                  <td className="font-medium">Bilangan Minggu </td>
+
+                  <td className="font-medium">
+                    Minimum : {program.Sepenuh_min_Minggu} Minggu
+                  </td>
+                  <td className="font-medium">
+                    <FaArrowRight />
+                  </td>
+                  <td className="font-medium">
+                    Maximum : {program.Sepenuh_max_Minggu} Minggu
+                  </td>
                 </tr>
                 <tr>
-                  <td className="font-medium">Max Semesters:</td>
-                  <td>{program.Sepenuh_max_Semester} Semester</td>
-                </tr>
-                <tr>
-                  <td className="font-medium">Min Years:</td>
-                  <td>{program.Sepenuh_min_Tahun} Tahun</td>
-                </tr>
-                <tr>
-                  <td className="font-medium">Min Weeks:</td>
-                  <td>{program.Sepenuh_min_Minggu} Minggu</td>
-                </tr>
-                <tr>
-                  <td className="font-medium">Min Semesters:</td>
-                  <td>{program.Sepenuh_min_Semester} Semester</td>
+                  <td className="font-medium">Bilangan Semester </td>
+
+                  <td className="font-medium">
+                    Minimum : {program.Sepenuh_min_Semester} Semester
+                  </td>
+                  <td className="font-medium">
+                    <FaArrowRight />
+                  </td>
+                  <td className="font-medium">
+                    Maximum : {program.Sepenuh_max_Semester} Semester
+                  </td>
                 </tr>
                 <tr>
                   <td className="font-medium">Semester Panjang:</td>
@@ -224,40 +249,53 @@ const ViewFullProgram = () => {
           >
             {" "}
             <h2 className="text-2xl font-semibold mb-4">
-              Part-time Study Details
+              Pengajian Separuh Masa
             </h2>
             <table className="table table-auto w-full">
               <tbody>
                 <tr>
-                  <td className="font-medium">Max Years:</td>
-                  <td>{`${program.Separuh_max_Tahun} Tahun`}</td>
+                  <td className="font-medium">Bilangan Tahun </td>
+                  <td className="font-medium">
+                    Minimum : {program.Separuh_min_Tahun} Tahun
+                  </td>
+                  <td className="font-medium">
+                    <FaArrowRight />
+                  </td>
+                  <td className="font-medium">
+                    Maximum : {program.Separuh_max_Tahun} Tahun
+                  </td>
                 </tr>
                 <tr>
-                  <td className="font-medium">Max Weeks:</td>
-                  <td>{`${program.Separuh_max_Minggu} Minggu`}</td>
+                  <td className="font-medium">Bilangan Minggu </td>
+                  <td className="font-medium">
+                    Minimum : {program.Separuh_min_Minggu} Minggu
+                  </td>
+                  <td className="font-medium">
+                    <FaArrowRight />
+                  </td>
+                  <td className="font-medium">
+                    Maximum : {program.Separuh_max_Minggu} Minggu
+                  </td>
                 </tr>
                 <tr>
-                  <td className="font-medium">Max Semesters:</td>
-                  <td>{`${program.Separuh_max_Semester} Semester`}</td>
-                </tr>
-                <tr>
-                  <td className="font-medium">Min Years:</td>
-                  <td>{`${program.Separuh_min_Tahun} Tahun`}</td>
-                </tr>
-                <tr>
-                  <td className="font-medium">Min Weeks:</td>
-                  <td>{`${program.Separuh_min_Minggu} Minggu`}</td>
-                </tr>
-                <tr>
-                  <td className="font-medium">Min Semesters:</td>
-                  <td>{`${program.Separuh_min_Semester} Semester`}</td>
+                  <td className="font-medium">Bilangan Semester </td>
+
+                  <td className="font-medium">
+                    Minimum : {program.Separuh_min_Semester} Semester
+                  </td>
+                  <td className="font-medium">
+                    <FaArrowRight />
+                  </td>
+                  <td className="font-medium">
+                    Maximum : {program.Separuh_max_Semester} Semester
+                  </td>
                 </tr>
                 <tr>
                   <td className="font-medium">Semester Panjang:</td>
                   <td>{program.Sepenuh_SemesterPanjang_Semester} Semester</td>
                 </tr>
                 <tr>
-                  <td className="font-medium">Semesters Pendek:</td>
+                  <td className="font-medium"> Semesters Pendek:</td>
                   <td>{program.Sepenuh_SemesterPendek_Semester} Semester</td>
                 </tr>
                 <tr>
@@ -274,7 +312,7 @@ const ViewFullProgram = () => {
           <div
             className={`card shadow-lg p-6 ${
               themeStore.darkMode ? "bg-[#1f2937]" : "bg-white"
-            } rounded-lg`}
+            } rounded-lg mb-4`}
           >
             {" "}
             <h2 className="text-2xl font-semibold mb-4">JKPT Meeting</h2>
@@ -282,33 +320,17 @@ const ViewFullProgram = () => {
               <tbody>
                 <tr>
                   <td className="font-medium">Tarikh Surat MSA:</td>
-                  <td>
-                    {new Date(program.tarikhSurat)
-                      .toLocaleString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                      .split("/")
-                      .join("-")}
-                  </td>
+                  <td>{dayjs(program.tarikhSurat).format("DD/MM/YYYY")}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Tarikh Terima Surat MSA:</td>
                   <td>
-                    {new Date(program.tarikhTerimaSurat)
-                      .toLocaleString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                      .split("/")
-                      .join("-")}
+                    {dayjs(program.tarikhTerimaSurat).format("DD/MM/YYYY")}
                   </td>
                 </tr>
                 <tr>
                   <td className="font-medium">Tarikh Mesyuarat JKPT:</td>
-                  <td>{program.tarikhMesyuarat}</td>
+                  <td>{dayjs(program.tarikhMesyuarat).format("DD/MM/YYYY")}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Tempoh Sah MSA:</td>
@@ -316,11 +338,11 @@ const ViewFullProgram = () => {
                 </tr>
                 <tr>
                   <td className="font-medium">Sah Sehingga:</td>
-                  <td>{program.sahSehingga}</td>
+                  <td>{dayjs(program.sahSehingga).format("DD/MM/YYYY")}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Bil Mesyuarat JKPT:</td>
-                  <td>{program.bilMesyuarat}</td>
+                  <td>Bil. {program.bilMesyuarat}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Minit JKPT:</td>
@@ -341,7 +363,7 @@ const ViewFullProgram = () => {
 
           {/* JKA Meeting Card */}
           <div
-            className={`card shadow-lg p-6 ${
+            className={`card shadow-lg p-6 mb-4 ${
               themeStore.darkMode ? "bg-[#1f2937]" : "bg-white"
             } rounded-lg`}
           >
@@ -351,20 +373,11 @@ const ViewFullProgram = () => {
               <tbody>
                 <tr>
                   <td className="font-medium">Tarikh Mesyuarat JKA:</td>
-                  <td>
-                    {new Date(program.tarikMesyJKA)
-                      .toLocaleString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                      .split("/")
-                      .join("-")}
-                  </td>
+                  <td>{dayjs(program.tarikMesyJKA).format("DD/MM/YYYY")}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Bil Mesyuarat JKA:</td>
-                  <td>{program.bilMesyuaratJKA}</td>
+                  <td>Bil. {program.bilMesyuaratJKA}</td>
                 </tr>
                 <tr>
                   <td className="font-medium">Minit JKA:</td>
@@ -385,6 +398,7 @@ const ViewFullProgram = () => {
           </div>
         </div>
       </div>
+      {/* </div> */}
     </>
   );
 };

@@ -40,7 +40,6 @@ const Evaluator_List = () => {
         { data: { ids } }
       );
 
-      // Update the UI by filtering out deleted evaluators
       setListEvaluator((prev) =>
         prev.filter((evalItem) => !ids.includes(evalItem.id))
       );
