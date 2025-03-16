@@ -124,5 +124,15 @@ select * from evaluator;
 
 create Table accreditation (
     accreditation_id INT AUTO_INCREMENT PRIMARY KEY,
+    program_id INT,
+    uploadDate DATE,
+    accreditationType VARCHAR(255),
+    accreditationStartDate DATE,
+    accreditationEndDate DATE,
+    accreditationStatus VARCHAR(255),
+    accreditationExtensionNumber int,
+    accreditationFilePath DATE,
+    FOREIGN KEY (program_id) REFERENCES maklumat_program(id)
+    
     
 )

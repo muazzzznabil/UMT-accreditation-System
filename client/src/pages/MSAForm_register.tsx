@@ -470,7 +470,11 @@ const MSAForm_register = () => {
             </div>{" "}
           </div>
           {/* Action Button  */}
-          <div className="flex space-x-4 justify-end mt-4">
+          <div
+            className={`flex space-x-4 justify-end mt-4 ${
+              activeTab != "Mesyuarat JKA" && "hidden"
+            }`}
+          >
             <input
               type="reset"
               value="Reset"

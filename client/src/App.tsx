@@ -18,6 +18,8 @@ import RegisterEvaluator from "./pages/RegisterEvaluator_register.tsx";
 import InternalEvaluator_update from "./pages/InternalEvaluator_update.tsx";
 import InternalEvaluator_view from "./pages/InternalEvaluator_view.tsx";
 import HeaderSidebar from "./components/HeaderSidebar.tsx";
+import Accreditation_list from "./pages/accreditationRecords_list.tsx";
+import Accreditation_register from "./pages/accreditationRecords_register.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -52,6 +54,17 @@ function App() {
                 element={<InternalEvaluator_view />}
               />
               {/* Evaluator */}
+
+              {/* Accreditation */}
+              <Route
+                path="/akreditasi-program/:id/:nama_program"
+                element={<Accreditation_list />}
+              />
+              <Route
+                path="/akreditasi-program/:id/daftar-akreditasi/:nama_program"
+                element={<Accreditation_register />}
+              />
+              {/* Accreditation */}
 
               {/* Msa Form */}
               <Route path="/MsaForm_onepage" element={<MSAForm_register />} />

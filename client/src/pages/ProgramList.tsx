@@ -82,7 +82,7 @@ const ProgramList: React.FC = () => {
 
   return (
     <div className="container mx-auto mt-5 font-sans h-screen">
-      <h1 className="text-xl font-bold p-2 mt-4 mb-4">
+      <h1 className="text-xl font-bold  mt-4 mb-4">
         PROGRAM LIST FOR MSA APPLICATION
       </h1>
       <div className="breadcrumbs text-md mb-2">
@@ -208,10 +208,14 @@ const ProgramList: React.FC = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/#">Rekod Pembayaran</Link>
+                        <Link
+                          to={`/akreditasi-program/${program.id}/${program.nama_program}`}
+                        >
+                          Rekod Sijil Akreditasi
+                        </Link>
                       </li>
                       <li>
-                        <Link to="/#">Sijil Akreditasi</Link>
+                        <Link to="/#">Rekod Pembayaran</Link>
                       </li>
                     </ul>
                   </div>

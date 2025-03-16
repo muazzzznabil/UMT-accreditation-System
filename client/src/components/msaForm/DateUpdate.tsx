@@ -12,6 +12,7 @@ interface DatePickerProps {
   defValue?: Date;
   placeholder?: string;
   required?: boolean;
+  className?: string;
 }
 
 const DateUpdate = ({
@@ -22,9 +23,10 @@ const DateUpdate = ({
   defValue,
   required,
   placeholder,
+  className,
 }: DatePickerProps) => {
   return (
-    <div className="flex mb-4 items-center">
+    <div className={`flex mb-4 items-center ${className}`}>
       <label htmlFor={name} className="label-input-msa">
         {label}
       </label>
