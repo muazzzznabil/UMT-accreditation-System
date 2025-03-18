@@ -7,17 +7,18 @@ import MuatNaikSurat from "../components/msaForm/MuatNaikSurat";
 
 const Accreditation_register = () => {
   const { id, nama_program } = useParams();
-  const { darkMode, toggleDarkMode } = useThemeStore();
+  const { darkMode } = useThemeStore();
   const {
     register,
-    formState: { errors },
-    handleSubmit,
+    // formState: { errors },
+    // handleSubmit,
   } = useForm({});
 
   return (
     <div className={`container mt-5 mx-auto h-screen p-4`}>
       <h1 className="text-xl font-bold  mt-4 mb-4">
-        Rekod Akreditasi : <span className="font-bold">{nama_program}</span>{" "}
+        Rekod Permohonan Akreditasi :{" "}
+        <span className="font-bold">{nama_program}</span>{" "}
       </h1>
 
       {/* Breadcrumbs */}
@@ -34,7 +35,7 @@ const Accreditation_register = () => {
               Rekod Akreditasi Program: {nama_program}
             </a>
           </li>
-          <li>Tambah Rekod Akreditasi</li>
+          <li>Rekod Permohonan Akreditasi</li>
         </ul>
       </div>
       {/* Breadcrumbs */}
@@ -54,11 +55,17 @@ const Accreditation_register = () => {
         />
 
         <DateUpdate
+          name="uploadDate"
+          label="Tarikh Penghantaran Permohonan Akreditasi"
+          register={register}
+          defValue={new Date("YYYY-MM-DD")}
+          className="mt-3"
+        />
+        {/* <DateUpdate
           name="accreditationStartDate"
           label="Tarikh Mula Akreditasi"
           register={register}
           defValue={new Date("YYYY-MM-DD")}
-          className="mt-4"
         />
 
         <DateUpdate
@@ -66,9 +73,12 @@ const Accreditation_register = () => {
           label="Tarikh Akhir Akreditasi"
           register={register}
           defValue={new Date("YYYY-MM-DD")}
-        />
+        /> */}
 
-        <MuatNaikSurat label="Accreditation Form" name="accreditationForm" />
+        <MuatNaikSurat
+          label="Borang Permohonan Akreditasi"
+          name="accreditationForm"
+        />
       </div>
     </div>
   );

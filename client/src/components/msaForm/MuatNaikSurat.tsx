@@ -6,6 +6,7 @@ interface Props {
   // jkpt_model: MesyJKPT;
   name: string;
   // formData: FormData;
+  // className?: string;
 }
 
 const MuatNaikSurat = ({ label, name }: Props) => {
@@ -36,7 +37,7 @@ const MuatNaikSurat = ({ label, name }: Props) => {
   };
 
   return (
-    <div className="flex mb-4 items-center">
+    <div className="flex mb-4 ">
       <label htmlFor="name" className="label-input-msa">
         {label}
       </label>

@@ -114,6 +114,7 @@ router.delete("/penilai/delete-multiple", async function (req, res) {
   try {
     await db.query(query, ids);
     res.sendStatus(200);
+    console.log("Success");
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to delete evaluators" });

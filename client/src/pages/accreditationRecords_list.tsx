@@ -27,10 +27,10 @@ const Accreditation_list = () => {
       <div className="flex  flex-col items-end">
         <div>
           <Link
-            to={`/akreditasi-program/${id}/daftar-akreditasi/${nama_program}`}
+            to={`/akreditasi-program/${id}/permohonan-akreditasi/${nama_program}`}
           >
             <button className="btn btn-warning my-4">
-              <FaRegEdit className="w-8" /> Tambah Akreditasi
+              <FaRegEdit className="w-8" /> Permohonan Akreditasi
             </button>
           </Link>
         </div>

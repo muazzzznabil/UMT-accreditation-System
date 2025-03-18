@@ -136,3 +136,23 @@ create Table accreditation (
     
     
 )
+
+create Table accreditation_application(
+    id int AUTO_INCREMENT PRIMARY KEY,
+    program_id INT,
+    application_status INT,
+    application_type VARCHAR(255),
+    application_path VARCHAR(255),
+    application_submission_date DATE,
+    FOREIGN KEY (program_id) REFERENCES maklumat_program(id)
+)
+
+SELECT * FROM accreditation_application;
+
+    SELECT 
+      accreditation_application.*,
+      maklumat_program.nama_program AS program_name
+    FROM 
+      accreditation_application
+    INNER JOIN 
+      maklumat_program ON accreditation_application.program_id = maklumat_program.id

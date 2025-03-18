@@ -2,6 +2,7 @@
 import dayjs from "dayjs";
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
+import { useThemeStore } from "../../utils/useThemeStore";
 
 interface DatePickerProps {
   name: string;
@@ -13,6 +14,7 @@ interface DatePickerProps {
   placeholder?: string;
   required?: boolean;
   className?: string;
+  inputClassName?: string;
 }
 
 const DateUpdate = ({
@@ -24,7 +26,10 @@ const DateUpdate = ({
   required,
   placeholder,
   className,
+  inputClassName,
 }: DatePickerProps) => {
+  const { darkMode } = useThemeStore();
+
   return (
     <div className={`flex mb-4 items-center ${className}`}>
       <label htmlFor={name} className="label-input-msa">
@@ -42,7 +47,10 @@ const DateUpdate = ({
               dayjs(defValue).format("YYYY-MM-DD") ||
               dayjs().format("YYYY-MM-DD")
             }
-            className="p-2 h-12 rounded-lg border w-full"
+            className={`${inputClassName} p-2  rounded ${
+              darkMode ? "bg-base-200" : "bg-white"
+            } w-1/2 ring-1 ring-gray-400`}
+            // className={`datetime-local `}
           />
         </div>
       </div>

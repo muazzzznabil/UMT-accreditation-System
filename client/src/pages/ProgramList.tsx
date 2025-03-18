@@ -211,7 +211,7 @@ const ProgramList: React.FC = () => {
                         <Link
                           to={`/akreditasi-program/${program.id}/${program.nama_program}`}
                         >
-                          Rekod Sijil Akreditasi
+                          Rekod Permohonan Akreditasi
                         </Link>
                       </li>
                       <li>

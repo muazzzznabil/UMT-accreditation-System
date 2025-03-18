@@ -38,5 +38,18 @@ jspm_packages/
 .cache
 
 #Personal File
-.pdf
-.pptx
+*.pdf
+*.ppt
+*.pptx
+*.doc
+*.docx
+*.jpg
+*.png
+*.gif
+*.jpg
+*.jpeg
+*.webp
+*.svg
+*.mov
+*.mp4
+*.avi

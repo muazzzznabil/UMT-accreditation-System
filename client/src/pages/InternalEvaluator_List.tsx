@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -32,7 +33,6 @@ const Evaluator_List = () => {
     fetchEvaluators();
   }, []);
 
-  // Modified handleDelete to accept an array of IDs
   const handleDelete = async (ids: number[]) => {
     try {
       await axios.delete(
@@ -151,7 +151,7 @@ const Evaluator_List = () => {
           <Link to={`/daftar-penilai/${id}/${name}`}>
             <button className="btn bg-[#28a745] text-white hover:bg-[#218838] mr-4">
               <svg
-                className="w-6 h-6 text-gray-800 text-white"
+                className="w-6 h-6  text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -232,6 +232,7 @@ const Evaluator_List = () => {
               )}
             </div>
           )}
+          {/* Action Button */}
         </div>
       </div>
     </div>

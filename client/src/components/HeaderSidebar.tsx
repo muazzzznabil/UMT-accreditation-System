@@ -1,7 +1,13 @@
 // import React, { useState } from "react";
 import { useThemeStore } from "../utils/useThemeStore";
 import { Link } from "react-router-dom";
-import { FaBars, FaFileAlt, FaThList } from "react-icons/fa";
+import {
+  FaBars,
+  FaFileAlt,
+  FaThList,
+  FaArchive,
+  FaListUl,
+} from "react-icons/fa";
 const HeaderSidebar = () => {
   const { darkMode, toggleDarkMode } = useThemeStore();
   //   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -76,6 +82,25 @@ const HeaderSidebar = () => {
                     </Link>{" "}
                   </li>
                   <div className="divider"></div>
+                  <li>
+                    <Link to="/akreditasi-program/permohonan-akreditasi/">
+                      <div className="flex items-center ">
+                        <FaArchive className="text-2xl" />
+                        <span className="ml-2">Permohonan Akreditasi</span>
+                      </div>
+                    </Link>{" "}
+                  </li>
+                  <div className="divider"></div>
+                  <li>
+                    <Link to="/akreditasi-program/senarai-permohonan-akreditasi/">
+                      <div className="flex items-center ">
+                        <FaListUl className="text-2xl" />
+                        <span className="ml-2">
+                          Senarai Permohonan Akreditasi
+                        </span>
+                      </div>
+                    </Link>{" "}
+                  </li>
                 </ul>
               </div>
             </div>
