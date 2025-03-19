@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import dayjs from "dayjs";
+// import { set } from "react-hook-form";
 
 interface application {
   id: number;
@@ -22,6 +23,7 @@ const Application_view: React.FC = () => {
   const [itemsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [program_name, setProgram_name] = useState<string>("");
 
   const getApplication = async () => {
     try {
@@ -195,6 +197,11 @@ const Application_view: React.FC = () => {
                 selectedIds.length !== 1 && "hover:cursor-not-allowed"
               }`}
               disabled={selectedIds.length !== 1}
+              onClick={() => {
+                if (selectedIds.length === 1) {
+                  window.location.href = `/akreditasi-program/${selectedIds[0]}/${program_name}/update-permohonan-akreditasi`;
+                }
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -264,13 +271,14 @@ const Application_view: React.FC = () => {
                     type="checkbox"
                     id={program.id.toString()}
                     checked={selectedIds.includes(program.id)}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setSelectedIds((prev) =>
                         e.target.checked
                           ? [...prev, program.id]
                           : prev.filter((id) => id !== program.id)
-                      )
-                    }
+                      );
+                      setProgram_name(program.program_name);
+                    }}
                     className="checkbox checkbox-primary"
                   />
                 </td>
@@ -286,7 +294,7 @@ const Application_view: React.FC = () => {
                 <td>
                   <div
                     className={`badge  py-4 badge-soft  ${
-                      program.application_status === "Ditolak"
+                      program.application_status === "rejected"
                         ? "badge-error"
                         : program.application_status === "pending"
                         ? "badge-warning"

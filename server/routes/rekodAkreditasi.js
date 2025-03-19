@@ -57,7 +57,93 @@ router.post(
     }
   }
 );
+// Permohonan Akreditasi PA/FA
+router.post(
+  "/permohonan-akreditasi",
+  upload.single("application_form"),
+  async function (req, res) {
+    if (!req.file) {
+      return res.status(405).send("No file uploaded");
+    }
+    const relativeFilePath = `/uploads/accreditation/${req.file.filename}`;
+    const data = [
+      req.body.program_id,
+      relativeFilePath,
+      req.body.application_status,
+      req.body.application_accreditation_type,
+      dayjs(req.body.uploadDate).format("YYYY-MM-DD"),
+    ];
+    const query = `
+       INSERT INTO accreditation_application (
+        program_id,
+        application_path,
+        application_status,
+        application_type,
+        application_submission_date	
+      ) VALUES (?, ?, ?, ?, ?)`;
+    try {
+      await db.query(query, data);
+      console.log("Success");
+      res.status(200).send("File uploaded and data inserted successfully");
+    } catch (error) {
+      console.error("Error inserting into accreditation_application:", error);
+      console.table(data);
+      res.status(500).send("Error inserting into accreditation_application");
+    }
+  }
+);
 
+// update Permohonan Akreditasi PA/FA
+router.put(
+  "/permohonan-akreditasi/:id",
+  upload.single("application_form"),
+  async function (req, res) {
+    const relativeFilePath = req.file
+      ? `/uploads/accreditation/${req.file.filename}`
+      : req.body.existingApplication_path;
+
+    if (req.file && req.body.existingApplication_path) {
+      const oldFilePath = path.join(
+        __dirname,
+        "..",
+        req.body.existingApplication_path
+      );
+      try {
+        fs.unlinkSync(oldFilePath);
+        console.log("Old file deleted:", oldFilePath);
+      } catch (err) {
+        console.error("Error deleting old file:", err);
+      }
+    }
+
+    const data = [
+      relativeFilePath,
+      req.body.application_status,
+      req.body.application_accreditation_type,
+      dayjs(req.body.uploadDate).format("YYYY-MM-DD"),
+      req.params.id,
+    ];
+    const query = `
+       UPDATE accreditation_application
+       SET 
+        application_path = ?,
+        application_status = ?,
+        application_type = ?,
+        application_submission_date = ?
+      WHERE id = ?`;
+    try {
+      await db.query(query, data);
+      console.log("Success");
+      res.status(200).send("File uploaded and data updated successfully");
+    } catch (error) {
+      console.error("Error updating into accreditation_application:", error);
+      console.table(data);
+      res.status(500).send("Error updating into accreditation_application");
+    }
+  }
+);
+
+//select all application records
 router.get("/senarai-permohonan-akreditasi", async function (req, res) {
   const query = `
     SELECT 
@@ -76,6 +162,28 @@ router.get("/senarai-permohonan-akreditasi", async function (req, res) {
     res.json(result);
   } catch (error) {
     console.error("Error fetching accreditation application:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+//select specific application records
+router.get("/permohonan-akreditasi/:id/edit", async function (req, res) {
+  const query = `
+    SELECT 
+      *
+    FROM 
+      accreditation_application
+    WHERE 
+      id = ?
+  `;
+  try {
+    const [result] = await db.query(query, [req.params.id]);
+    if (result.length === 0) {
+      return res.status(404).send("Data not found");
+    }
+    res.json(result);
+  } catch (error) {
+    console.error("Error fetching specific accreditation application:", error);
     res.status(500).send("Server error");
   }
 });

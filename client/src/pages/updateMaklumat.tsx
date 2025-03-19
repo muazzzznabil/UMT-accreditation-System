@@ -86,7 +86,7 @@ const UpdateMaklumat = () => {
       const response = await axios.get<Program[]>(
         `http://localhost:5000/pendaftaran-program/maklumat-program/${id}`
       );
-      console.table(response.data[0]);
+      console.table(response.data[0].tarikhSurat);
       setProgram(response.data[0]);
       setTarikhSurat2(response.data[0].tarikhSurat);
     } catch (error) {

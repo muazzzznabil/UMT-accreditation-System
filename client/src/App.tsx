@@ -22,6 +22,7 @@ import Accreditation_list from "./pages/accreditationRecords_list.tsx";
 import Accreditation_register from "./pages/accreditationRecords_register.tsx";
 import Application_register from "./pages/application_register.tsx";
 import Application_view from "./pages/application_view.tsx";
+import Application_update from "./pages/application_update.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -76,6 +77,10 @@ function App() {
               <Route
                 path="/akreditasi-program/senarai-permohonan-akreditasi/"
                 element={<Application_view />}
+              />
+              <Route
+                path="/akreditasi-program/:id/:nama_program/update-permohonan-akreditasi"
+                element={<Application_update />}
               />
               {/* Accreditation Application */}
 

@@ -7,7 +7,6 @@ import { useThemeStore } from "../../utils/useThemeStore";
 interface DatePickerProps {
   name: string;
   label: string;
-  // dateValue?: Date;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   register: UseFormRegister<any>;
   defValue?: Date;
@@ -36,21 +35,17 @@ const DateUpdate = ({
         {label}
       </label>
       <div className="w-full">
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
           <input
             type="date"
             id={name}
             placeholder={placeholder}
             {...register(name, { required: required })}
             onChange={onChange}
-            defaultValue={
-              dayjs(defValue).format("YYYY-MM-DD") ||
-              dayjs().format("YYYY-MM-DD")
-            }
-            className={`${inputClassName} p-2  rounded ${
+            defaultValue={defValue ? dayjs(defValue).format("YYYY-MM-DD") : ""} // Use an empty string if defValue is not provided
+            className={`${inputClassName} p-2 rounded ${
               darkMode ? "bg-base-200" : "bg-white"
             } w-1/2 ring-1 ring-gray-400`}
-            // className={`datetime-local `}
           />
         </div>
       </div>
