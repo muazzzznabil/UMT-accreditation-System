@@ -5,6 +5,7 @@ const app = express();
 const msaFormsRoutes = require("./routes/MSAFormsRoute");
 const evaluatorRoutes = require("./routes/evaluatorRoute");
 const accreditationRoute = require("./routes/rekodAkreditasi");
+const feedbackRoute = require("./routes/feedbackRoute");
 const path = require("path");
 
 app.use(cors());
@@ -23,6 +24,9 @@ app.use("/penilai-dalaman", evaluatorRoutes);
 
 //Routes accreditation Records
 app.use("/rekod-akreditasi", accreditationRoute);
+
+//Routes feedback
+app.use("/mqa-feedback", feedbackRoute);
 
 app.use(
   "/uploads/documents",

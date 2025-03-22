@@ -35,6 +35,8 @@ const Application_update = () => {
         `http://localhost:5000/rekod-akreditasi/permohonan-akreditasi/${id}/edit`
       );
       setListProgram(response.data[0]);
+      // setNotPending(response.data[0].application_status);
+
       console.log(response.data[0].application_submission_date);
     } catch (err: unknown) {
       console.log(err);
@@ -44,10 +46,7 @@ const Application_update = () => {
   const onSubmit: SubmitHandler<any> = async (data) => {
     const formData = new FormData();
     for (const key in data) {
-      if (
-        (key === "application_form" || key === "application_form") &&
-        data[key].length > 0
-      ) {
+      if (key === "application_form" && data[key].length > 0) {
         formData.append(key, data[key][0]);
       } else {
         formData.append(key, data[key]);
@@ -56,6 +55,8 @@ const Application_update = () => {
     for (const [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
+
+    // if (notPending === "pending") {
     axios
       .put(
         `http://localhost:5000/rekod-akreditasi/permohonan-akreditasi/${id}`,
@@ -83,15 +84,55 @@ const Application_update = () => {
           text: "Permohonan Akreditasi Program Tidak Berjaya Didaftarkan!",
           footer: 'Ralat :" ' + error.message,
         });
+        // });
+        // } else {
+        //   axios
+        //     .put(
+        //       `http://localhost:5000/rekod-akreditasi/permohonan-akreditasi/${id}`,
+        //       formData,
+        //       { headers: { "Content-Type": "multipart/form-data" } }
+        //     )
+        //     .then(() => {
+        //       return axios.post(
+        //         `http://localhost:5000/mqa-feedback/maklumbalas-mqa`,
+        //         formData,
+        //         { headers: { "Content-Type": "multipart/form-data" } }
+        //       );
+        //     })
+        //     .then((response) => {
+        //       console.table(response.data);
+        //       Swal.fire({
+        //         title: "Permohonan Didaftarkan!",
+        //         text: "Permohonan Akreditasi Program Berjaya Didaftarkan!",
+        //         icon: "success",
+        //       }).then((result) => {
+        //         if (result.isConfirmed) {
+        //           window.location.href =
+        //             "/akreditasi-program/senarai-permohonan-akreditasi/";
+        //         }
+        //       });
+        //     })
+        //     .catch((error) => {
+        //       console.table(error.data);
+        //       Swal.fire({
+        //         icon: "error",
+        //         title: "Oops...",
+        //         text: "Permohonan Akreditasi Program Tidak Berjaya Didaftarkan!",
+        //         footer: 'Ralat :" ' + error.message,
+        //       });
+        // }
+        // );
       });
   };
 
-  //   const onSubmit: SubmitHandler<any> = async (data) => {
+  //
+  // const onSubmit: SubmitHandler<any> = async (data) => {
   //     console.table(data);
   //   };
 
   useEffect(() => {
     getApplication();
+    // setNotPending(listProgram?.application_status);
   }, []);
 
   // Render a loading state until listProgram is populated
@@ -121,6 +162,7 @@ const Application_update = () => {
           <li>Kemaskini Permohonan Akreditasi </li>
         </ul>
       </div>
+
       {/* Breadcrumbs */}
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -130,6 +172,8 @@ const Application_update = () => {
           } p-6 rounded-md shadow-md`}
         >
           <input type="hidden" defaultValue={id} {...register("program_id")} />
+
+          <h2 className="mb-6 text-xl font-semibold">{nama_program}</h2>
 
           <DropdownUpdate
             label="Jenis Akreditasi"
@@ -148,7 +192,7 @@ const Application_update = () => {
             className="mt-3"
             inputClassName="focus:ring-primary"
           />
-
+          {/* Docs Application Update */}
           <div className="flex mb-4 items-center">
             <label htmlFor="name" className="label-input-msa">
               Borang Permohonan
@@ -176,6 +220,8 @@ const Application_update = () => {
               )}
             </div>
           </div>
+          {/* Docs Application Update */}
+
           <div className="mb-8">
             <DropdownUpdate
               label="Status Permohonan"
@@ -185,14 +231,19 @@ const Application_update = () => {
               options={["pending", "rejected", "approved"]}
               register={register}
               className="w-1/2  "
+              // onChange={(e) => setNotPending(e.target.value)}
             />
           </div>
 
+          {/* Action Button */}
           <div className="flex space-x-4 justify-end">
             <input
               type="reset"
               value="Reset"
               className="btn btn-error shadow-md text-white"
+              onChange={() => {
+                // setNotPending(listProgram.application_status);
+              }}
             />
             <button
               type="submit"

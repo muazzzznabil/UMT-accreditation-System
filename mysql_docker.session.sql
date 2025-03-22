@@ -156,3 +156,34 @@ SELECT * FROM accreditation_application;
       accreditation_application
     INNER JOIN 
       maklumat_program ON accreditation_application.program_id = maklumat_program.id
+
+
+
+create table mqa_feedback(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    program_id INT,
+    application_id INT,
+    feedback_documents_path VARCHAR(255),
+    comment TEXT,
+    feedback_date DATE,
+    FOREIGN KEY (program_id) REFERENCES maklumat_program(id),
+    FOREIGN KEY (application_id) REFERENCES accreditation_application(id)
+)
+
+ INSERT INTO mqa_feedback (
+    program_id,
+    application_id,
+    feedback_documents_path,
+    comment,
+    feedback_date,
+    is_fined
+) VALUES (
+    '22', 
+    '9', 
+    '/uploads/mqaFeedback/GARIS-PANDUAN-LI-FTKKI-edit-v2_undefined.pdf', 
+    'Dokument tidak Mencukupi 1', 
+    '2025-03-06', 
+    '1'
+)
+
+SELECT program_id, id, application_id FROM mqa_feedback

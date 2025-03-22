@@ -2,8 +2,9 @@ import axios, { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaSearch } from "react-icons/fa";
 import dayjs from "dayjs";
+// import { set } from "react-hook-form";
 // import { set } from "react-hook-form";
 
 interface application {
@@ -14,6 +15,7 @@ interface application {
   application_type: string;
   application_path: string;
   application_submission_date: string;
+  feedback_id: number;
 }
 
 const Application_view: React.FC = () => {
@@ -24,17 +26,39 @@ const Application_view: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [program_name, setProgram_name] = useState<string>("");
-
+  const [notPending, setNotPending] = useState<{ [key: number]: string }>({});
   const getApplication = async () => {
     try {
       const response = await axios.get<application[]>(
         "http://localhost:5000/rekod-akreditasi/senarai-permohonan-akreditasi"
       );
       setListApplication(response.data);
+
+      // Initialize the notPending state for all programs
+      const initialNotPending: { [key: number]: string } = {};
+      response.data.forEach((program) => {
+        initialNotPending[program.id] = program.application_status;
+      });
+      setNotPending(initialNotPending);
     } catch (err: unknown) {
       const error = err as AxiosError;
       setError(error.message);
     }
+  };
+
+  // const handleNotPendingChange = (programId: number, status: string) => {
+  //   setNotPending((prev) => ({
+  //     ...prev,
+  //     [programId]: status,
+  //   }));
+  // };
+
+  const checkAvailability = async () => {
+    axios
+      .get<application[]>(
+        "http://localhost:5000/mqa-feedback/semak-maklumbalas"
+      )
+      .then((res) => setListApplication((prev) => [...prev, ...res.data]));
   };
 
   const handleDelete = async (ids: number[]) => {
@@ -66,6 +90,7 @@ const Application_view: React.FC = () => {
 
   useEffect(() => {
     getApplication();
+    // checkAvailability();
   }, []);
 
   // Search and pagination logic
@@ -122,34 +147,37 @@ const Application_view: React.FC = () => {
       )}
 
       {/* Search Bar */}
-      <div className="flex justify-between w-full p-4 mb-4">
+      <div className="flex justify-between w-full mb-2 mt-12">
         <div className="relative w-full max-w-sm">
-          <input
-            type="text"
-            placeholder="Cari Nama Program, Jenis Permohonan Atau Status Permohonan"
-            className="input input-bordered w-full pl-12 pr-4 py-2 rounded-xl shadow-md focus:ring-2 focus:ring-primary transition-all"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
-          <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-            <svg
+          <label className="input">
+            {/* <svg
+              className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-500"
-              fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
             >
-              <path
-                strokeLinecap="round"
+              <g
                 strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
+                strokeLinecap="round"
+                strokeWidth="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </g>
+            </svg> */}
+            <FaSearch className="opacity-60" />
+            <input
+              type="text"
+              placeholder="Cari Nama Program, Jenis Permohonan Atau Status Permohonan"
+              // className="input input-bordered w-full pl-12 pr-4 py-2 rounded-xl shadow-md focus:ring-2 focus:ring-primary transition-all"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          </label>
         </div>
         <div className="flex">
           {/* Action Buttons */}
@@ -246,13 +274,13 @@ const Application_view: React.FC = () => {
         </div>
       </div>
 
-      <div className="h-[380px] rounded-lg shadow-md z-50">
+      <div className="h-[464px] rounded-lg shadow-md z-50">
         <table className="table table-zebra table-pin-rows w-full">
           <thead>
             <tr>
               <th className="text-lg sticky top-0 bg-base-200"></th>
-              <th className="text-lg sticky top-0 bg-base-200">Id</th>
-              <th className="text-lg sticky top-0 bg-base-200">Program</th>
+              {/* <th className="text-lg sticky top-0 bg-base-200">Id</th> */}
+              <th className="text-lg sticky top-0 bg-base-200">Nama Program</th>
               <th className="text-lg sticky top-0 bg-base-200">Status</th>
               <th className="text-lg sticky top-0 bg-base-200">
                 Jenis Permohonan
@@ -260,12 +288,20 @@ const Application_view: React.FC = () => {
               <th className="text-lg sticky top-0 bg-base-200">
                 Tarikh Permohonan
               </th>
-              <th className="text-lg sticky top-0 bg-base-200">View</th>
+              <th className="text-lg sticky top-0 bg-base-200">
+                View Documents
+              </th>
+              <th className="text-lg sticky top-0 bg-base-200">
+                Maklumbalas MQA
+              </th>
             </tr>
           </thead>
           <tbody>
             {currentPrograms.map((program) => (
-              <tr key={program.id}>
+              <tr
+                key={program.id}
+                onLoad={() => setNotPending(program.application_status)}
+              >
                 <td>
                   <input
                     type="checkbox"
@@ -282,7 +318,7 @@ const Application_view: React.FC = () => {
                     className="checkbox checkbox-primary"
                   />
                 </td>
-                <td>{program.id}</td>
+                {/* <td>{program.id}</td> */}
                 <td>
                   <label
                     htmlFor={program.id.toString()}
@@ -314,7 +350,7 @@ const Application_view: React.FC = () => {
                 </td>
                 <td>
                   <a
-                    className="btn btn-primary"
+                    className="btn btn-info btn-outline"
                     target="_blank"
                     href={`http://localhost:5000${program.application_path}`}
                     rel="noopener noreferrer"
@@ -322,6 +358,44 @@ const Application_view: React.FC = () => {
                     <FaEye />
                     View
                   </a>
+                </td>
+                <td>
+                  <div className="indicator">
+                    {notPending[program.id] !== "pending" && (
+                      <>
+                        <span className="indicator-item status status-error animate-ping mr-2 mt-2"></span>
+                        <span className="indicator-item status status-error  mr-2 mt-2"></span>
+                      </>
+                    )}
+                    <ul className="menu lg:menu-horizontal  rounded-box ">
+                      <li className=" ">
+                        <details>
+                          <summary
+                            className={`btn  btn-soft ${
+                              notPending[program.id] === "pending"
+                                ? "btn-disabled"
+                                : "btn-primary"
+                            } `}
+                            aria-disabled={notPending[program.id] === "pending"}
+                          >
+                            Maklumbalas
+                          </summary>
+                          <ul className="z-50">
+                            <Link
+                              to={`/maklumbalas-akreditasi/${program.id}/${program.program_id}`}
+                            >
+                              <li>
+                                <a>Tambah Maklumbalas</a>
+                              </li>
+                            </Link>
+                            <li>
+                              <a>Lihat Maklumbalas</a>
+                            </li>
+                          </ul>
+                        </details>
+                      </li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
             ))}

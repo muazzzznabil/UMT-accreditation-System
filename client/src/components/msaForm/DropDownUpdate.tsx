@@ -24,6 +24,7 @@ const DropdownUpdate: FC<DropdownMenuProps> = ({
   defaultValue,
   register,
   className,
+  onChange,
 }) => {
   return (
     <div className={`flex  items-center w-full`}>
@@ -40,6 +41,7 @@ const DropdownUpdate: FC<DropdownMenuProps> = ({
           required
           defaultValue={defaultValue}
           {...register(labelId, { required: true })}
+          onChange={onChange}
         >
           <option value="placeholder" disabled hidden className="text-gray-400">
             {placeholderOptions}

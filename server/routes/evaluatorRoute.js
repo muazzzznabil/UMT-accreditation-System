@@ -117,7 +117,7 @@ router.delete("/penilai/delete-multiple", async function (req, res) {
     console.log("Success");
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to delete evaluators" });
+    res.status(500).json({ error: "Fadiled to delete evaluators" });
   }
 });
 //select evaluator based on program id

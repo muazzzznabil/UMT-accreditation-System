@@ -62,12 +62,13 @@ const Application_register = () => {
       .then((response) => {
         console.table(response.data);
         Swal.fire({
-          title: "Permohonan Didaftarkan!",
-          text: "Permohonan Akreditasi Program Berjaya Didaftarkan!",
+          title: "Rekod Permohonan Dikemaskini!",
+          text: "Rekod Permohonan Akreditasi Program Berjaya Dikemaskini!",
           icon: "success",
         }).then((result) => {
           if (result.isConfirmed) {
-            // window.location.href = "/program-list";
+            window.location.href =
+              "/akreditasi-program/senarai-permohonan-akreditasi/";
           }
         });
       })
@@ -76,7 +77,7 @@ const Application_register = () => {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Permohonan Akreditasi Program Tidak Berjaya Didaftarkan!",
+          text: "Rekod Permohonan Akreditasi Program Tidak Berjaya Dikemaskini!",
           footer: 'Ralat :" ' + error.message,
         });
       });

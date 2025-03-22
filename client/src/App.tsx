@@ -23,6 +23,7 @@ import Accreditation_register from "./pages/accreditationRecords_register.tsx";
 import Application_register from "./pages/application_register.tsx";
 import Application_view from "./pages/application_view.tsx";
 import Application_update from "./pages/application_update.tsx";
+import Maklumbalas_register from "./pages/maklumbalas_register.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -83,6 +84,13 @@ function App() {
                 element={<Application_update />}
               />
               {/* Accreditation Application */}
+
+              {/* maklumbalas Akreditasi */}
+              <Route
+                path="/maklumbalas-akreditasi/:id/:program_id"
+                element={<Maklumbalas_register />}
+              />
+              {/* maklumbalas Akreditasi */}
 
               {/* Msa Form */}
               <Route path="/MsaForm_onepage" element={<MSAForm_register />} />
