@@ -22,13 +22,34 @@ const upload = multer({
   storage: storage,
 });
 
-router.get("/semak-maklumbalas", async function (req, res) {
-  const query = `SELECT  id as feedback_id FROM mqa_feedback`;
+router.get("/get-application-info/:id", async function (req, res) {
+  const id = req.params.id;
+  const query = `
+    SELECT maklumat_program.nama_program,accreditation_application.application_type,accreditation_application.application_status
+    FROM maklumat_program
+    INNER JOIN accreditation_application ON maklumat_program.id = accreditation_application.program_id
+    WHERE accreditation_application.id = ${id}
+  `;
   try {
     const [result] = await db.query(query);
     res.json(result);
+    console.table(result);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching feedback data:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.get("/semak-maklumbalas", async function (req, res) {
+  const query = `
+    SELECT application_id, id AS feedback_id
+    FROM mqa_feedback
+  `;
+  try {
+    const [result] = await db.query(query);
+    res.json(result); // Return all feedback data
+  } catch (error) {
+    console.error("Error fetching feedback data:", error);
     res.status(500).send("Server error");
   }
 });

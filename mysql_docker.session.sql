@@ -186,4 +186,10 @@ create table mqa_feedback(
     '1'
 )
 
+    SELECT maklumat_program.nama_program,accreditation_application.application_type
+    FROM maklumat_program
+    INNER JOIN accreditation_application ON maklumat_program.id = accreditation_application.program_id
+    WHERE accreditation_application.id = 11
+
+
 SELECT program_id, id, application_id FROM mqa_feedback

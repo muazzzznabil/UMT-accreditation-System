@@ -5,7 +5,14 @@ import { useThemeStore } from "../utils/useThemeStore";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { FaExclamationCircle } from "react-icons/fa";
 
+interface getInfo {
+  nama_program: string;
+  application_type: string;
+  application_status: string;
+}
 const Maklumbalas_register = () => {
   const {
     register,
@@ -16,6 +23,7 @@ const Maklumbalas_register = () => {
 
   const themeStore = useThemeStore();
   const { id, program_id } = useParams();
+  const [appInfo, setAppInfo] = useState<getInfo>();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const formData = new FormData();
@@ -58,6 +66,28 @@ const Maklumbalas_register = () => {
       });
   };
 
+  const getProgramInfo = async () => {
+    try {
+      const res = await axios.get<getInfo[]>(
+        `http://localhost:5000/mqa-feedback/get-application-info/${id}`
+      );
+      console.log(res.data);
+      setAppInfo(res.data[0]);
+    } catch (error: any) {
+      console.error("Error fetching program info:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Failed to fetch program information.",
+        footer: `Error: ${error.message}`,
+      });
+    }
+  };
+
+  useEffect(() => {
+    getProgramInfo();
+  }, []);
+
   //   *Testing the form
   //   const onSubmit: SubmitHandler<any> = async (data) => {
   //     console.table(data);
@@ -92,9 +122,29 @@ const Maklumbalas_register = () => {
         >
           <input type="hidden" {...register("program_id")} value={program_id} />
           <input type="hidden" {...register("application_id")} value={id} />
-          <h2 className="text-xl mb-6 font-bold">
+          <h2 className="text-xl mb-2 font-bold">
             Pemerhatian dan respons daripada pihak MQA
           </h2>
+          <h3 className="text-lg ">
+            Program : <span className="font-bold">{appInfo?.nama_program}</span>
+          </h3>
+          <h3 className="text-lg ">
+            Jenis Akreditasi :{" "}
+            <span className="font-bold">{appInfo?.application_type}</span>
+          </h3>
+          <h3 className="text-lg ">
+            Keputusan Permohonan :{" "}
+            <span
+              className={`font-bold badge ${
+                appInfo?.application_status === "rejected"
+                  ? "badge-error"
+                  : "badge-success"
+              } badge-soft badge-lg`}
+            >
+              {appInfo?.application_status}
+            </span>
+          </h3>
+          <div className="divider mb-8"></div>
           <div className="flex mb-4">
             <label htmlFor="comment" className="label-input-msa">
               Komen atau Catitan
@@ -140,7 +190,18 @@ const Maklumbalas_register = () => {
             name="feedback_date"
             label="Tarikh Maklumbalas"
             register={register}
+            required={true}
           />
+          {errors.feedback_date && (
+            <div className="toast toast-top toast-end top-25 ">
+              <div className="alert alert-error">
+                <span>
+                  <FaExclamationCircle className="inline mr-2" /> The date field
+                  is required.
+                </span>
+              </div>
+            </div>
+          )}
           <div className="flex mb-4 items-center">
             <label htmlFor="evaluator_status" className="  label-input-msa2">
               Denda Dari Pihak MQA

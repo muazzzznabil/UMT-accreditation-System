@@ -16,6 +16,7 @@ interface application {
   application_path: string;
   application_submission_date: string;
   feedback_id: number;
+  hasFeedback?: boolean;
 }
 
 const Application_view: React.FC = () => {
@@ -27,8 +28,11 @@ const Application_view: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [program_name, setProgram_name] = useState<string>("");
   const [notPending, setNotPending] = useState<{ [key: number]: string }>({});
+
+  // ** GET APPLICATION **
   const getApplication = async () => {
     try {
+      // Fetch applications
       const response = await axios.get<application[]>(
         "http://localhost:5000/rekod-akreditasi/senarai-permohonan-akreditasi"
       );
@@ -40,25 +44,28 @@ const Application_view: React.FC = () => {
         initialNotPending[program.id] = program.application_status;
       });
       setNotPending(initialNotPending);
+
+      // Fetch feedback data
+      const feedbackResponse = await axios.get<{ application_id: number }[]>(
+        "http://localhost:5000/mqa-feedback/semak-maklumbalas"
+      );
+
+      // Map feedback application IDs to a set for quick lookup
+      const feedbackSet = new Set(
+        feedbackResponse.data.map((feedback) => feedback.application_id)
+      );
+
+      // Add a flag to each program to indicate whether feedback exists
+      setListApplication((prev) =>
+        prev.map((program) => ({
+          ...program,
+          hasFeedback: feedbackSet.has(program.id), // Check if feedback exists for the application
+        }))
+      );
     } catch (err: unknown) {
       const error = err as AxiosError;
       setError(error.message);
     }
-  };
-
-  // const handleNotPendingChange = (programId: number, status: string) => {
-  //   setNotPending((prev) => ({
-  //     ...prev,
-  //     [programId]: status,
-  //   }));
-  // };
-
-  const checkAvailability = async () => {
-    axios
-      .get<application[]>(
-        "http://localhost:5000/mqa-feedback/semak-maklumbalas"
-      )
-      .then((res) => setListApplication((prev) => [...prev, ...res.data]));
   };
 
   const handleDelete = async (ids: number[]) => {
@@ -89,8 +96,10 @@ const Application_view: React.FC = () => {
   };
 
   useEffect(() => {
-    getApplication();
-    // checkAvailability();
+    const fetchData = async () => {
+      await getApplication();
+    };
+    fetchData();
   }, []);
 
   // Search and pagination logic
@@ -361,36 +370,42 @@ const Application_view: React.FC = () => {
                 </td>
                 <td>
                   <div className="indicator">
-                    {notPending[program.id] !== "pending" && (
-                      <>
-                        <span className="indicator-item status status-error animate-ping mr-2 mt-2"></span>
-                        <span className="indicator-item status status-error  mr-2 mt-2"></span>
-                      </>
-                    )}
-                    <ul className="menu lg:menu-horizontal  rounded-box ">
-                      <li className=" ">
+                    {notPending[program.id] !== "pending" &&
+                      !program.hasFeedback && (
+                        <>
+                          <span className="indicator-item status status-error animate-ping mr-2 mt-2"></span>
+                          <span className="indicator-item status status-error mr-2 mt-2"></span>
+                        </>
+                      )}
+                    <ul className="menu lg:menu-horizontal rounded-box">
+                      <li className="">
                         <details>
                           <summary
-                            className={`btn  btn-soft ${
+                            className={`btn btn-soft ${
                               notPending[program.id] === "pending"
                                 ? "btn-disabled"
                                 : "btn-primary"
-                            } `}
+                            }`}
                             aria-disabled={notPending[program.id] === "pending"}
                           >
                             Maklumbalas
                           </summary>
                           <ul className="z-50">
-                            <Link
-                              to={`/maklumbalas-akreditasi/${program.id}/${program.program_id}`}
-                            >
+                            {!program.hasFeedback && (
+                              <Link
+                                to={`/maklumbalas-akreditasi/${program.id}/${program.program_id}`}
+                              >
+                                <li>
+                                  <a>Tambah Maklumbalas</a>
+                                </li>
+                              </Link>
+                            )}
+
+                            {program.hasFeedback && (
                               <li>
-                                <a>Tambah Maklumbalas</a>
+                                <a>Lihat Maklumbalas</a>
                               </li>
-                            </Link>
-                            <li>
-                              <a>Lihat Maklumbalas</a>
-                            </li>
+                            )}
                           </ul>
                         </details>
                       </li>
