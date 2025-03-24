@@ -36,3 +36,7 @@ app.use(
   "/uploads/accreditation",
   express.static(path.join(__dirname, "/uploads/accreditation"))
 );
+app.use(
+  "/uploads/mqaFeedback",
+  express.static(path.join(__dirname, "/uploads/mqaFeedback"))
+);

@@ -22,7 +22,7 @@ const upload = multer({
   storage: storage,
 });
 
-router.get("/get-application-info/:id", async function (req, res) {
+router.get("/get-info/:id", async function (req, res) {
   const id = req.params.id;
   const query = `
     SELECT maklumat_program.nama_program,accreditation_application.application_type,accreditation_application.application_status
@@ -34,6 +34,34 @@ router.get("/get-application-info/:id", async function (req, res) {
     const [result] = await db.query(query);
     res.json(result);
     console.table(result);
+  } catch (error) {
+    console.error("Error fetching feedback data:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.get("/get-application-info/:id", async function (req, res) {
+  const id = req.params.id;
+  const query = `
+    SELECT 
+      maklumat_program.nama_program,
+      accreditation_application.application_type,
+      accreditation_application.application_status,
+      mqa_feedback.*
+    FROM 
+      maklumat_program
+    INNER JOIN 
+      accreditation_application ON maklumat_program.id = accreditation_application.program_id
+    INNER JOIN
+      mqa_feedback ON accreditation_application.id = mqa_feedback.application_id
+    WHERE 
+      accreditation_application.id = ${id}
+  `;
+
+  try {
+    const [result] = await db.query(query);
+    res.json(result);
+    // console.table(result);
   } catch (error) {
     console.error("Error fetching feedback data:", error);
     res.status(500).send("Server error");
@@ -91,4 +119,72 @@ router.post(
   }
 );
 
+router.put(
+  "/maklumbalas-mqa/:id/edit",
+  upload.single("feedback_documents_path"),
+  async function (req, res) {
+    const relativeFilePath = req.file
+      ? `/uploads/mqaFeedback/${req.file.filename}`
+      : req.body.existingFeedback_path;
+
+    if (req.file && req.body.existingFeedback_path) {
+      const oldFilePath = path.join(
+        __dirname,
+        "..",
+        req.body.existingFeedback_path
+      );
+      try {
+        fs.unlinkSync(oldFilePath);
+        console.log("Old file deleted:", oldFilePath);
+      } catch (err) {
+        console.error("Error deleting old file:", err);
+      }
+    }
+
+    const data = [
+      relativeFilePath,
+      req.body.comment,
+      req.body.is_fined,
+      dayjs(req.body.feedback_date).format("YYYY-MM-DD"),
+      req.params.id,
+    ];
+    const query = `
+       UPDATE mqa_feedback
+       SET 
+        feedback_documents_path = ?,
+        comment = ?,
+        is_fined = ?,
+        feedback_date = ?
+      WHERE application_id = ?`;
+    try {
+      await db.query(query, data);
+      console.log("Success");
+      res.status(200).send("File uploaded and data updated successfully");
+    } catch (error) {
+      console.error("Error updating into accreditation_application:", error);
+      console.table(data);
+      res.status(500).send("Error updating into accreditation_application");
+    }
+  }
+);
+
+router.delete("/maklumbalas-mqa/:id/delete", async function (req, res) {
+  const query = "DELETE FROM mqa_feedback WHERE application_id = ?";
+  try {
+    await db.query(query, req.params.id);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error deleting feedback");
+  }
+});
+
+router.get("/uploads/mqaFeedback/:filename", (req, res) => {
+  const filePath = path.join(
+    __dirname,
+    "../uploads/mqaFeedback/",
+    req.params.filename
+  );
+  res.sendFile(filePath);
+});
 module.exports = router;

@@ -238,6 +238,7 @@ const ProgramList: React.FC = () => {
                         showCancelButton: true,
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
+                        focusCancel: true,
                         confirmButtonText: "Hapus",
                       }).then((result) => {
                         if (result.isConfirmed) {

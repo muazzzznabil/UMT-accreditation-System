@@ -27,7 +27,7 @@ const Application_update = () => {
     formState: { errors },
     handleSubmit,
   } = useForm({});
-  const [listProgram, setListProgram] = useState<application | null>(null); // Initialize as null
+  const [listProgram, setListProgram] = useState<application | null>(null);
 
   const getApplication = async () => {
     try {

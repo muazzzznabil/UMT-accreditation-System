@@ -69,7 +69,7 @@ const Maklumbalas_register = () => {
   const getProgramInfo = async () => {
     try {
       const res = await axios.get<getInfo[]>(
-        `http://localhost:5000/mqa-feedback/get-application-info/${id}`
+        `http://localhost:5000/mqa-feedback/get-info/${id}`
       );
       console.log(res.data);
       setAppInfo(res.data[0]);
@@ -202,6 +202,7 @@ const Maklumbalas_register = () => {
               </div>
             </div>
           )}
+          {/* MQA Fine */}
           <div className="flex mb-4 items-center">
             <label htmlFor="evaluator_status" className="  label-input-msa2">
               Denda Dari Pihak MQA
@@ -230,7 +231,7 @@ const Maklumbalas_register = () => {
               </label>
             </div>
           </div>
-          {/* Action Button */}
+          {/* MQA Fine */}
           <div className="flex space-x-4 justify-end">
             <input
               type="reset"

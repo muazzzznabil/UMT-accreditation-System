@@ -188,7 +188,7 @@ router.get("/permohonan-akreditasi/:id/edit", async function (req, res) {
   }
 });
 
-//delete multiple accreditation
+//delete multiple accreditation application
 router.delete(
   "/permohonan-akreditasi/delete-multiple",
   async function (req, res) {

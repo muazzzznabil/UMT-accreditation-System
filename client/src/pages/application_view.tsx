@@ -403,7 +403,11 @@ const Application_view: React.FC = () => {
 
                             {program.hasFeedback && (
                               <li>
-                                <a>Lihat Maklumbalas</a>
+                                <Link
+                                  to={`/maklumbalas-akreditasi/${program.id}/${program.program_id}/maklumat-maklumbalas `}
+                                >
+                                  <a>Lihat Maklumbalas</a>
+                                </Link>
                               </li>
                             )}
                           </ul>

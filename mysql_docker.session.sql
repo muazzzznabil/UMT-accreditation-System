@@ -191,5 +191,30 @@ create table mqa_feedback(
     INNER JOIN accreditation_application ON maklumat_program.id = accreditation_application.program_id
     WHERE accreditation_application.id = 11
 
+DELETE FROM accreditation_application WHERE id IN (11,10)
 
 SELECT program_id, id, application_id FROM mqa_feedback
+
+ALTER TABLE mqa_feedback
+ADD CONSTRAINT fk_application_id
+FOREIGN KEY (application_id)
+REFERENCES accreditation_application(id)
+ON DELETE CASCADE;
+
+  SELECT 
+      maklumat_program.nama_program,
+      accreditation_application.application_type,
+      accreditation_application.application_status,
+      mqa_feedback.*
+    FROM 
+      maklumat_program
+    INNER JOIN 
+      accreditation_application ON maklumat_program.id = accreditation_application.program_id
+    INNER JOIN
+      mqa_feedback ON accreditation_application.id = mqa_feedback.application_id
+    WHERE 
+      accreditation_application.id =9
+
+      SELECT * FROM mqa_feedback WHERE application_id = 9
+
+      

@@ -24,6 +24,7 @@ import Application_register from "./pages/application_register.tsx";
 import Application_view from "./pages/application_view.tsx";
 import Application_update from "./pages/application_update.tsx";
 import Maklumbalas_register from "./pages/maklumbalas_register.tsx";
+import Maklumbalas_view from "./pages/maklumbalas_view.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -89,6 +90,10 @@ function App() {
               <Route
                 path="/maklumbalas-akreditasi/:id/:program_id"
                 element={<Maklumbalas_register />}
+              />
+              <Route
+                path="/maklumbalas-akreditasi/:id/:program_id/maklumat-maklumbalas"
+                element={<Maklumbalas_view />}
               />
               {/* maklumbalas Akreditasi */}
 
