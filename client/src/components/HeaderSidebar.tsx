@@ -8,7 +8,6 @@ import {
   FaArchive,
   FaListUl,
 } from "react-icons/fa";
-import { MdOutlinePayments } from "react-icons/md";
 
 const HeaderSidebar = () => {
   const { darkMode, toggleDarkMode } = useThemeStore();
