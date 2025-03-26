@@ -217,4 +217,23 @@ ON DELETE CASCADE;
 
       SELECT * FROM mqa_feedback WHERE application_id = 9
 
-      
+    CREATE Table payment (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        program_id INT,
+        application_id INT,
+        payment_date DATE,
+        payment_amount DECIMAL(10, 2),
+        payment_status VARCHAR(255),
+        payment_proof_path VARCHAR(255),
+        payment_method VARCHAR(255),
+        payment_description TEXT,
+        payment_type VARCHAR(255),
+        records_timeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (program_id) REFERENCES maklumat_program(id),
+        FOREIGN KEY (application_id) REFERENCES accreditation_application(id)
+    )
+
+    (22, 9, '2022-01-01', 100.00, 'pending', 'payment_proof_1.pdf', 'bank_transfer', 'description for payment 1', 'Accreditation Fee'),
+    (24, 12, '2022-01-15', 50.00, 'paid', 'payment_proof_2.pdf', 'online_payment', 'description for payment 2', 'Fined by MQA Fee')
+
+SELECT * FROM payment WHERE program_id = '22'

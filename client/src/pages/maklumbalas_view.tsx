@@ -151,6 +151,7 @@ const Maklumbalas_view = () => {
         Maklumat Maklumbalas Pihak MQA
       </h1>
 
+      {/* <Breadcrumb /> */}
       {/* Breadcrumbs */}
       <div className="breadcrumbs text-md mb-2">
         <ul>
@@ -195,7 +196,7 @@ const Maklumbalas_view = () => {
                 Keputusan Permohonan :{" "}
                 <span
                   className={`text-large font-semibold badge badge-soft badge-lg ${
-                    feedback?.application_status
+                    feedback?.application_status === "approved"
                       ? "badge-success"
                       : "badge-error"
                   }`}
@@ -345,7 +346,6 @@ const Maklumbalas_view = () => {
                       />
                     </div>
                   </div>
-
                   {/* Dokumen */}
 
                   <div className={`flex mb-4 items-center `}>

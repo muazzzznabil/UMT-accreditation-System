@@ -8,6 +8,8 @@ import {
   FaArchive,
   FaListUl,
 } from "react-icons/fa";
+import { MdOutlinePayments } from "react-icons/md";
+
 const HeaderSidebar = () => {
   const { darkMode, toggleDarkMode } = useThemeStore();
   //   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -101,6 +103,15 @@ const HeaderSidebar = () => {
                       </div>
                     </Link>{" "}
                   </li>
+                  <div className="divider"></div>
+                  {/* <li>
+                    <Link to="/rekod-pembayaran/">
+                      <div className="flex items-center ">
+                        <MdOutlinePayments className="text-2xl" />
+                        <span className="ml-2">Senarai Rekod Pembayaran</span>
+                      </div>
+                    </Link>{" "}
+                  </li> */}
                 </ul>
               </div>
             </div>

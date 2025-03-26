@@ -40,6 +40,28 @@ router.get("/get-info/:id", async function (req, res) {
   }
 });
 
+router.get("/get-feedback/", async function (req, res) {
+  const query = `
+    SELECT 
+      mqa_feedback.*,
+      maklumat_program.nama_program,
+      accreditation_application.application_type
+    FROM 
+      mqa_feedback
+    INNER JOIN 
+      accreditation_application ON mqa_feedback.application_id = accreditation_application.id
+    INNER JOIN
+      maklumat_program ON accreditation_application.program_id = maklumat_program.id
+  `;
+  try {
+    const [result] = await db.query(query);
+    res.json(result);
+  } catch (error) {
+    console.error("Error fetching feedback data:", error);
+    res.status(500).send("Server error");
+  }
+});
+
 router.get("/get-application-info/:id", async function (req, res) {
   const id = req.params.id;
   const query = `

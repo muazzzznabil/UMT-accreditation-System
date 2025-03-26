@@ -25,6 +25,10 @@ import Application_view from "./pages/application_view.tsx";
 import Application_update from "./pages/application_update.tsx";
 import Maklumbalas_register from "./pages/maklumbalas_register.tsx";
 import Maklumbalas_view from "./pages/maklumbalas_view.tsx";
+// import Payment_list from "./pages/payment_LIst.tsx";
+import Payment_view from "./pages/payment_view.tsx";
+import Payment_register from "./pages/payment_register.tsx";
+import Payment_update from "./pages/payment_update.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -104,6 +108,21 @@ function App() {
               <Route path="/testMultiStepForm" element={<TabbedForm />} />
               <Route path="/edit-program/:id" element={<UpdateMaklumat />} />
               {/* Msa Form */}
+
+              {/* payment */}
+              <Route
+                path="/rekod-pembayaran/:program_id/:name"
+                element={<Payment_view />}
+              />
+              <Route
+                path="/rekod-pembayaran/tambah-rekod-pembayaran/:program_id/:name"
+                element={<Payment_register />}
+              />
+              <Route
+                path="/rekod-pembayaran/butiran-rekod-pembayaran/:program_id/:payment_id/:name"
+                element={<Payment_update />}
+              />
+              {/* payment */}
 
               <Route path="*" element={<NoPage />} />
             </Routes>

@@ -1,25 +1,27 @@
+import Breadcrumb from "../components/BreadCrumbs";
 import axios, { AxiosError } from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
 interface Program {
-  id: number;
+  application_id: number;
+  is_fined: number;
   nama_program: string;
-  fakulti: string;
+  application_type: string;
 }
 
-const ProgramList: React.FC = () => {
+const Payment_list = () => {
   const [listProgram, setListProgram] = useState<Program[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const getProgram = async () => {
+  const getRecords = async () => {
     try {
       const response = await axios.get<Program[]>(
-        "http://localhost:5000/pendaftaran-program/maklumat-program"
+        "http://localhost:5000/mqa-feedback/get-feedback/"
       );
       setListProgram(response.data);
     } catch (err: unknown) {
@@ -28,50 +30,14 @@ const ProgramList: React.FC = () => {
     }
   };
 
-  const deleteProgram = async (id: number) => {
-    try {
-      await axios.delete(
-        `http://localhost:5000/pendaftaran-program/maklumat-program/${id}/delete`
-      );
-
-      const newProgramList = listProgram.filter((p) => p.id !== id);
-      const newTotalPages = Math.ceil(
-        newProgramList.filter(
-          (p) =>
-            p.nama_program.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            p.fakulti.toLowerCase().includes(searchQuery.toLowerCase())
-        ).length / itemsPerPage
-      );
-
-      if (currentPage > newTotalPages) {
-        setCurrentPage(newTotalPages);
-      }
-
-      setListProgram(newProgramList);
-      Swal.fire({
-        title: "Dihapus!",
-        text: "Program berjaya dihapus.",
-        icon: "success",
-      });
-    } catch (error: unknown) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-        footer: `Error: ${(error as Error).message}`,
-      });
-    }
-  };
-
-  useEffect(() => {
-    getProgram();
-  }, []);
-
-  // Search and pagination logic
-  const filteredPrograms = listProgram.filter(
-    (program) =>
-      program.nama_program.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      program.fakulti.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPrograms = listProgram.filter((program) =>
+    program.nama_program.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    program.is_fined === 1
+      ? "Didenda"
+      : "Tidak Didenda".includes(searchQuery.toLowerCase()) ||
+        program.application_type
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredPrograms.length / itemsPerPage);
@@ -80,20 +46,14 @@ const ProgramList: React.FC = () => {
     currentPage * itemsPerPage
   );
 
-  return (
-    <div className="container mx-auto mt-5 font-sans h-screen">
-      <h1 className="text-xl font-bold  mt-4 mb-4">
-        PROGRAM LIST FOR MSA APPLICATION
-      </h1>
-      <div className="breadcrumbs text-md mb-2">
-        <ul>
-          <li>
-            <a href="/">Home</a>
-          </li>
-          <li>Program List For MSA Application</li>
-        </ul>
-      </div>
+  useEffect(() => {
+    getRecords();
+  }, []);
 
+  return (
+    <div className="container mt-5 mx-auto h-screen p-4  ">
+      <h1 className="text-xl font-bold  mt-4 mb-4">Senarai Rekod Pembayaran</h1>
+      <Breadcrumb />
       {error && (
         <div role="alert" className="alert alert-error fixed bottom-10">
           <svg
@@ -172,22 +132,28 @@ const ProgramList: React.FC = () => {
           <thead>
             <tr>
               <th className="text-lg sticky top-0 bg-base-200">Id</th>
-              <th className="text-lg sticky top-0 bg-base-200">Program</th>
-              <th className="text-lg sticky top-0 bg-base-200">Fakulti</th>
+              <th className="text-lg sticky top-0 bg-base-200">Nama Program</th>
+              <th className="text-lg sticky top-0 bg-base-200">
+                Jenis Pembayaran
+              </th>
+              <th className="text-lg sticky top-0 bg-base-200">
+                Jenis Akreditasi
+              </th>
               <th className="text-lg sticky top-0 bg-base-200">View</th>
               <th className="text-lg sticky top-0 bg-base-200">Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentPrograms.map((program) => (
-              <tr key={program.id}>
-                <td>{program.id}</td>
+              <tr key={program.application_id}>
+                <td>{program.application_id}</td>
                 <td className="hover:underline">
-                  <a href={`/ProgramInfo/${program.id}`}>
+                  <a href={`/ProgramInfo/${program.application_id}`}>
                     {program.nama_program}
                   </a>
                 </td>
-                <td>{program.fakulti}</td>
+                <td>{program.is_fined === 1 ? "Didenda" : "Tidak Didenda"}</td>
+                <td className="">{program.application_type}</td>
                 <td>
                   <div className="dropdown dropdown-end">
                     <button
@@ -201,34 +167,30 @@ const ProgramList: React.FC = () => {
                       className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-10"
                     >
                       <li>
-                        <Link
+                        {/* <Link
                           to={`/penilai-dalaman/${program.id}/${program.nama_program}`}
                         >
                           Senarai Penilai Dalaman
-                        </Link>
+                        </Link> */}
                       </li>
                       <li>
-                        <Link
+                        {/* <Link
                           to={`/akreditasi-program/${program.id}/${program.nama_program}`}
                         >
-                          Rekod Akreditasi Program
-                        </Link>
+                          Rekod Permohonan Akreditasi
+                        </Link> */}
                       </li>
                       <li>
-                        <Link
-                          to={`/rekod-pembayaran/${program.id}/${program.nama_program}`}
-                        >
-                          Rekod Pembayaran Program
-                        </Link>
+                        <Link to="/#">Rekod Pembayaran</Link>
                       </li>
                     </ul>
                   </div>
                 </td>
                 <td>
                   <button
-                    onClick={() =>
-                      (window.location.href = `/edit-program/${program.id}`)
-                    }
+                    // onClick={() =>
+                    //   (window.location.href = `/edit-program/${program.id}`)
+                    // }
                     className="mr-2 btn btn-warning text-white"
                   >
                     Edit
@@ -246,7 +208,7 @@ const ProgramList: React.FC = () => {
                         confirmButtonText: "Hapus",
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          deleteProgram(program.id);
+                          //   deleteProgram(program.id);
                         }
                       })
                     }
@@ -286,5 +248,4 @@ const ProgramList: React.FC = () => {
     </div>
   );
 };
-
-export default ProgramList;
+export default Payment_list;
