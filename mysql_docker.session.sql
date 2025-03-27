@@ -237,3 +237,15 @@ ON DELETE CASCADE;
     (24, 12, '2022-01-15', 50.00, 'paid', 'payment_proof_2.pdf', 'online_payment', 'description for payment 2', 'Fined by MQA Fee')
 
 SELECT * FROM payment WHERE program_id = '22'
+
+SELECT mp.*, e.evaluator_name 
+FROM maklumat_program mp 
+JOIN evaluator e ON mp.id = e.program_id 
+WHERE e.evaluator_name LIKE '%zawawi%';
+
+
+SELECT nama_program 
+FROM maklumat_program 
+WHERE fakulti LIKE '%FSSM%';
+
+SELECT e.id, e.evaluator_name, e.evaluator_email, e.evaluator_phone, e.evaluator_faculty, e.evaluator_position, e.evaluator_status, e.evaluator_field, e.evaluator_appointment_date, e.program_id, e.evaluator_end_date, e.evaluator_appointment_period, mp.nama_program, mp.code_nec FROM evaluator e JOIN maklumat_program mp ON e.program_id = mp.id WHERE LOWER(e.evaluator_name) LIKE '%muaz%'

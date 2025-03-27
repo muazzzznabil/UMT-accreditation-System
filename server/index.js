@@ -1,15 +1,20 @@
-const express = require("express");
-const cors = require("cors");
-const pool = require("./data/database");
+import express from "express";
+import cors from "cors";
+import pool from "./data/database.js";
+import msaFormsRoutes from "./routes/MSAFormsRoute.js";
+import evaluatorRoutes from "./routes/evaluatorRoute.js";
+import accreditationRoute from "./routes/rekodAkreditasi.js";
+import feedbackRoute from "./routes/feedbackRoute.js";
+import paymentRecordsRoute from "./routes/paymentRecordsRoute.js";
+import chatbotGoogle from "./service/googleAi_service.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Define __dirname for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const msaFormsRoutes = require("./routes/MSAFormsRoute");
-const evaluatorRoutes = require("./routes/evaluatorRoute");
-const accreditationRoute = require("./routes/rekodAkreditasi");
-const feedbackRoute = require("./routes/feedbackRoute");
-const paymentRecordsRoute = require("./routes/paymentRecordsRoute");
-
-const path = require("path");
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Add this line to handle URL-encoded data
@@ -18,20 +23,23 @@ app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });
 
-//Routes MSA Form
+//!Routes MSA Form
 app.use("/pendaftaran-program", msaFormsRoutes);
 
-//Routes internal Evaluator
+//!Routes internal Evaluator
 app.use("/penilai-dalaman", evaluatorRoutes);
 
-//Routes accreditation Records
+//!Routes accreditation Records
 app.use("/rekod-akreditasi", accreditationRoute);
 
-//Routes feedback
+//!Routes feedback
 app.use("/mqa-feedback", feedbackRoute);
 
-// Routes payment records
+//!Routes payment records
 app.use("/payment-records", paymentRecordsRoute);
+
+//!Routes for Gemini API
+app.use("/chatbot-google", chatbotGoogle);
 
 app.use(
   "/uploads/documents",

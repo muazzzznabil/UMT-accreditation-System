@@ -29,6 +29,7 @@ import Maklumbalas_view from "./pages/maklumbalas_view.tsx";
 import Payment_view from "./pages/payment_view.tsx";
 import Payment_register from "./pages/payment_register.tsx";
 import Payment_update from "./pages/payment_update.tsx";
+import ChatBot from "./components/ChatBot.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -41,6 +42,7 @@ function App() {
         >
           {/* <Header /> */}
           <HeaderSidebar />
+          <ChatBot />
           <div className="z-0">
             <Routes>
               <Route path="/" element={<Homepage />} />

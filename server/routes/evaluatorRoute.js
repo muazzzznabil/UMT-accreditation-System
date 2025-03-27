@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import db from "../data/database.js";
+
 const router = express.Router();
-const db = require("../data/database");
 
 //insert into table
 router.post("/daftar-penilai", async function (req, res) {
@@ -135,4 +136,4 @@ router.get("/penilai/:program_id/program", async function (req, res) {
   }
 });
 
-module.exports = router;
+export default router;

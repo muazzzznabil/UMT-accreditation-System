@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express";
+import db from "../data/database.js";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 const router = express.Router();
-const db = require("../data/database");
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -371,4 +371,4 @@ router.get("/uploads/documents/:filename", (req, res) => {
   res.sendFile(filePath);
 });
 // ----------------------------------------------
-module.exports = router;
+export default router;
