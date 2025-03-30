@@ -248,4 +248,47 @@ SELECT nama_program
 FROM maklumat_program 
 WHERE fakulti LIKE '%FSSM%';
 
-SELECT e.id, e.evaluator_name, e.evaluator_email, e.evaluator_phone, e.evaluator_faculty, e.evaluator_position, e.evaluator_status, e.evaluator_field, e.evaluator_appointment_date, e.program_id, e.evaluator_end_date, e.evaluator_appointment_period, mp.nama_program, mp.code_nec FROM evaluator e JOIN maklumat_program mp ON e.program_id = mp.id WHERE LOWER(e.evaluator_name) LIKE '%muaz%'
+SELECT
+  mp.nama_program,
+  SUM(p.payment_amount) AS jumlah_bayaran
+FROM maklumat_program mp
+JOIN accreditation_application aa ON mp.id = aa.program_id
+JOIN payment p ON aa.id = p.application_id
+WHERE
+  mp.nama_program LIKE '%Data Analytics%'
+GROUP BY
+  mp.nama_program;
+
+SELECT
+  -- payment_amount,
+  -- payment_date,
+  -- payment_method,
+  -- payment_description,
+  -- payment_type
+  *
+FROM payment
+WHERE program_id IN ('20', '24', '22')
+
+SELECT
+  p.nama_program,
+  pay.payment_amount
+FROM maklumat_program AS p
+JOIN accreditation_application AS app
+  ON p.id = app.program_id
+JOIN payment AS pay
+  ON app.id = pay.application_id
+WHERE
+  p.nama_program LIKE '%Sarjana Data Analytics With Honours%';
+
+  
+SELECT
+  mp.nama_program,
+  aa.application_type,
+  aa.application_path,
+  aa.application_submission_date,
+  aa.application_status
+FROM maklumat_program AS mp
+JOIN accreditation_application AS aa
+  ON mp.id = aa.program_id
+WHERE
+  mp.nama_program LIKE '%informatik maritim%';

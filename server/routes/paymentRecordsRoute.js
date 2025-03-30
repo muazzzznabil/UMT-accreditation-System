@@ -2,9 +2,12 @@ import express from "express";
 import db from "../data/database.js";
 import multer from "multer";
 import path from "path";
+import { fileURLToPath } from "url";
 import dayjs from "dayjs";
 import fs from "fs";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = import.meta.dirname;
 const router = express.Router();
 
 const storage = multer.diskStorage({

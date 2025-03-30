@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import fs from "fs";
 
 const router = express.Router();
-
+const __dirname = import.meta.dirname;
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../uploads/mqafeedback/"));

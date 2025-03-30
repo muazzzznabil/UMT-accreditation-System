@@ -9,16 +9,28 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
   // apiKey: "AIzaSyCSg0n3OhQQZYriF_qwKafj47wW0gR-xLQ",
 });
-
+const databaseConfig = {
+  temperature: 0.7,
+  topP: 0.7,
+  maxOutputTokens: 4096,
+};
+const chatbotConfig = {
+  temperature: 0.9,
+  topP: 0.9,
+  maxOutputTokens: 65536,
+};
 async function chatbotGoogle(req, res) {
   const { user_prompt } = req.body;
   try {
     const response = await ai.models.generateContent({
       // model: "gemini-2.5-pro-exp-03-25",
       model: "gemini-2.0-flash",
+      databaseConfig,
       contents: `
+      You are an expert SQL analyst and database query generator.
+      Your task is to analyze the provided database schema and the user's question, then generate a syntactically correct SQL query that accurately answers the question using MySQL syntax.
       I want you to return plain MySQL code 
-      remove  and line break 
+      IMPORTANTT!! : DO NOT WRAP THE SQL OUTPUT IN SQL MARKDOWN
       example of the SQL code i want to generate is: SELECT * FROM maklumat_program WHERE id = 1;
       correct the spelling if you think the spelling is wrong
 
@@ -110,7 +122,7 @@ async function chatbotGoogle(req, res) {
         id INT PRIMARY KEY,: The id of the MQA feedback
         program_id INT,: The id of the program act as a foreign key
         application_id INT,: The id of the accreditation application act as a foreign key
-        feedback_document_path VARCHAR(255),: The path of the feedback document in the server eg: "/uploads/documents/file_undefined.pdf"
+        feedback_documents_path VARCHAR(255),: The path of the feedback document in the server eg: "/uploads/documents/file_undefined.pdf"
         comment TEXT ,: The comment of the feedback
         feedback_date date,: The date of the feedback
         is_fined tinyint,: The fine status of the feedback if the feedback has a fine or not
@@ -125,7 +137,7 @@ async function chatbotGoogle(req, res) {
         payment_method VARCHAR(255),: The method of the payment
         payment_description TEXT,: The description of the payment
         payment_type VARCHAR(255),: The type of the payment
-        payment_timeStamp timestamp,: The time and date when the records was created of the payment
+        records_timeStamp timestamp,: The time and date when the records was created of the payment
         )
 
         Strict Rules:
@@ -134,7 +146,8 @@ async function chatbotGoogle(req, res) {
         3. use join whenever possible 
         4. Use LIKE when searching for specific data and ignore cases
         5. also fetch the request where when fetching data and include nama_program in query
-        6. When using LIKE always also use %items% to make it more precise unless told
+        6. When using LIKE ALWAYS also use %items% to make it more precise AND always ignore cases
+      
 
 
         command : ${user_prompt}
@@ -143,25 +156,34 @@ async function chatbotGoogle(req, res) {
     });
     // res.status(200).json({ text: response.text });
 
-    console.log("USER PROMPT:", user_prompt);
+    console.info("USER PROMPT:", user_prompt);
 
-    let generatedQuery = response.text.split("\n").join(" ");
-    console.log("Generated Query:", generatedQuery);
+    let generatedQuery = response.text.replace(/```sql|```/g, "").trim();
+    console.warn("Generated Query:", generatedQuery);
 
-    const reponses = await db.query(generatedQuery);
+    let responseDB = {};
+
+    try {
+      const reponses = await db.query(generatedQuery);
+      responseDB = reponses[0];
+    } catch (error) {
+      console.log("error", error);
+      responseDB = reponses[0];
+    }
 
     const chatReply = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-pro-exp-03-25",
+      chatbotConfig,
       contents: `
       
       Explain the results in Professional English imagine you are a chatbot for a system. here is your the result that you need to process  ${JSON.stringify(
-        reponses
+        responseDB
       )}. 
       
       The user question is : ${user_prompt}
 
       based on the json that you get from the database you need to use the answer in the given  ${JSON.stringify(
-        reponses
+        responseDB
       )}. to answer the user question .
 
 
@@ -173,21 +195,26 @@ async function chatbotGoogle(req, res) {
       5. answer based on the user question and the result must be simple and easy to understand 
       6. Don't tell the user you problem that you have just answer the user question in a professional way
       7. The currency is in MYR
-      8. on't explain the abbreviation in the answer 
+      8. Don't explain the abbreviation in the answer 
       9. Don't tell what the abbreviation mean in the answer
-      10. Don't tell what NEC mean
+      10.Don't tell what NEC mean
       11. example that i hate:
        "the information I have doesn't specify the duration or whether this program is offered"
-       
       12.You must use html tags and element if you want to create list(style list using tailwind to create a bullet point) table or want to bold words or data 
       13.The space is limited if ask for multiple table list please make it one by one and make the column count more than row count
       14. forbid the use of asterisk to bold or make a bullet point only use html
       15. when column of the table that you created  has  3 column or more separate it into multiple table
-      16. when creating table use black colored font to make it more visible
-
+      16. when creating table use white colored font to make it more visible and use contrast color for the background
+      17. I forbid you wrapping with html markdown block just straight away html tags
+      18. Be creative and decide using ordered list when needed, unordered list when needed or table when needed
+      19. always  make the table overflow horizontally so the user can scroll
+      20. If the question in malay answer in malay if in english answer in english
+      21. if the result print out error of token exceed please reply that you have exceed the token limit and ask the user to reduce the query
+      22. if the result print out sql error ask the user to retry the query
+      23. If the result is file path use the link and start the link with http://localhost:5000/(file path goes here..) and open it in new tab
 
       The user question is : ${user_prompt}
-      The result is : ${JSON.stringify(reponses)} 
+      The database result is : ${JSON.stringify(responseDB)} 
       
       `,
     });
