@@ -1,9 +1,32 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 
+interface Accreditation {
+  accreditation_id: number;
+  program_id: number;
+  uploadDate: Date;
+  accreditationType: string;
+  accreditationStartDate: string;
+}
+
 const Accreditation_list = () => {
   const { id, nama_program } = useParams();
+  const [accreditations, setAccreditations] = useState<Accreditation[] | null>(
+    []
+  );
 
+  const getAccreditations = async () => {
+    const records = axios.get(
+      `http://localhost:5000/rekod-akreditasi/senarai-akreditasi/${id}`
+    );
+  };
+
+  useEffect(() => {
+    getAccreditations();
+  });
   return (
     <div className={`container mt-5 mx-auto h-screen p-4`}>
       <h1 className="text-xl font-bold  mt-4 mb-4">

@@ -292,3 +292,6 @@ JOIN accreditation_application AS aa
   ON mp.id = aa.program_id
 WHERE
   mp.nama_program LIKE '%informatik maritim%';
+
+
+  select * FROM accreditation

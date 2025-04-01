@@ -9,7 +9,7 @@ interface DatePickerProps {
   label: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   register: UseFormRegister<any>;
-  defValue?: Date;
+  defValue?: Date | null;
   placeholder?: string;
   required?: boolean;
   className?: string;

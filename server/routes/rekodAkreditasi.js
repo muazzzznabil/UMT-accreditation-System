@@ -5,6 +5,7 @@ import path from "path";
 import dayjs from "dayjs";
 import fs from "fs";
 
+const __dirname = import.meta.dirname;
 const router = express.Router();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -211,10 +212,12 @@ router.delete(
   }
 );
 
-// Rekod Akreditasi
+// ** REKOD AKREDITASI ** //
+
+// !INSERT Rekod Akreditasi
 router.post(
-  "/tambah-akreditasi/:id",
-  upload.single("file_akreditasi"),
+  "/tambah-akreditasi/",
+  upload.single("accreditationFilePath"),
   async function (req, res) {
     if (!req.file) {
       return res.status(400).send("No file uploaded");
@@ -222,24 +225,22 @@ router.post(
     const relativeFilePath = `/uploads/documents/${req.file.filename}`;
     const query = `
       INSERT INTO accreditation (
-        accreditationType,
-        uploadDate,
         accreditationStartDate,
         accreditationEndDate,
         accreditationStatus,
         accreditationFilePath,
-        program_id
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        program_id,
+        application_id
+      ) VALUES ( ?, ?, ?, ?, ?, ?)
     `;
     try {
       await db.query(query, [
-        req.body.accreditationType,
-        req.body.uploadDate,
-        req.body.accreditationStartDate,
-        req.body.accreditationEndDate,
+        dayjs(req.body.accreditationStartDate).toDate(),
+        dayjs(req.body.accreditationEndDate).toDate(),
         req.body.accreditationStatus,
         relativeFilePath,
-        req.params.id,
+        req.body.program_id,
+        req.body.application_id,
       ]);
       console.log("Success");
       res.status(200).send("File uploaded and data inserted successfully");
@@ -250,6 +251,29 @@ router.post(
   }
 );
 
+// !GET accreditation with application based on specific program id and application approved
+router.get("/senarai-akreditasi/:program_id", async function (req, res) {
+  const query = `
+    SELECT 
+     *
+    FROM
+      accreditation_application
+    WHERE 
+     program_id = ? AND accreditation_application.application_status = 'approved'
+  `;
+  try {
+    const [result] = await db.query(query, [req.params.program_id]);
+    if (result.length === 0) {
+      return res.status(404).send("Data not found");
+    }
+    res.json(result);
+  } catch (error) {
+    console.error("Error fetching accreditation application:", error);
+    res.status(500).send("Server error");
+  }
+});
+
+// ! File Route for Rekod Akreditasi
 router.get("/uploads/accreditation/:filename", (req, res) => {
   const filePath = path.join(
     __dirname,
