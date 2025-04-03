@@ -222,7 +222,7 @@ router.post(
     if (!req.file) {
       return res.status(400).send("No file uploaded");
     }
-    const relativeFilePath = `/uploads/documents/${req.file.filename}`;
+    const relativeFilePath = `/uploads/accreditation/${req.file.filename}`;
     const query = `
       INSERT INTO accreditation (
         accreditationStartDate,
@@ -251,6 +251,58 @@ router.post(
   }
 );
 
+// !GET Rekod Akreditasi based on specific program id
+router.get(
+  "/senarai-akreditasi-program/:program_id",
+  async function (req, res) {
+    const query = `
+    SELECT 
+     accreditation.*,
+     application.*
+    FROM
+      accreditation as accreditation
+    INNER JOIN
+      accreditation_application as application ON accreditation.application_id = application.id
+    WHERE 
+     accreditation.program_id = ?
+  `;
+    try {
+      const [result] = await db.query(query, [req.params.program_id]);
+      if (result.length === 0) {
+        return res.status(404).send("Data not found");
+      }
+      res.json(result);
+    } catch (error) {
+      console.error("Error fetching accreditation:", error);
+      res.status(500).send("Server error");
+    }
+  }
+);
+// !GET Rekod Akreditasi based on specific accreditation id
+router.get("/tambah-akreditasi/:id/program", async function (req, res) {
+  const query = `
+    SELECT 
+     accreditation.*,
+     application.*
+    FROM
+      accreditation as accreditation
+    INNER JOIN
+      accreditation_application as application ON accreditation.application_id = application.id
+    WHERE 
+     accreditation.accreditation_id = ?
+  `;
+  try {
+    const [result] = await db.query(query, [req.params.id]);
+    if (result.length === 0) {
+      return res.status(404).send("Data not found");
+    }
+    res.json(result);
+  } catch (error) {
+    console.error("Error fetching accreditation:", error);
+    res.status(500).send("Server error");
+  }
+});
+
 // !GET accreditation with application based on specific program id and application approved
 router.get("/senarai-akreditasi/:program_id", async function (req, res) {
   const query = `
@@ -272,6 +324,54 @@ router.get("/senarai-akreditasi/:program_id", async function (req, res) {
     res.status(500).send("Server error");
   }
 });
+
+// !UPDATE Rekod Akreditasi based on specific accreditation id
+router.put(
+  "/tambah-akreditasi/:program_id/edit",
+  upload.single("accreditationFilePath"),
+  async function (req, res) {
+    const relativeFilePath = req.file
+      ? `/uploads/accreditation/${req.file.filename}`
+      : req.body.existingApplication_path;
+
+    if (req.file && req.body.existingApplication_path) {
+      const oldFilePath = path.join(
+        __dirname,
+        "..",
+        req.body.existingApplication_path
+      );
+      try {
+        fs.unlinkSync(oldFilePath);
+        console.log("Old file deleted:", oldFilePath);
+      } catch (err) {
+        console.error("Error deleting old file:", err);
+      }
+    }
+
+    const data = [
+      req.body.accreditationStartDate,
+      req.body.accreditationEndDate,
+      relativeFilePath,
+      req.params.program_id,
+    ];
+    const query = `
+       UPDATE accreditation
+       SET 
+        accreditationStartDate = ?,
+        accreditationEndDate = ?,
+        accreditationFilePath = ?
+      WHERE accreditation_id = ? `;
+    try {
+      await db.query(query, data);
+      console.log("Success");
+      res.status(200).send("File uploaded and data updated successfully");
+    } catch (error) {
+      console.error("Error updating into accreditation_application:", error);
+      console.table(data);
+      res.status(500).send("Error updating into accreditation_application");
+    }
+  }
+);
 
 // ! File Route for Rekod Akreditasi
 router.get("/uploads/accreditation/:filename", (req, res) => {

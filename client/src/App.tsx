@@ -30,6 +30,7 @@ import Payment_view from "./pages/payment_view.tsx";
 import Payment_register from "./pages/payment_register.tsx";
 import Payment_update from "./pages/payment_update.tsx";
 import ChatBot from "./components/ChatBot.tsx";
+import AccreditationRecords_update from "./pages/accreditationRecords_update.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -46,7 +47,6 @@ function App() {
           <div className="z-0">
             <Routes>
               <Route path="/" element={<Homepage />} />
-
               {/* Evaluator */}
               <Route
                 path="/penilai-dalaman/:id/:name"
@@ -65,18 +65,22 @@ function App() {
                 element={<InternalEvaluator_view />}
               />
               {/* Evaluator */}
-
               {/* Accreditation */}
               <Route
                 path="/akreditasi-program/:id/:nama_program"
                 element={<Accreditation_list />}
               />
+              // TODO: change the path to tambah-akreditasi instead of
+              permohonan-akreditasi
               <Route
                 path="/akreditasi-program/:id/permohonan-akreditasi/:nama_program"
                 element={<Accreditation_register />}
               />
+              <Route
+                path="/akreditasi-program/:id/kemaskini-akreditasi/:nama_program"
+                element={<AccreditationRecords_update />}
+              />
               {/* Accreditation */}
-
               {/* Accreditation Application */}
               <Route
                 path="/akreditasi-program/permohonan-akreditasi/"
@@ -91,7 +95,6 @@ function App() {
                 element={<Application_update />}
               />
               {/* Accreditation Application */}
-
               {/* maklumbalas Akreditasi */}
               <Route
                 path="/maklumbalas-akreditasi/:id/:program_id"
@@ -102,7 +105,6 @@ function App() {
                 element={<Maklumbalas_view />}
               />
               {/* maklumbalas Akreditasi */}
-
               {/* Msa Form */}
               <Route path="/MsaForm_onepage" element={<MSAForm_register />} />
               <Route path="/ProgramInfo/:id" element={<ViewFullProgram />} />
@@ -110,7 +112,6 @@ function App() {
               <Route path="/testMultiStepForm" element={<TabbedForm />} />
               <Route path="/edit-program/:id" element={<UpdateMaklumat />} />
               {/* Msa Form */}
-
               {/* payment */}
               <Route
                 path="/rekod-pembayaran/:program_id/:name"
@@ -125,7 +126,6 @@ function App() {
                 element={<Payment_update />}
               />
               {/* payment */}
-
               <Route path="*" element={<NoPage />} />
             </Routes>
           </div>

@@ -35,6 +35,7 @@ const Application_update = () => {
         `http://localhost:5000/rekod-akreditasi/permohonan-akreditasi/${id}/edit`
       );
       setListProgram(response.data[0]);
+      console.table(response.data[0]);
       // setNotPending(response.data[0].application_status);
 
       console.log(response.data[0].application_submission_date);
@@ -56,7 +57,6 @@ const Application_update = () => {
       console.log(`${key}: ${value}`);
     }
 
-    // if (notPending === "pending") {
     axios
       .put(
         `http://localhost:5000/rekod-akreditasi/permohonan-akreditasi/${id}`,
@@ -84,44 +84,6 @@ const Application_update = () => {
           text: "Permohonan Akreditasi Program Tidak Berjaya Didaftarkan!",
           footer: 'Ralat :" ' + error.message,
         });
-        // });
-        // } else {
-        //   axios
-        //     .put(
-        //       `http://localhost:5000/rekod-akreditasi/permohonan-akreditasi/${id}`,
-        //       formData,
-        //       { headers: { "Content-Type": "multipart/form-data" } }
-        //     )
-        //     .then(() => {
-        //       return axios.post(
-        //         `http://localhost:5000/mqa-feedback/maklumbalas-mqa`,
-        //         formData,
-        //         { headers: { "Content-Type": "multipart/form-data" } }
-        //       );
-        //     })
-        //     .then((response) => {
-        //       console.table(response.data);
-        //       Swal.fire({
-        //         title: "Permohonan Didaftarkan!",
-        //         text: "Permohonan Akreditasi Program Berjaya Didaftarkan!",
-        //         icon: "success",
-        //       }).then((result) => {
-        //         if (result.isConfirmed) {
-        //           window.location.href =
-        //             "/akreditasi-program/senarai-permohonan-akreditasi/";
-        //         }
-        //       });
-        //     })
-        //     .catch((error) => {
-        //       console.table(error.data);
-        //       Swal.fire({
-        //         icon: "error",
-        //         title: "Oops...",
-        //         text: "Permohonan Akreditasi Program Tidak Berjaya Didaftarkan!",
-        //         footer: 'Ralat :" ' + error.message,
-        //       });
-        // }
-        // );
       });
   };
 
@@ -206,7 +168,7 @@ const Application_update = () => {
               />
 
               <a
-                className="hover:underline ml-4 text-blue-300 hover:text-blue-500"
+                className="link link-primary ml-2"
                 target="_blank"
                 href={`http://localhost:5000${listProgram.application_path}`}
                 rel="noopener noreferrer"
@@ -267,6 +229,7 @@ const Application_update = () => {
               Simpan
             </button>
           </div>
+          {/* Action Button */}
         </div>
         <input
           type="hidden"

@@ -2,7 +2,7 @@
 import dayjs from "dayjs";
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { useThemeStore } from "../../utils/useThemeStore";
+// import { useThemeStore } from "../../utils/useThemeStore";
 
 interface DatePickerProps {
   name: string;
@@ -27,7 +27,7 @@ const DateUpdate = ({
   className,
   inputClassName,
 }: DatePickerProps) => {
-  const { darkMode } = useThemeStore();
+  // const { darkMode } = useThemeStore();
 
   return (
     <div className={`flex mb-4 items-center ${className}`}>
@@ -43,9 +43,10 @@ const DateUpdate = ({
             {...register(name, { required: required })}
             onChange={onChange}
             defaultValue={defValue ? dayjs(defValue).format("YYYY-MM-DD") : ""} // Use an empty string if defValue is not provided
-            className={`${inputClassName} p-2 rounded ${
-              darkMode ? "bg-base-200" : "bg-white"
-            } w-1/2 ring-1 ring-gray-400`}
+            // className={`${inputClassName} p-2 rounded ${
+            //   darkMode ? "bg-base-200" : "bg-white"
+            // } w-1/2 ring-1 ring-gray-400`}
+            className={`input w-1/2 ${inputClassName}`}
           />
         </div>
       </div>

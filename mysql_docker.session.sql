@@ -294,4 +294,5 @@ WHERE
   mp.nama_program LIKE '%informatik maritim%';
 
 
-  select * FROM accreditation
+  select * FROM accreditation WHERE program_id = 22
+  
