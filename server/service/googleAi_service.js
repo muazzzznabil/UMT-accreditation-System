@@ -147,6 +147,7 @@ async function chatbotGoogle(req, res) {
         4. Use LIKE when searching for specific data and ignore cases
         5. also fetch the request where when fetching data and include nama_program in query
         6. When using LIKE ALWAYS also use %items% to make it more precise AND always ignore cases
+        7. If The question is not related to the database, Response the answer of the question  with SQL query AS RESPONSE 
       
 
 

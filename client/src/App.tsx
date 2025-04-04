@@ -31,6 +31,7 @@ import Payment_register from "./pages/payment_register.tsx";
 import Payment_update from "./pages/payment_update.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 import AccreditationRecords_update from "./pages/accreditationRecords_update.tsx";
+import AccreditationRecords_view from "./pages/accreditationRecords_view.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -71,7 +72,6 @@ function App() {
                 element={<Accreditation_list />}
               />
               // TODO: change the path to tambah-akreditasi instead of
-              permohonan-akreditasi
               <Route
                 path="/akreditasi-program/:id/permohonan-akreditasi/:nama_program"
                 element={<Accreditation_register />}
@@ -79,6 +79,10 @@ function App() {
               <Route
                 path="/akreditasi-program/:id/kemaskini-akreditasi/:nama_program"
                 element={<AccreditationRecords_update />}
+              />
+              <Route
+                path="/akreditasi-program/:id/:nama_program/butiran-penuh-akreditasi"
+                element={<AccreditationRecords_view />}
               />
               {/* Accreditation */}
               {/* Accreditation Application */}

@@ -2,8 +2,9 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaRegEye, FaTrashAlt } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 interface accreditation {
   accreditation_id: number;
@@ -11,8 +12,9 @@ interface accreditation {
   accreditationStartDate: Date;
   accreditationEndDate: Date;
   accreditationStatus: string;
-  accreditationFilePath: string;
+  accreditationFilePath: string | null;
   application_type: string;
+  no_mqa: string;
 }
 
 const Accreditation_list = () => {
@@ -26,14 +28,46 @@ const Accreditation_list = () => {
 
   const getAccreditations = async () => {
     const records = await axios.get<accreditation[]>(
-      `http://localhost:5000/rekod-akreditasi/senarai-akreditasi-program/${id}`
+      `${VITE_DATABASE_HOST}/rekod-akreditasi/senarai-akreditasi-program/${id}`
     );
     setAccreditations(records.data);
+  };
+
+  const handleDelete = async (ids: number[]) => {
+    try {
+      await axios.delete(
+        `${VITE_DATABASE_HOST}/rekod-akreditasi/senarai-akreditasi/delete`,
+        { data: { ids } }
+      );
+
+      setAccreditations(
+        (prev) =>
+          prev?.filter(
+            (evalItem) => !ids.includes(evalItem.accreditation_id)
+          ) || []
+      );
+      setSelectedAccreditations([]);
+
+      Swal.fire({
+        title: "Dihapus!",
+        text: "Rekod berjaya dihapus.",
+        icon: "success",
+      });
+    } catch (error: unknown) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: `Error: ${(error as Error).message}`,
+      });
+    }
   };
 
   useEffect(() => {
     getAccreditations();
   });
+
+  const { VITE_DATABASE_HOST } = import.meta.env;
   return (
     <div className={`container mt-5 mx-auto h-screen p-4`}>
       <h1 className="text-xl font-bold  mt-4 mb-4">
@@ -57,7 +91,24 @@ const Accreditation_list = () => {
       <div className="flex  flex-col items-end">
         <div className="space-x-4 mb-2">
           {selectedAccreditation.length > 0 && (
-            <button className="btn btn-error">
+            <button
+              className="btn btn-error"
+              onClick={() =>
+                Swal.fire({
+                  title: "Padam Penilai?",
+                  text: `Anda pasti untuk padam Penilai!`,
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Hapus",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    handleDelete(selectedAccreditation);
+                  }
+                })
+              }
+            >
               <FaTrashAlt className="text-white w-5 h-5" />
             </button>
           )}
@@ -114,8 +165,10 @@ const Accreditation_list = () => {
               <td></td>
               <td>Jenis Akreditasi</td>
               <td>Sijil Akreditasi</td>
+              <td>No. MQA</td>
               <td>Status Akreditasi</td>
               <td>Tarikh Tamat Akreditasi</td>
+              <td>Butiran Penuh Akreditasi</td>
             </tr>
           </thead>
           <tbody>
@@ -149,13 +202,22 @@ const Accreditation_list = () => {
                   </td>
                   <td>
                     <a
-                      href={`http://localhost:5000${accreditation.accreditationFilePath}`}
+                      href={`${VITE_DATABASE_HOST}${accreditation.accreditationFilePath}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="link link-primary"
                     >
-                      {accreditation.accreditationFilePath.split("/").pop()}
+                      {accreditation.accreditationFilePath
+                        ? accreditation.accreditationFilePath.split("/").pop()
+                        : null}
                     </a>
+                  </td>
+                  <td>
+                    {accreditation.no_mqa ? (
+                      <p>{accreditation.no_mqa}</p>
+                    ) : (
+                      <p className="text-error">Tiada No. MQA</p>
+                    )}
                   </td>
                   <td>
                     <div
@@ -174,6 +236,16 @@ const Accreditation_list = () => {
                     {dayjs(accreditation.accreditationEndDate).format(
                       "DD MMMM YYYY"
                     )}
+                  </td>
+                  <td>
+                    <Link
+                      to={`/akreditasi-program/${accreditation.accreditation_id}/${nama_program}/butiran-penuh-akreditasi`}
+                    >
+                      <button className="btn btn-primary btn-outline btn-sm">
+                        <FaRegEye className="w-5 h-5  mr-1" />{" "}
+                        <p className="">Lihat</p>
+                      </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

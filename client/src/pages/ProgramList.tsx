@@ -2,6 +2,8 @@ import axios, { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { FaEllipsisV } from "react-icons/fa";
+import { useThemeStore } from "../utils/useThemeStore";
 
 interface Program {
   id: number;
@@ -15,6 +17,7 @@ const ProgramList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
+  const themeStore = useThemeStore();
 
   const getProgram = async () => {
     try {
@@ -146,7 +149,7 @@ const ProgramList: React.FC = () => {
         <Link to={`/MsaForm_onepage`}>
           <button className="btn bg-[#28a745] text-white rounded-lg hover:bg-[#218838] mr-4">
             <svg
-              className="w-6 h-6 text-gray-800 text-white"
+              className="w-6 h-6 text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -167,14 +170,14 @@ const ProgramList: React.FC = () => {
         </Link>
       </div>
 
-      <div className="h-[460px] rounded-lg shadow-md z-50">
+      <div className="h-[380px] rounded-lg shadow-md z-50">
         <table className="table table-zebra table-pin-rows w-full">
           <thead>
             <tr>
               <th className="text-lg sticky top-0 bg-base-200">Id</th>
               <th className="text-lg sticky top-0 bg-base-200">Program</th>
               <th className="text-lg sticky top-0 bg-base-200">Fakulti</th>
-              <th className="text-lg sticky top-0 bg-base-200">View</th>
+              <th className="text-lg sticky top-0 bg-base-200">More</th>
               <th className="text-lg sticky top-0 bg-base-200">Actions</th>
             </tr>
           </thead>
@@ -192,9 +195,13 @@ const ProgramList: React.FC = () => {
                   <div className="dropdown dropdown-end">
                     <button
                       tabIndex={0}
-                      className="btn btn-primary text-white m-2 z-50"
+                      className="btn btn-ghost  text-white  z-50"
                     >
-                      Go to
+                      <FaEllipsisV
+                        className={`${
+                          themeStore.darkMode ? "text-white" : "text-black"
+                        } size-5.5 `}
+                      />
                     </button>
                     <ul
                       tabIndex={0}

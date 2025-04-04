@@ -8,6 +8,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
+import LabelWrapper from "../components/LabelWrapper";
 
 interface application {
   id: number;
@@ -26,6 +27,7 @@ const Accreditation_register = () => {
     application[] | null
   >();
   const [tarikhMula, setTarikhMula] = useState<Date | null>(null);
+
   const {
     register,
     // formState: { errors },
@@ -74,8 +76,9 @@ const Accreditation_register = () => {
           icon: "success",
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href =
-              "/akreditasi-program/senarai-permohonan-akreditasi/";
+            window.location.href = `/akreditasi-program/${
+              applicationList![0].program_id
+            }/${nama_program}`;
           }
         });
       })
@@ -125,7 +128,9 @@ const Accreditation_register = () => {
             <a href="/program-list">Program List For MSA Application</a>
           </li>
           <li>
-            <a href={`/akreditasi-program/${id}/${nama_program}`}>
+            <a
+              href={`/akreditasi-program/${applicationList?.[0].program_id}/${nama_program}`}
+            >
               Rekod Akreditasi Program: {nama_program}
             </a>
           </li>
@@ -226,9 +231,50 @@ const Accreditation_register = () => {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-dash mt-4">
-            Submit
-          </button>
+          <LabelWrapper label="No. MQA" labelId="no_mqa">
+            <input
+              type="text"
+              {...register("no_mqa")}
+              id="no_mqa"
+              placeholder="MQA/"
+              defaultValue={"MQA/"}
+              className="input input-bordered w-1/2"
+            />
+          </LabelWrapper>
+
+          {/* Action Button */}
+          <div className="flex space-x-4 justify-end">
+            <input
+              type="reset"
+              value="Reset"
+              className="btn btn-error shadow-md text-white"
+              onChange={() => {
+                // setNotPending(listProgram.application_status);
+              }}
+            />
+            <button
+              type="submit"
+              className="btn btn-primary shadow-md text-white"
+              onClick={(e) => {
+                e.preventDefault();
+                Swal.fire({
+                  title: "Simpan Permohonan?",
+                  showDenyButton: true,
+                  confirmButtonText: "Simpan",
+                  denyButtonText: `Batal`,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    handleSubmit(onSubmit)();
+                  } else if (result.isDenied) {
+                    Swal.fire("Changes are not saved", "", "info");
+                  }
+                });
+              }}
+            >
+              Simpan
+            </button>
+          </div>
+          {/* Action Button */}
         </div>
       </form>
     </div>

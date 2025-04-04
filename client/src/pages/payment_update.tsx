@@ -156,7 +156,7 @@ const Payment_update = () => {
               Senarai Rekod Pembayaran Program
             </a>
           </li>
-          <li>Maklumat Penilai</li>
+          <li>Maklumat Butiran Pembayaran</li>
         </ul>
       </div>
       {/* Breadcrumbs */}
@@ -316,7 +316,7 @@ const Payment_update = () => {
                     </div>
                     <div className="w-full flex flex-col">
                       <label className="input">
-                        {"RM"}
+                        {"MYR"}
                         <input
                           type="text"
                           id="payment_amount"
@@ -442,7 +442,7 @@ const Payment_update = () => {
                   <FaCommentAlt className="text-gray-500 mr-2" />
                   <p className="text-lg">Jumlah Bayaran : </p>
                   <p className="ml-2 font-medium text-lg">
-                    {payment?.payment_amount}
+                    MYR {payment?.payment_amount}
                   </p>
                 </div>
                 <div className="flex items-center">

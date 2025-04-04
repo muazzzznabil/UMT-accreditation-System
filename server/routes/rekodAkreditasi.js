@@ -230,8 +230,9 @@ router.post(
         accreditationStatus,
         accreditationFilePath,
         program_id,
+        no_mqa,
         application_id
-      ) VALUES ( ?, ?, ?, ?, ?, ?)
+      ) VALUES ( ?, ?, ?, ?, ?, ? , ?);
     `;
     try {
       await db.query(query, [
@@ -240,6 +241,7 @@ router.post(
         req.body.accreditationStatus,
         relativeFilePath,
         req.body.program_id,
+        req.body.no_mqa,
         req.body.application_id,
       ]);
       console.log("Success");
@@ -352,6 +354,7 @@ router.put(
       req.body.accreditationStartDate,
       req.body.accreditationEndDate,
       relativeFilePath,
+      req.body.no_mqa,
       req.params.program_id,
     ];
     const query = `
@@ -359,7 +362,9 @@ router.put(
        SET 
         accreditationStartDate = ?,
         accreditationEndDate = ?,
-        accreditationFilePath = ?
+        accreditationFilePath = ?,
+        no_mqa = ?
+
       WHERE accreditation_id = ? `;
     try {
       await db.query(query, data);
@@ -372,6 +377,26 @@ router.put(
     }
   }
 );
+
+// !DELETE Rekod Akreditasi based on specific accreditation id
+router.delete("/senarai-akreditasi/delete", async function (req, res) {
+  const { ids } = req.body; // Expecting an array of IDs
+
+  if (!Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({ error: "Invalid or empty ID list" });
+  }
+
+  const placeholders = ids.map(() => "?").join(",");
+  const query = `DELETE FROM accreditation WHERE accreditation_id IN (${placeholders})`;
+
+  try {
+    await db.query(query, ids);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to delete application" });
+  }
+});
 
 // ! File Route for Rekod Akreditasi
 router.get("/uploads/accreditation/:filename", (req, res) => {

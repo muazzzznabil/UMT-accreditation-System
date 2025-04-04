@@ -18,6 +18,7 @@ interface accreditation {
   accreditationStatus: string;
   accreditationFilePath: string;
   application_type: string;
+  no_mqa: string;
 }
 
 const AccreditationRecords_update = () => {
@@ -40,6 +41,10 @@ const AccreditationRecords_update = () => {
       `http://localhost:5000/rekod-akreditasi/tambah-akreditasi/${id}/program`
     );
     setAccreditations(response.data[0]);
+    setValue(
+      "existingApplication_path",
+      response.data[0].accreditationFilePath
+    );
     // console.table(response.data[0]);
     if (response.data[0]?.accreditationEndDate) {
       setTarikhAkhir(
@@ -85,7 +90,7 @@ const AccreditationRecords_update = () => {
           icon: "success",
         }).then((result) => {
           if (result.isConfirmed) {
-            // window.location.href = `/rekod-pembayaran/${program_id}/${name}`;
+            window.location.href = `/akreditasi-program/${accreditations.program_id}/${nama_program}`;
           }
         });
       })
@@ -101,9 +106,9 @@ const AccreditationRecords_update = () => {
   };
 
   // !TESTING
-  //   const onSubmit: SubmitHandler<any> = async (data) => {
-  //     console.table(data);
-  //   };
+  // const onSubmit: SubmitHandler<any> = async (data) => {
+  //   console.table(data);
+  // };
 
   return (
     <div className="container mx-auto mt-5 h-screen p-4">
@@ -119,7 +124,9 @@ const AccreditationRecords_update = () => {
             <a href="/program-list">Program List For MSA Application</a>
           </li>
           <li>
-            <Link to={`/accreditation-records/${"id program"}/${nama_program}`}>
+            <Link
+              to={`/akreditasi-program/${accreditations.program_id}/${nama_program}`}
+            >
               Senarai Rekod Akreditasi :{" "}
               <span className="font-bold">{nama_program}</span>{" "}
             </Link>
@@ -151,6 +158,11 @@ const AccreditationRecords_update = () => {
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <input type="hidden" {...register("accreditationEndDate")} />
+            <input
+              type="hidden"
+              {...register("existingApplication_path")}
+              value={accreditations.accreditationFilePath}
+            />
 
             <DateUpdate
               name="accreditationStartDate"
@@ -195,6 +207,17 @@ const AccreditationRecords_update = () => {
               >
                 {accreditations.accreditationFilePath.split("/").pop()}
               </a>
+            </LabelWrapper>
+
+            <LabelWrapper label="No. MQA" labelId="no_mqa">
+              <input
+                type="text"
+                {...register("no_mqa")}
+                id="no_mqa"
+                placeholder="MQA/"
+                value={accreditations.no_mqa}
+                className="input input-bordered w-1/2 mt-6"
+              />
             </LabelWrapper>
 
             {/* Action Button */}
