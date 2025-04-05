@@ -39,7 +39,7 @@ function App() {
     <>
       <Router>
         <div
-          className="font-sans flex-col space-x-8"
+          className="font-sans flex-col space-x-8 h-screen"
           data-theme={themeStore.darkMode ? "dark" : "light"}
         >
           {/* <Header /> */}

@@ -146,7 +146,7 @@ const Maklumbalas_view = () => {
   }, [feedback, setValue]);
 
   return (
-    <div className="container mx-auto mt-5 font-sans flex flex-col h-screen duration-300">
+    <div className="container mx-auto mt-5 font-sans flex flex-col  duration-300">
       <h1 className="text-2xl font-medium mt-4 mb-4 ">
         Maklumat Maklumbalas Pihak MQA
       </h1>
@@ -163,10 +163,10 @@ const Maklumbalas_view = () => {
           </li>
           <li>
             <a href={`/akreditasi-program/senarai-permohonan-akreditasi/`}>
-              Senarai Penilai Dalaman
+              Senarai Permohonan Akreditasi
             </a>
           </li>
-          <li>Maklumat Penilai</li>
+          <li>Butiran Maklumbalas</li>
         </ul>
       </div>
       {/* Breadcrumbs */}

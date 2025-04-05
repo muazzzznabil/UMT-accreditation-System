@@ -128,7 +128,7 @@ async function chatbotGoogle(req, res) {
         is_fined tinyint,: The fine status of the feedback if the feedback has a fine or not
         )
 
-        payment(
+        payment( 
         id INT PRIMARY KEY,: The id of the payment
         application_id INT,: The id of the accreditation application act as a foreign key
         payment_date date,: The date of the payment
@@ -140,8 +140,21 @@ async function chatbotGoogle(req, res) {
         records_timeStamp timestamp,: The time and date when the records was created of the payment
         )
 
+        accreditation : this table is used to store the accreditation data after an application is approved
+        (
+        accreditation_id INT PRIMARY KEY,: The id of the accreditation
+        program_id INT,: The id of the program act as a foreign key
+        accreditationStartDate date,: The start date of the accreditation
+        accreditationEndDate date,: The end date of the accreditation
+        accreditationStatus VARCHAR(255),: The status of the accreditation
+        accreditationFilePath VARCHAR(255),: The path of the Accreditation Certificate in the server eg: "/uploads/documents/file_undefined.pdf"
+        no_mqa VARCHAR(255),: The number of the MQA
+        )
+        
+
+
         Strict Rules:
-        1. if the command search for specific name you can use LIKE  in the query to get better result and surround with %item%
+        1. if the command search for specific name you can use LIKE  in the query to get better result and surround with %item% also ignore cases using LOWER() function
         2. fetch the detailed data example : if asked to fetch nec code, you can also fetch the data of the nec code and the name of it and any relevant data
         3. use join whenever possible 
         4. Use LIKE when searching for specific data and ignore cases

@@ -158,7 +158,7 @@ const UpdateMaklumat = () => {
     <form method="POST" onSubmit={handleSubmit(onSubmit)}>
       <div
         className={`container mx-auto mt-5 font-sans flex flex-col h-auto  ${
-          activeTab === "Maklumat Program" ? "h-auto" : "h-screen"
+          activeTab === "Maklumat Program" ? "h-auto" : ""
         }`}
       >
         <h1 className="text-xl font-bold">UPDATE: {program.nama_program}</h1>

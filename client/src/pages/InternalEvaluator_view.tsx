@@ -70,12 +70,12 @@ const InternalEvaluator_view = () => {
       <div
         className={`card  ${
           themeStore.darkMode ? "bg-gray-700" : "bg-white"
-        } shadow-md rounded-lg p-6`}
+        } shadow-md rounded-lg container`}
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">
+        <h2 className="text-2xl mt-2 font-bold container text-center">
           Maklumat Penilai
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-4 p-4">
           <div className="flex items-center">
             <FaUser className="text-gray-500 mr-2" />
             <p className="text-lg">

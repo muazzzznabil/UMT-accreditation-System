@@ -136,7 +136,7 @@ const Payment_update = () => {
   }, [payment, setValue]);
 
   return (
-    <div className="container mx-auto mt-5 font-sans flex flex-col h-screen duration-300">
+    <div className="container mx-auto mt-5 font-sans flex flex-col  duration-300">
       <h1 className="text-2xl font-medium mt-4 mb-4 ">
         Butiran Penuh Rekod Pembayaran
       </h1>
@@ -163,7 +163,7 @@ const Payment_update = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div
-          className={`container  mb-32 mx-auto flex flex-col  ${
+          className={`container   mx-auto flex flex-col  ${
             useThemeStore().darkMode ? "bg-gray-800" : "bg-gray-100"
           } p-6 rounded-md shadow-md`}
         >

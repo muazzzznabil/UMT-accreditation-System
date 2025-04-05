@@ -45,6 +45,11 @@ const AccreditationRecords_update = () => {
       "existingApplication_path",
       response.data[0].accreditationFilePath
     );
+    setValue(
+      "accreditationEndDate",
+      dayjs(response.data[0].accreditationEndDate).format("YYYY-MM-DD")
+    );
+
     // console.table(response.data[0]);
     if (response.data[0]?.accreditationEndDate) {
       setTarikhAkhir(
@@ -111,7 +116,7 @@ const AccreditationRecords_update = () => {
   // };
 
   return (
-    <div className="container mx-auto mt-5 h-screen p-4">
+    <div className="container mx-auto mt-5  p-4">
       <h1 className="text-xl font-bold  mb-4">Kemaskini Rekod Akreditasi</h1>
 
       {/* Breadcrumbs */}

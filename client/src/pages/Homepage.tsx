@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 const Homepage = () => {
   return (
     <>
-      <body className="m-12 flex justify-center items-center max-h-full ">
-        <div className="m-20 h-screen ">
+      <body className="m-12 flex justify-center items-center  ">
+        <div className="m-20  ">
           <h1 className="text-3xl font-medium">Navigation</h1>
           <ul className="list-disc pl-5 py-3">
             <li className="list-item">

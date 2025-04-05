@@ -132,7 +132,7 @@ const InternalEvaluator_update: React.FC = () => {
   }, []);
 
   return (
-    <div className="container mx-auto mt-5 font-sans flex flex-col  duration-300">
+    <div className="container mx-auto mt-5 font-sans flex flex-col duration-300">
       <h1 className="text-xl font-medium mt-4 mb-4">
         Kemaskini Maklumat Penilai Dalaman:{" "}
         <span className="font-bold">{name}</span>
@@ -158,7 +158,7 @@ const InternalEvaluator_update: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)} method="POST">
         <input type="hidden" {...register("program_id")} value={id} />
         <div
-          className={`container mt-10 mb-32 mx-auto flex flex-col ${
+          className={`container mt-6  mx-auto flex flex-col ${
             themeStore.darkMode ? "bg-gray-800" : "bg-gray-100"
           } p-6 rounded-md shadow-md`}
         >

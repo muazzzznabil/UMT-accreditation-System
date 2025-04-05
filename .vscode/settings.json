@@ -13,5 +13,6 @@
             "database": "umt_acc_sys",
             "username": "root"
         }
-    ]
+    ],
+    "postman.settings.dotenv-detection-notification-visibility": false
 }

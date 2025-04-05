@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import DateUpdate from "../components/msaForm/DateUpdate";
@@ -95,7 +96,7 @@ const Maklumbalas_register = () => {
   //   *Testing the form
 
   return (
-    <div className="container mt-5 mx-auto h-screen p-4">
+    <div className="container mt-5 mx-auto  p-4">
       <h1 className="text-2xl font-bold">Maklumbalas Pihak MQA</h1>
 
       {/* Breadcrumbs */}
@@ -118,7 +119,7 @@ const Maklumbalas_register = () => {
         <div
           className={`container mx-auto flex flex-col ${
             themeStore.darkMode ? "bg-base-200" : "bg-white"
-          } p-6 rounded-md shadow-md `}
+          } p-6 rounded-md drop-shadow-2xl `}
         >
           <input type="hidden" {...register("program_id")} value={program_id} />
           <input type="hidden" {...register("application_id")} value={id} />

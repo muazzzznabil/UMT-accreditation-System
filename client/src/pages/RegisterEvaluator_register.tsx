@@ -88,7 +88,7 @@ const RegisterEvaluator = () => {
       <form onSubmit={handleSubmit(onSubmit)} method="POST">
         <input type="hidden" {...register("program_id")} value={id} />
         <div
-          className={`container mt-10 mb-32 mx-auto flex flex-col ${
+          className={`container mt-4  mx-auto flex flex-col ${
             themeStore.darkMode ? "bg-gray-800" : "bg-gray-100"
           } p-6 rounded-md shadow-md`}
         >

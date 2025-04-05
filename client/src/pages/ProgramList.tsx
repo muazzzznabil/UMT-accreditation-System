@@ -84,7 +84,7 @@ const ProgramList: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto mt-5 font-sans h-screen">
+    <div className={`container mt-5 mx-auto  p-4`}>
       <h1 className="text-xl font-bold  mt-4 mb-4">
         PROGRAM LIST FOR MSA APPLICATION
       </h1>

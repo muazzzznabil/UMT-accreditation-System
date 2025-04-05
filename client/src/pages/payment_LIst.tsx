@@ -51,7 +51,7 @@ const Payment_list = () => {
   }, []);
 
   return (
-    <div className="container mt-5 mx-auto h-screen p-4  ">
+    <div className="container mt-5 mx-auto  p-4  ">
       <h1 className="text-xl font-bold  mt-4 mb-4">Senarai Rekod Pembayaran</h1>
       <Breadcrumb />
       {error && (

@@ -123,7 +123,7 @@ const Application_view: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto mt-5 font-sans h-screen">
+    <div className="container mx-auto mt-5 font-sans ">
       <h1 className="text-xl font-bold  mt-4 mb-4">
         Senarai Permohonan Akreditasi Program
       </h1>

@@ -49,7 +49,7 @@ const Payment_view = () => {
   }, []);
 
   return (
-    <div className="container mx-auto mt-5 font-sans flex flex-col duration-300 h-screen">
+    <div className="container mx-auto mt-5 font-sans flex flex-col duration-300 ">
       <h1 className="text-xl font-medium mt-4 mb-4">
         Rekod Bayaran Program: <span className="font-bold">{name}</span>
       </h1>
