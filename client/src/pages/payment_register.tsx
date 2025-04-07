@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -6,15 +7,41 @@ import DropdownUpdate from "../components/msaForm/DropDownUpdate";
 import DateUpdate from "../components/msaForm/DateUpdate";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import LabelWrapper from "../components/LabelWrapper";
+
+interface permohonan {
+  id: number;
+  program_id: number;
+  application_id: number;
+  application_type: string;
+  application_submission_date: Date;
+  application_status: string;
+}
 
 const Payment_register = () => {
   const { program_id, name } = useParams();
+  const { VITE_DATABASE_HOST } = import.meta.env;
+  const [permohonanList, setPermohonanList] = useState<permohonan[]>([]);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
   const themeStore = useThemeStore();
+
+  const getApplicationList = async () => {
+    try {
+      const response = await axios.get<permohonan[]>(
+        `${VITE_DATABASE_HOST}/payment-records/senarai-permohonan-akreditasi/${program_id}`
+      );
+      setPermohonanList(response.data);
+      console.table(response.data);
+    } catch (error) {
+      console.error("Error fetching accreditation application:", error);
+    }
+  };
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const formData = new FormData();
@@ -30,7 +57,7 @@ const Payment_register = () => {
     }
     axios
       .post(
-        `http://localhost:5000/payment-records/rekod-pembayaran`,
+        `${VITE_DATABASE_HOST}/payment-records/rekod-pembayaran`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -66,6 +93,14 @@ const Payment_register = () => {
   // };
   // *Testing Submission Value
 
+  useEffect(() => {
+    getApplicationList();
+  }, []);
+
+  if (!permohonanList) {
+    return <div className="text-center ">Loading...</div>;
+  }
+
   return (
     <div className="container mx-auto mt-5 font-sans flex flex-col  duration-300 ">
       <h1 className="text-xl font-medium mt-4 mb-4">
@@ -92,11 +127,65 @@ const Payment_register = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} method="POST">
         <input type="hidden" {...register("program_id")} value={program_id} />
+        <input type="hidden" {...register("application_id")} />
         <div
           className={`container mt-10 mb-32 mx-auto flex flex-col ${
             themeStore.darkMode ? "bg-gray-800" : "bg-gray-100"
           } p-6 rounded-md shadow-md`}
         >
+          <LabelWrapper
+            label="Bayaran Untuk"
+            labelId="application_id"
+            className="mb-4 w-1/2"
+          >
+            {/* <select
+              id="application_id"
+              className="select select-bordered w-1/2"
+              {...register("application_id", {
+                required: true,
+              })}
+            >
+              <option disabled hidden selected value="">
+                Pilih Permohonan Akreditasi
+              </option>
+              {permohonanList.map((item) => (
+                <option key={item.id} value={item.application_id}>{`${
+                  item.application_type
+                } - ${dayjs(item.application_submission_date).format(
+                  "DD/MM/YYYY"
+                )} (${item.application_status})`}</option>
+              ))}
+            </select> */}
+            <select
+              id="application_id"
+              className="select select-bordered w-1/2"
+              {...register("application_id", {
+                required: true,
+              })}
+            >
+              <option
+                value=""
+                disabled
+                hidden
+                selected
+                className="text-gray-400"
+              >
+                Pilih Permohonan yang sudah dinilai
+              </option>
+              {permohonanList.map((item) => (
+                <option key={item.id} value={item.id}>{`${
+                  item.application_type
+                } - ${dayjs(item.application_submission_date).format(
+                  "DD/MM/YYYY"
+                )} (${item.application_status})`}</option>
+              ))}
+
+              {permohonanList === null && (
+                <option>Sila isi borang permohonan dahulu</option>
+              )}
+            </select>
+          </LabelWrapper>
+
           {/* payment type */}
           <DropdownUpdate
             label="Jenis Pembayaran"
@@ -109,7 +198,7 @@ const Payment_register = () => {
             register={register}
             defaultValue={"placeholder"}
             placeholderOptions="Pilih Jenis Pembayaran"
-            className="mb-4 w-1/2"
+            className="mb-4 w-1/2 mt-4"
           />
           {/* payment type */}
 

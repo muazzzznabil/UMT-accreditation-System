@@ -15,6 +15,8 @@ import {
   FaTimes,
   FaTrash,
 } from "react-icons/fa";
+import { MdPayment } from "react-icons/md";
+
 import dayjs from "dayjs";
 
 interface payment {
@@ -282,7 +284,7 @@ const Payment_update = () => {
                   {/* Jenis Bayaran */}
                   <div className="flex w-full items-center">
                     <div className="flex w-1/4">
-                      <FaRegFileAlt className="text-gray-500 mr-2 mt-1" />{" "}
+                      <MdPayment className="text-gray-500 mr-2 mt-1" />{" "}
                       <label htmlFor="comment" className="mr-2">
                         Jenis Pembayaran :{" "}
                       </label>
@@ -370,7 +372,7 @@ const Payment_update = () => {
                   {/* Cara Pembayaran */}
                   <div className="flex w-full items-center">
                     <div className="flex  w-1/4">
-                      <FaRegFileAlt className="text-gray-500 mr-2 mt-1" />{" "}
+                      <MdPayment className="text-gray-500 mr-2 mt-1" />{" "}
                       <label htmlFor="comment">Cara Pembayaran : </label>
                     </div>
                     <div className="w-full ml-6">
@@ -432,14 +434,14 @@ const Payment_update = () => {
             {!isEdit && (
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <FaCommentAlt className="text-gray-500 mr-2" />
+                  <MdPayment className="text-gray-500 mr-2" />
                   <p className="text-lg">Jenis Pembayaran : </p>
                   <p className="ml-2 font-medium text-lg">
                     {payment?.payment_type}
                   </p>
                 </div>
                 <div className="flex items-center">
-                  <FaCommentAlt className="text-gray-500 mr-2" />
+                  <FaMoneyBillWave className="text-gray-500 mr-2" />
                   <p className="text-lg">Jumlah Bayaran : </p>
                   <p className="ml-2 font-medium text-lg">
                     MYR {payment?.payment_amount}
@@ -454,7 +456,7 @@ const Payment_update = () => {
                   </p>
                 </div>
                 <div className="flex items-center">
-                  <FaCommentAlt className="text-gray-500 mr-2" />
+                  <MdPayment className="text-gray-500 mr-2" />
                   <p className="text-lg">Cara Pembayaran : </p>
                   <p className="ml-2 font-medium text-lg">
                     {payment?.payment_method}

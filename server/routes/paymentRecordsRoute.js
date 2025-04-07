@@ -43,6 +43,7 @@ router.post(
       req.body.payment_method,
       req.body.payment_description,
       req.body.payment_type,
+      req.body.application_id,
     ];
     const query = `
        INSERT INTO payment (
@@ -52,8 +53,9 @@ router.post(
         payment_proof_path,
         payment_method,
         payment_description,
-        payment_type
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        payment_type,
+        application_id
+      ) VALUES (?, ?, ?, ?, ?, ?, ?,?)`;
     try {
       await db.query(query, data);
       console.log("Success");
@@ -161,6 +163,24 @@ router.delete("/rekod-pembayaran/:id/delete", async function (req, res) {
     res.status(500).send("Error deleting payment record");
   }
 });
+
+// !Get application list based on the program_id and application_status approved or rejected
+router.get(
+  "/senarai-permohonan-akreditasi/:program_id",
+  async function (req, res) {
+    const query = `SELECT * FROM accreditation_application WHERE program_id = ? AND application_status IN ('approved', 'rejected')`;
+    try {
+      const [result] = await db.query(query, [req.params.program_id]);
+      if (result.length === 0) {
+        return res.status(408).send("Data not found");
+      }
+      res.json(result);
+    } catch (error) {
+      console.error("Error fetching application records:", error);
+      res.status(500).send("Server error");
+    }
+  }
+);
 
 router.get("/uploads/paymentProof/:filename", (req, res) => {
   const filePath = path.join(

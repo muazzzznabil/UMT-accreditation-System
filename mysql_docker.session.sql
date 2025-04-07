@@ -295,4 +295,9 @@ WHERE
 
 
   select * FROM accreditation WHERE program_id = 22
+
+
+  select * from payment
+
+  SELECT * FROM accreditation_application WHERE program_id = 24 AND application_status IN ('approved', 'rejected')
   
