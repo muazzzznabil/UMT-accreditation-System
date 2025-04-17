@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise";
 import { config } from "dotenv";
+// import { Sequelize } from "sequelize";
 config();
 
 const pool = mysql.createPool({

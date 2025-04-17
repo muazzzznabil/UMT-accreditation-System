@@ -138,24 +138,6 @@ const Payment_register = () => {
             labelId="application_id"
             className="mb-4 w-1/2"
           >
-            {/* <select
-              id="application_id"
-              className="select select-bordered w-1/2"
-              {...register("application_id", {
-                required: true,
-              })}
-            >
-              <option disabled hidden selected value="">
-                Pilih Permohonan Akreditasi
-              </option>
-              {permohonanList.map((item) => (
-                <option key={item.id} value={item.application_id}>{`${
-                  item.application_type
-                } - ${dayjs(item.application_submission_date).format(
-                  "DD/MM/YYYY"
-                )} (${item.application_status})`}</option>
-              ))}
-            </select> */}
             <select
               id="application_id"
               className="select select-bordered w-1/2"

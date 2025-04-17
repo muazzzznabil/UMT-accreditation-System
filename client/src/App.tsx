@@ -25,13 +25,14 @@ import Application_view from "./pages/application_view.tsx";
 import Application_update from "./pages/application_update.tsx";
 import Maklumbalas_register from "./pages/maklumbalas_register.tsx";
 import Maklumbalas_view from "./pages/maklumbalas_view.tsx";
-// import Payment_list from "./pages/payment_LIst.tsx";
 import Payment_view from "./pages/payment_view.tsx";
 import Payment_register from "./pages/payment_register.tsx";
 import Payment_update from "./pages/payment_update.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 import AccreditationRecords_update from "./pages/accreditationRecords_update.tsx";
 import AccreditationRecords_view from "./pages/accreditationRecords_view.tsx";
+import Login from "./pages/UserManagement/login.tsx";
+import Register from "./pages/UserManagement/Register.tsx";
 
 function App() {
   const themeStore = useThemeStore();
@@ -43,10 +44,17 @@ function App() {
           data-theme={themeStore.darkMode ? "dark" : "light"}
         >
           {/* <Header /> */}
-          <HeaderSidebar />
-          <ChatBot />
+          {!location.pathname.includes("/Login") &&
+            !location.pathname.includes("/Registration") && (
+              <>
+                <HeaderSidebar /> <ChatBot />
+              </>
+            )}
+
           <div className="z-0">
             <Routes>
+              <Route path="/Login" element={<Login />} />
+              <Route path="/Registration" element={<Register />} />
               <Route path="/" element={<Homepage />} />
               {/* Evaluator */}
               <Route

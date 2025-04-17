@@ -7,7 +7,6 @@ config();
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
-  // apiKey: "AIzaSyCSg0n3OhQQZYriF_qwKafj47wW0gR-xLQ",
 });
 const databaseConfig = {
   temperature: 0.7,

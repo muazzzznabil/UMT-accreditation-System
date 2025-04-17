@@ -1,0 +1,29 @@
+GET http://localhost:5000/user/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsInVzZXJuYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwicGhvbmVfbnVtYmVyIjoiYWRtaW4iLCJ1c2VyX3N0YXR1cyI6ImFwcHJvdmVkIiwiaWF0IjoxNzQ0ODg1MDE3LCJleHAiOjE3NDQ4ODUwMzd9.tWy5Azos8x2orndqaOHlf-KP_WTIK0Qk3Mic5TIsbds
+
+###
+POST http://localhost:5000/user/register
+Content-Type: application/json
+
+{
+    "username":"mohdNoor",
+    "password":"supervisor",
+    "email":"mohdnoor@gmail.com",
+    "role":"admin",
+    "phone_number":"01138329217"
+}
+
+###
+POST http://localhost:5000/user/Login-user
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password": "admin"
+}
+
+###
+GET http://localhost:5000/user/token
+
+###
+DELETE  http://localhost:5000/user/logout

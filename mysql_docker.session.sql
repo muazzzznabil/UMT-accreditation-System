@@ -300,4 +300,21 @@ WHERE
   select * from payment
 
   SELECT * FROM accreditation_application WHERE program_id = 24 AND application_status IN ('approved', 'rejected')
+
+  create table user (
+    id int UNIQUE PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    role ENUM('admin', 'staff') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    approved_by int not null
+  )
+
+  CREATE VIEW user_info AS
+  SELECT id, username, email, role, created_at, approved_by
+  FROM user;
+
+
   
+SELECT * FROM user_info
