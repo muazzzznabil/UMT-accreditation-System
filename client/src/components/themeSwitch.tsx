@@ -18,7 +18,7 @@ const ThemeSwitch = () => {
             id="theme-toggle-checkbox"
             checked={darkMode}
             onChange={toggleDarkMode}
-            className="sr-only" // Visually hide the checkbox but keep it accessible
+            className="sr-only"
             aria-label="Tukar Tema"
           />
           {/* Track */}

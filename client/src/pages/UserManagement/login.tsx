@@ -1,28 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SubmitHandler, useForm } from "react-hook-form";
-import ThemeSwitch from "../../components/themeSwitch";
+// import ThemeSwitch from "../../components/themeSwitch";
 import { useThemeStore } from "../../utils/useThemeStore";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { IoEyeOutline } from "react-icons/io5";
+import { setToken } from "../../utils/auth";
 
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import TabbedForm from "../testMultiStepForm";
 
 const Login = () => {
   const themeStore = useThemeStore();
   const { VITE_DATABASE_HOST } = import.meta.env;
   const { register, handleSubmit } = useForm();
   const [seePassword, setSeePassword] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       const response = await axios.post(
-        `${VITE_DATABASE_HOST}/user/login`,
+        `${VITE_DATABASE_HOST}/user/Login-user`,
         data
       );
-      console.log("Login response:", response.data.message);
-      window.location.href = "/";
+      setToken(response.data.accessToken); // Save token to localStorage
+      navigate("/");
     } catch (error) {
       toast.error("Invalid Username or Password", {
         position: "top-right",
@@ -64,7 +68,8 @@ const Login = () => {
           className="w-22 absolute m-4"
         />
         <div className="absolute top-6 right-4">
-          <ThemeSwitch />
+          {/* <ThemeSwitch /> */}
+          <TabbedForm />
         </div>
       </div>
       <div className="min-h-screen flex fle-col items-center justify-center py-6 px-4">

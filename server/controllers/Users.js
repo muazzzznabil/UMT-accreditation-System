@@ -30,6 +30,7 @@ export const Register = async (req, res) => {
     res.json({ message: "User created successfully" });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -75,7 +76,7 @@ export const Login = async (req, res) => {
       },
       process.env.REFRESH_TOKEN_SECRET,
       {
-        expiresIn: "30s",
+        expiresIn: "1d",
       }
     );
     await Users.update(

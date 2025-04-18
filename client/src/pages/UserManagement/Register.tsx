@@ -2,10 +2,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import ThemeSwitch from "../../components/themeSwitch";
 import { PiWarningCircleFill } from "react-icons/pi";
-
 import { useThemeStore } from "../../utils/useThemeStore";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const {
@@ -18,15 +19,24 @@ const Register = () => {
   const themeStore = useThemeStore();
   const [validPassword, setValidPassword] = useState<boolean>(true);
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       const response = await axios.post(
-        `${VITE_DATABASE_HOST}/user/add-user`,
+        `${VITE_DATABASE_HOST}/user/register`,
         data
       );
+      navigate("/Login");
       console.log("Registration response:", response.data.message);
     } catch (error) {
       console.error("Error during registration:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Gagal Mendaftar!",
+        footer: `Error: ${(error as Error).message}`,
+      });
     }
   };
 

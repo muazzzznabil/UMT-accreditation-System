@@ -318,3 +318,15 @@ WHERE
 
   
 SELECT * FROM user_info
+
+SELECT
+  mp.id,
+  mp.nama_program,
+  a.accreditationStartDate,
+  a.accreditationEndDate,
+  a.accreditationStatus,
+  a.accreditationFilePath,
+  a.no_mqa
+FROM maklumat_program AS mp
+JOIN accreditation AS a
+  ON mp.id = a.program_id;
