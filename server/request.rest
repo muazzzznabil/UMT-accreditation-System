@@ -27,3 +27,6 @@ GET http://localhost:5000/user/token
 
 ###
 DELETE  http://localhost:5000/user/logout
+
+###
+GET http://localhost:5000/penilai-dalaman/semua-penilai

@@ -7,6 +7,7 @@ import {
   FaThList,
   FaArchive,
   FaListUl,
+  FaUserAlt,
 } from "react-icons/fa";
 import TabbedForm from "../pages/testMultiStepForm";
 
@@ -105,6 +106,15 @@ const HeaderSidebar = () => {
                         <span className="ml-2">
                           Senarai Permohonan Akreditasi
                         </span>
+                      </div>
+                    </Link>{" "}
+                  </li>
+                  <div className="divider"></div>
+                  <li>
+                    <Link to="/senarai-penilai-dalaman">
+                      <div className="flex items-center ">
+                        <FaUserAlt className="text-2xl" />
+                        <span className="ml-2">Penilai dalaman program</span>
                       </div>
                     </Link>{" "}
                   </li>

@@ -35,6 +35,7 @@ import Payment_update from "./pages/payment_update.tsx";
 import ChatBot from "./components/ChatBot.tsx";
 import AccreditationRecords_update from "./pages/accreditationRecords_update.tsx";
 import AccreditationRecords_view from "./pages/accreditationRecords_view.tsx";
+import AllEvaluator_List from "./pages/AllEvaluator_List.tsx";
 
 function AppContent() {
   const themeStore = useThemeStore();
@@ -96,6 +97,14 @@ function AppContent() {
             element={
               <AuthenticationWrapper>
                 <InternalEvaluator_view />
+              </AuthenticationWrapper>
+            }
+          />
+          <Route
+            path="/senarai-penilai-dalaman"
+            element={
+              <AuthenticationWrapper>
+                <AllEvaluator_List />
               </AuthenticationWrapper>
             }
           />
