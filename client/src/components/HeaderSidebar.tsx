@@ -23,6 +23,13 @@ const HeaderSidebar = () => {
     }
   };
 
+  // const toggleDarkMode = () => {
+  //   const newTheme = darkMode ? "light" : "dark";
+  //   document.documentElement.setAttribute("data-theme", newTheme);
+  //   localStorage.setItem("theme", newTheme);
+  //   // ...existing code...
+  // };
+
   return (
     <>
       <div className="navbar flex justify-between items-center bg-base-300 shadow-sm top-0">

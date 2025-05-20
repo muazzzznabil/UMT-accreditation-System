@@ -21,11 +21,12 @@ const RegisterEvaluator = () => {
   } = useForm();
   const [tarikhSurat2, setTarikhSurat2] = useState<Date>(new Date());
   const [bilTahun, setBilTahun] = useState<any>(2);
+  const { VITE_DATABASE_HOST } = import.meta.env;
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       axios
-        .post(`http://localhost:5000/penilai-dalaman/daftar-penilai`, data)
+        .post(`${VITE_DATABASE_HOST}penilai-dalaman/daftar-penilai`, data)
         .then((response) => {
           console.table(response.data);
           Swal.fire({

@@ -33,6 +33,36 @@ router.post("/daftar-penilai", async function (req, res) {
   }
 });
 
+// !Register evaluator General
+router.post("/daftar-penilai/daftar", async function (req, res) {
+  const query = `
+    INSERT INTO evaluator (evaluator_name, evaluator_email, evaluator_phone, evaluator_faculty, evaluator_position, evaluator_status, evaluator_field, evaluator_appointment_date, evaluator_end_date, evaluator_appointment_period, evaluator_specific_field)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+  const values = [
+    req.body.evaluator_name,
+    req.body.evaluator_email,
+    req.body.evaluator_phone,
+    req.body.evaluator_faculty,
+    req.body.evaluator_position,
+    req.body.evaluator_status,
+    req.body.evaluator_field,
+    req.body.evaluator_appointment_date,
+    req.body.evaluator_end_date,
+    req.body.evaluator_appointment_period,
+    req.body.evaluator_specific,
+  ];
+
+  try {
+    const response = await db.query(query, values);
+    console.table(values);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
 //get all evaluator
 router.get("/semua-penilai", async function (req, res) {
   const query = "SELECT * FROM evaluator";
@@ -79,6 +109,48 @@ router.put("/penilai/:id/edit", async function (req, res) {
     req.body.evaluator_end_date,
     req.body.evaluator_appointment_period,
     req.body.program_id,
+    req.params.id,
+  ];
+
+  try {
+    await db.query(query, values);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
+// !update evaluator general
+router.put("/penilai/:id/kemaskini", async function (req, res) {
+  const query = `
+    UPDATE evaluator
+    SET evaluator_name = ?, 
+    evaluator_email = ?, 
+    evaluator_phone = ?, 
+    evaluator_faculty = ?, 
+    evaluator_position = ?, 
+    evaluator_status = ?, 
+    evaluator_field = ?, 
+    evaluator_appointment_date = ?, 
+    evaluator_end_date = ?, 
+    evaluator_appointment_period = ?, 
+    evaluator_specific_field = ?
+    WHERE id = ?
+  `;
+  const values = [
+    req.body.evaluator_name,
+    req.body.evaluator_email,
+    req.body.evaluator_phone,
+    req.body.evaluator_faculty,
+    req.body.evaluator_position,
+    req.body.evaluator_status,
+    req.body.evaluator_field,
+    req.body.evaluator_appointment_date,
+    req.body.evaluator_end_date,
+    req.body.evaluator_appointment_period,
+    // req.body.program_id,
+    req.body.evaluator_specific,
     req.params.id,
   ];
 

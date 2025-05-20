@@ -22,7 +22,7 @@ interface evaluators {
 }
 
 const AllEvaluator_List = () => {
-  const { id, nama_program } = useParams();
+  // const { } = useParams();
   const [accreditations, setAccreditations] = useState<evaluators[] | null>([]);
   const [selectedAccreditation, setSelectedAccreditations] = useState<number[]>(
     []
@@ -64,14 +64,12 @@ const AllEvaluator_List = () => {
 
   useEffect(() => {
     getAccreditations();
-  });
+  }, []);
 
   const { VITE_DATABASE_HOST } = import.meta.env;
   return (
     <div className={`container mt-5 mx-auto  p-4`}>
-      <h1 className="text-xl font-bold  mt-4 mb-4">
-        Rekod Akreditasi : <span className="font-bold">{nama_program}</span>{" "}
-      </h1>
+      <h1 className="text-xl font-bold  mt-4 mb-4">Senarai Penilai Dalaman</h1>
 
       {/* Breadcrumbs */}
       <div className="breadcrumbs text-md mb-2">
@@ -80,9 +78,8 @@ const AllEvaluator_List = () => {
             <a href="/">Home</a>
           </li>
           <li>
-            <a href="/program-list">Program List For MSA Application</a>
+            <p>Senarai Penilai Dalaman</p>
           </li>
-          <li>Senarai Rekod Akreditasi : {nama_program}</li>
         </ul>
       </div>
       {/* Breadcrumbs */}
@@ -111,7 +108,7 @@ const AllEvaluator_List = () => {
             <FaTrashAlt className="text-white w-5 h-5" />
           </button>
           <Link
-            to={`/akreditasi-program/${selectedAccreditation[0]}/kemaskini-akreditasi/${nama_program}`}
+            to={`/senarai-penilai-dalaman/edit-penilai/${selectedAccreditation[0]}`}
           >
             <button
               className={`btn btn-warning text-white`}
@@ -134,9 +131,7 @@ const AllEvaluator_List = () => {
             </button>
           </Link>
 
-          <Link
-            to={`/akreditasi-program/${id}/permohonan-akreditasi/${nama_program}`}
-          >
+          <Link to={`/senarai-penilai-dalaman/daftar-penilai`}>
             <button className="btn bg-[#28a745] my-4 text-white">
               <svg
                 className="w-6 h-6  text-white"
@@ -155,7 +150,7 @@ const AllEvaluator_List = () => {
                   d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
-              Tambah Rekod Akreditasi
+              Tambah Penilai Dalaman
             </button>
           </Link>
         </div>

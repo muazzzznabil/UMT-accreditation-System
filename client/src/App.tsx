@@ -36,6 +36,8 @@ import ChatBot from "./components/ChatBot.tsx";
 import AccreditationRecords_update from "./pages/accreditationRecords_update.tsx";
 import AccreditationRecords_view from "./pages/accreditationRecords_view.tsx";
 import AllEvaluator_List from "./pages/AllEvaluator_List.tsx";
+import AllRegister_Evaluator from "./pages/AllEvaluator_Register.tsx";
+import AllEvaluator_edit from "./pages/AllEvaluator_edit.tsx";
 
 function AppContent() {
   const themeStore = useThemeStore();
@@ -62,7 +64,7 @@ function AppContent() {
           <Route
             path="/"
             element={
-              // <AuthenticationWrapper>
+              //<AuthenticationWrapper>
               <Homepage />
               // </AuthenticationWrapper>
             }
@@ -105,6 +107,22 @@ function AppContent() {
             element={
               <AuthenticationWrapper>
                 <AllEvaluator_List />
+              </AuthenticationWrapper>
+            }
+          />
+          <Route
+            path="/senarai-penilai-dalaman/daftar-penilai"
+            element={
+              <AuthenticationWrapper>
+                <AllRegister_Evaluator />
+              </AuthenticationWrapper>
+            }
+          />
+          <Route
+            path="/senarai-penilai-dalaman/edit-penilai/:evaluator_id"
+            element={
+              <AuthenticationWrapper>
+                <AllEvaluator_edit />
               </AuthenticationWrapper>
             }
           />

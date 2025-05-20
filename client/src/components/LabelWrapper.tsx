@@ -16,7 +16,7 @@ const LabelWrapper: React.FC<LabelWrapperProps> = ({
   containerClass,
 }) => {
   return (
-    <div className={`flex  items-center w-full ${containerClass}`}>
+    <div className={`flex mb-4 items-center w-full ${containerClass}`}>
       <label htmlFor={labelId} className={`label-input-msa ${className}`}>
         {label}
       </label>
