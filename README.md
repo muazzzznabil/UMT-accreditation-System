@@ -1,6 +1,5 @@
 # UMT Accreditation System
-
-This guide will walk you through the steps to install and set up the UMT Accreditation System project using Vite, Node.js, and Express.js.
+The UMT Academic Programme Accreditation System streamlines accreditation processes for PPPK staff at UMT. Features include ChatBot by integrating Gemini LLM API , program registration, evaluator management, PA/FA submissions, MQA feedback tracking, and reporting . Built using MySQL, Visual Studio Code, and Docker for efficiency and scalability. 
 
 ## Prerequisites
 
