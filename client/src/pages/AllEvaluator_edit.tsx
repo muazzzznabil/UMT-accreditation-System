@@ -117,7 +117,11 @@ const AllEvaluator_edit = () => {
     setTarikhSurat2(
       dayjs(response.data[0].evaluator_appointment_date).toDate()
     );
-    setBidangSpesifikStr(response.data[0].evaluator_specific_field);
+    setBidangSpesifikStr(
+      response.data[0].evaluator_specific_field
+        ? response.data[0].evaluator_specific_field
+        : ""
+    );
   };
 
   useEffect(() => {
@@ -147,7 +151,9 @@ const AllEvaluator_edit = () => {
 
   return (
     <div className="container mx-auto mt-5 font-sans flex flex-col  duration-300">
-      <h1 className="text-xl font-medium mt-4 mb-4">Daftar Penilai Dalaman</h1>
+      <h1 className="text-xl font-medium mt-4 mb-4">
+        Kemaskini Maklumat Penilai Dalaman
+      </h1>
 
       {/* Breadcrumbs */}
       <div className="breadcrumbs text-md mb-2">
@@ -155,7 +161,7 @@ const AllEvaluator_edit = () => {
           <li>
             <a href="/">Home</a>
           </li>
-          <li>Daftar Penilai Dalaman </li>
+          <li>Kemaskini Maklumat Penilai Dalaman </li>
         </ul>
       </div>
       {/* Breadcrumbs */}

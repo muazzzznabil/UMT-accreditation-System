@@ -26,7 +26,13 @@ interface Evaluator {
   program_id: number;
 }
 
-const InternalEvaluator_update: React.FC = () => {
+interface EvaluatorUpdateForm {
+  id_evaluator?: number;
+}
+
+const InternalEvaluator_update: React.FC<EvaluatorUpdateForm> = ({
+  id_evaluator,
+}) => {
   const { name, id, id_program } = useParams();
   const themeStore = useThemeStore();
   const [evaluator, setEvaluator] = useState<Evaluator | null>(null);
@@ -44,6 +50,7 @@ const InternalEvaluator_update: React.FC = () => {
   const [bilTahun, setBilTahun] = useState<any>(
     evaluator?.evaluator_appointment_period
   );
+  const { VITE_DATABASE_HOST } = import.meta.env;
 
   useEffect(() => {
     reset({
@@ -74,7 +81,7 @@ const InternalEvaluator_update: React.FC = () => {
   const getEvaluator = async () => {
     try {
       const response = await axios.get<Evaluator[]>(
-        `http://localhost:5000/penilai-dalaman/penilai/${id}`
+        `${VITE_DATABASE_HOST}/penilai-dalaman/penilai/${id_evaluator}`
       );
       setEvaluator(response.data[0]);
       console.table(evaluator);
@@ -84,7 +91,7 @@ const InternalEvaluator_update: React.FC = () => {
         icon: "error",
         title: "Gagal Mendapatkan Program",
         text: "Berlaku ralat semasa mendapatkan program",
-        footer: "Ralat :" + error.message,
+        footer: "Ralat :" + error.message + id_evaluator,
         confirmButtonText: "Cuba Lagi",
       }).then((result) => {
         if (result.isConfirmed) {
@@ -97,7 +104,10 @@ const InternalEvaluator_update: React.FC = () => {
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       axios
-        .put(`http://localhost:5000/penilai-dalaman/penilai/${id}/edit`, data)
+        .put(
+          `${VITE_DATABASE_HOST}/penilai-dalaman/penilai/${id_evaluator}/edit`,
+          data
+        )
         .then((response) => {
           console.table(response.data);
 

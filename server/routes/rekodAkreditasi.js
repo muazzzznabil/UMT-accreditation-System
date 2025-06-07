@@ -167,6 +167,31 @@ router.get("/senarai-permohonan-akreditasi", async function (req, res) {
   }
 });
 
+// select  application records based on program id
+router.get("/senarai-permohonan-akreditasi/:id", async function (req, res) {
+  const query = `
+    SELECT 
+      accreditation_application.*,
+      maklumat_program.nama_program AS program_name
+    FROM 
+      accreditation_application
+    INNER JOIN 
+      maklumat_program ON accreditation_application.program_id = maklumat_program.id
+    WHERE
+      accreditation_application.program_id = ?
+  `;
+  try {
+    const [result] = await db.query(query, [req.params.id]);
+    if (result.length === 0) {
+      return res.status(404).send("Data not found");
+    }
+    res.json(result);
+  } catch (error) {
+    console.error("Error fetching accreditation application:", error);
+    res.status(500).send("Server error");
+  }
+});
+
 //select specific application records
 router.get("/permohonan-akreditasi/:id/edit", async function (req, res) {
   const query = `

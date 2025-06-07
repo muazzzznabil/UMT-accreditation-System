@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 import { Slide, toast, ToastContainer } from "react-toastify";
 import Select from "react-select";
 import { useThemeStore } from "../utils/useThemeStore";
+import classNames from "classnames";
 
 const MSAForm_register = () => {
   const {
@@ -33,12 +34,14 @@ const MSAForm_register = () => {
   const themeStore = useThemeStore();
   const [tarikhSurat2, setTarikhSurat2] = useState<Date>(new Date());
   const [activeTab, setActiveTab] = useState("Maklumat Program");
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleTabChange = (label: string) => {
     setActiveTab(label);
   };
 
   const onSubmit: SubmitHandler<any> = async (data) => {
+    setFormSubmitted(false); // Reset before submit
     const formData = new FormData();
     for (const key in data) {
       if ((key === "minitJKPT" || key === "minitJKA") && data[key].length > 0) {
@@ -74,7 +77,7 @@ const MSAForm_register = () => {
           icon: "error",
           title: "Oops...",
           text: "Program Tidak Berjaya Didaftarkan!",
-          // footer: '<a href="#">Why do I have this issue?</a>'
+          footer: '<a href="#">Why do I have this issue?</a>',
         });
       });
   };
@@ -84,7 +87,7 @@ const MSAForm_register = () => {
   // };
 
   useEffect(() => {
-    if (errors) {
+    if (formSubmitted && Object.keys(errors).length > 0) {
       if (errors.bilMesyuarat && errors.bilMesyuarat.type === "pattern") {
         toast.error("Format Bil Mesyuarat is invalid!", {
           position: "top-right",
@@ -107,10 +110,29 @@ const MSAForm_register = () => {
         });
       }
     }
-  }, [errors]);
+    // eslint-disable-next-line
+  }, [errors, formSubmitted]);
+
+  // Helper to show error message for required fields
+  const renderError = (field: string, label?: string) => {
+    if (errors[field]?.type === "required") {
+      return (
+        <span className="text-red-500 text-xs ml-2">
+          {label || "Field"} is required!
+        </span>
+      );
+    }
+    return null;
+  };
 
   return (
-    <form method="POST" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      method="POST"
+      onSubmit={handleSubmit((data) => {
+        setFormSubmitted(true);
+        onSubmit(data);
+      })}
+    >
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -161,12 +183,14 @@ const MSAForm_register = () => {
                   </label>
                   <input
                     id="nama_program"
-                    // defaultValue={program.nama_program}
                     placeholder="Sila Masukkan Nama Program"
                     required
-                    className="input input-bordered w-full "
+                    className={classNames("input input-bordered w-full", {
+                      "border-red-500": errors.nama_program,
+                    })}
                     {...register("nama_program", { required: true })}
                   />
+                  {renderError("nama_program", "Nama Program")}
                 </div>
                 <KKMUpdate
                   //   valueMQF={program.tahapMQF}
@@ -182,65 +206,69 @@ const MSAForm_register = () => {
                     <Controller
                       name="code_nec"
                       control={control}
+                      rules={{ required: true }}
                       render={({ field }) => (
-                        <Select
-                          {...field}
-                          unstyled
-                          components={{
-                            DropdownIndicator: () => null,
-                            IndicatorSeparator: () => null,
-                          }}
-                          placeholder="Sila Pilih Code NEC"
-                          classNames={{
-                            control: () =>
-                              `select select-bordered w-full p-2 border rounded-lg ${
-                                themeStore.darkMode
-                                  ? "bg-base-200 border-gray-600 text-gray-300"
-                                  : "bg-white border-gray-300 text-gray-900"
-                              } focus:ring focus:ring-primary`,
+                        <>
+                          <Select
+                            {...field}
+                            unstyled
+                            components={{
+                              DropdownIndicator: () => null,
+                              IndicatorSeparator: () => null,
+                            }}
+                            placeholder="Sila Pilih Code NEC"
+                            classNames={{
+                              control: () =>
+                                `select select-bordered w-full p-2 border rounded-lg ${
+                                  themeStore.darkMode
+                                    ? "bg-base-200 border-gray-600 text-gray-300"
+                                    : "bg-white border-gray-300 text-gray-900"
+                                } focus:ring focus:ring-primary`,
 
-                            menu: () =>
-                              `border shadow-md rounded-md mt-1 ${
-                                themeStore.darkMode
-                                  ? "bg-base-200 border-gray-600"
-                                  : "bg-white border-gray-300"
-                              }`,
+                              menu: () =>
+                                `border shadow-md rounded-md mt-1 ${
+                                  themeStore.darkMode
+                                    ? "bg-base-200 border-gray-600"
+                                    : "bg-white border-gray-300"
+                                }`,
 
-                            option: ({ isFocused, isSelected }) =>
-                              `p-2 cursor-pointer ${
-                                isSelected
-                                  ? "bg-primary text-white"
-                                  : isFocused
-                                  ? themeStore.darkMode
-                                    ? "bg-primary/20 text-gray-300"
-                                    : "bg-gray-200 text-gray-900"
-                                  : themeStore.darkMode
-                                  ? "bg-base-200 text-gray-300"
-                                  : "bg-white text-gray-900"
-                              }`,
+                              option: ({ isFocused, isSelected }) =>
+                                `p-2 cursor-pointer ${
+                                  isSelected
+                                    ? "bg-primary text-white"
+                                    : isFocused
+                                    ? themeStore.darkMode
+                                      ? "bg-primary/20 text-gray-300"
+                                      : "bg-gray-200 text-gray-900"
+                                    : themeStore.darkMode
+                                    ? "bg-base-200 text-gray-300"
+                                    : "bg-white text-gray-900"
+                                }`,
 
-                            singleValue: () =>
-                              `${
-                                themeStore.darkMode
-                                  ? "text-gray-300"
-                                  : "text-gray-900"
-                              }`,
-                          }}
-                          options={Nec_Code_List.map((code) => ({
-                            value: code,
-                            label: code,
-                          }))}
-                          value={
-                            field.value
-                              ? Nec_Code_List.find((c) => c === field.value)
-                                ? { value: field.value, label: field.value }
+                              singleValue: () =>
+                                `${
+                                  themeStore.darkMode
+                                    ? "text-gray-300"
+                                    : "text-gray-900"
+                                }`,
+                            }}
+                            options={Nec_Code_List.map((code) => ({
+                              value: code,
+                              label: code,
+                            }))}
+                            value={
+                              field.value
+                                ? Nec_Code_List.find((c) => c === field.value)
+                                  ? { value: field.value, label: field.value }
+                                  : null
                                 : null
-                              : null
-                          }
-                          onChange={(selectedOption) =>
-                            field.onChange(selectedOption?.value)
-                          }
-                        />
+                            }
+                            onChange={(selectedOption) =>
+                              field.onChange(selectedOption?.value)
+                            }
+                          />
+                          {renderError("code_nec", "Code NEC")}
+                        </>
                       )}
                     />
                   </div>
@@ -262,6 +290,7 @@ const MSAForm_register = () => {
                   placeholderOptions={"Sila Pilih Mode Penawaran"}
                   register={register}
                 />
+                {renderError("mode_penawaran", "Mode Penawaran")}
                 <DropdownUpdate
                   label={"Fakulti"}
                   options={fakulti_List}
@@ -293,9 +322,10 @@ const MSAForm_register = () => {
                         <input
                           type="checkbox"
                           id="konvensional"
-                          {...register("konvensional")}
-                          className="checkbox  mr-2"
-                          // onChange={(e) => setValue("konvensional", e.target.value)}
+                          {...register("konvensional", { required: true })}
+                          className={classNames("checkbox mr-2", {
+                            "border-red-500": errors.konvensional,
+                          })}
                         />
                         <label htmlFor="konvensional" className=" text-md">
                           Konvensional/Terbuka
@@ -305,8 +335,10 @@ const MSAForm_register = () => {
                         <input
                           type="checkbox"
                           id="ODL"
-                          {...register("ODL")}
-                          className="checkbox  mr-2"
+                          {...register("ODL", { required: true })}
+                          className={classNames("checkbox mr-2", {
+                            "border-red-500": errors.ODL,
+                          })}
                         />
                         <label htmlFor="ODL" className=" text-md">
                           Jarak Jauh (ODL)
@@ -314,6 +346,8 @@ const MSAForm_register = () => {
                       </div>
                     </div>
                   </div>
+                  {renderError("konvensional", "Konvensional/Terbuka")}
+                  {renderError("ODL", "Jarak Jauh (ODL)")}
                 </div>
                 <DropdownUpdate
                   label={"Struktur Program"}
@@ -376,9 +410,12 @@ const MSAForm_register = () => {
                     type="text"
                     id="bilMesyuarat"
                     {...register("bilMesyuarat", {
+                      required: true,
                       pattern: /^[0-9]+\/[0-9]{4}$/,
                     })}
-                    className="input input-bordered w-1/6 mt-4"
+                    className={classNames("input input-bordered w-1/6 mt-4", {
+                      "border-red-500": errors.bilMesyuarat,
+                    })}
                     placeholder=" Bil. / Tahun"
                   />
                   {errors.bilMesyuarat &&
@@ -388,6 +425,7 @@ const MSAForm_register = () => {
                         <span className="font-semibold">" Bil./Tahun "</span>
                       </p>
                     )}
+                  {renderError("bilMesyuarat", "Bil Mesyuarat JKPT")}
                 </div>
               </div>
               {/* Bil Mesyuarat */}
@@ -401,13 +439,12 @@ const MSAForm_register = () => {
                     type="file"
                     id="minitJKPT"
                     {...register("minitJKPT", { required: true })}
-                    className="file-input file-input-bordered w-1/2"
+                    className={classNames(
+                      "file-input file-input-bordered w-1/2",
+                      { "border-red-500": errors.minitJKPT }
+                    )}
                   />
-                  {/* {errors.minitJKPT && (
-                     <p className="text-red-500 text-md mt-1 ml-4">
-                       Minit JKPT is required!
-                     </p>
-                   )} */}
+                  {renderError("minitJKPT", "Minit JKPT")}
                 </div>
               </div>
             </div>{" "}
@@ -438,9 +475,12 @@ const MSAForm_register = () => {
                     id="bilMesyuaratJKA"
                     required
                     {...register("bilMesyuaratJKA", {
+                      required: true,
                       pattern: /^[0-9]+\/[0-9]{4}$/,
                     })}
-                    className="input input-bordered w-1/6"
+                    className={classNames("input input-bordered w-1/6", {
+                      "border-red-500": errors.bilMesyuaratJKA,
+                    })}
                     placeholder=" Bil. / Tahun"
                   />
                   {errors.bilMesyuaratJKA &&
@@ -450,6 +490,7 @@ const MSAForm_register = () => {
                         <span className="font-semibold">" Bil./Tahun "</span>
                       </p>
                     )}
+                  {renderError("bilMesyuaratJKA", "Bil Mesyuarat JKA")}
                 </div>
               </div>
               {/* Bil Mesyuarat */}
@@ -463,8 +504,12 @@ const MSAForm_register = () => {
                     type="file"
                     id="minitJKA"
                     {...register("minitJKA", { required: true })}
-                    className="file-input file-input-bordered w-1/2"
+                    className={classNames(
+                      "file-input file-input-bordered w-1/2",
+                      { "border-red-500": errors.minitJKA }
+                    )}
                   />
+                  {renderError("minitJKA", "Minit JKA")}
                 </div>
               </div>
             </div>{" "}
@@ -485,6 +530,7 @@ const MSAForm_register = () => {
               className="btn btn-primary shadow-md text-white"
               onClick={(e) => {
                 e.preventDefault();
+                setFormSubmitted(true);
                 Swal.fire({
                   title: "Simpan Permohonan Program?",
                   showDenyButton: true,

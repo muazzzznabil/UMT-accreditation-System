@@ -238,7 +238,7 @@ const AllEvaluator_Register = () => {
               {...register("evaluator_status")}
               className="radio radio-primary mr-1"
               defaultChecked
-              value="aktif"
+              value="Aktif"
               id="Aktif"
             />
             <label htmlFor="aktif" className="mr-4">
@@ -249,7 +249,7 @@ const AllEvaluator_Register = () => {
               {...register("evaluator_status")}
               className="radio radio-primary mr-1"
               id="tidak_aktif"
-              value="tidak_aktif"
+              value="Tidak Aktif"
             />
             <label htmlFor="tidak_aktif">Tidak Aktif</label>
           </LabelWrapper>

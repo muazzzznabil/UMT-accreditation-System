@@ -18,7 +18,13 @@ interface application {
   hasFeedback?: boolean;
 }
 
-const Application_view: React.FC = () => {
+interface ApplicationProgramProps {
+  program_id: number;
+}
+
+const Application_program: React.FC<ApplicationProgramProps> = ({
+  program_id,
+}) => {
   const [listApplication, setListApplication] = useState<application[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,13 +33,14 @@ const Application_view: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [program_name, setProgram_name] = useState<string>("");
   const [notPending, setNotPending] = useState<{ [key: number]: string }>({});
+  const { VITE_DATABASE_HOST } = import.meta.env;
 
   // ** GET APPLICATION **
   const getApplication = async () => {
     try {
       // Fetch applications
       const response = await axios.get<application[]>(
-        "http://localhost:5000/rekod-akreditasi/senarai-permohonan-akreditasi"
+        `${VITE_DATABASE_HOST}/rekod-akreditasi/senarai-permohonan-akreditasi/${program_id}`
       );
       setListApplication(response.data);
 
@@ -46,7 +53,7 @@ const Application_view: React.FC = () => {
 
       // Fetch feedback data
       const feedbackResponse = await axios.get<{ application_id: number }[]>(
-        "http://localhost:5000/mqa-feedback/semak-maklumbalas"
+        `${VITE_DATABASE_HOST}/mqa-feedback/semak-maklumbalas`
       );
 
       // Map feedback application IDs to a set for quick lookup
@@ -61,7 +68,7 @@ const Application_view: React.FC = () => {
           hasFeedback: feedbackSet.has(program.id),
         }))
       );
-      // Show toast if no program found
+      // Show toast if no application found
       if (response.data.length === 0) {
         toast.info("Tiada permohonan program dijumpai.", {
           position: "top-right",
@@ -81,7 +88,7 @@ const Application_view: React.FC = () => {
   const handleDelete = async (ids: number[]) => {
     try {
       await axios.delete(
-        `http://localhost:5000/rekod-akreditasi/permohonan-akreditasi/delete-multiple`,
+        `${VITE_DATABASE_HOST}/rekod-akreditasi/permohonan-akreditasi/delete-multiple`,
         { data: { ids } }
       );
 
@@ -147,21 +154,28 @@ const Application_view: React.FC = () => {
       </div>
 
       {error && (
-        <div role="alert" className="alert alert-error fixed bottom-10">
+        <div className="fixed bottom-10 left-1/2 transform-translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-lg shadow-lg bg-red-100 border border-red-400">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-7 w-7 text-red-500"
             fill="none"
             viewBox="0 0 24 24"
           >
+            <circle cx="12" cy="12" r="10" fill="#fee2e2" />
             <path
+              stroke="#ef4444"
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              d="M12 8v4m0 4h.01"
             />
           </svg>
-          <span>Error fetching programs!</span>
+          <div>
+            <span className="font-semibold text-red-700">Ralat:</span>
+            <span className="ml-2 text-red-600">
+              {error || "Error fetching programs!"}
+            </span>
+          </div>
         </div>
       )}
 
@@ -169,10 +183,27 @@ const Application_view: React.FC = () => {
       <div className="flex justify-between w-full mb-2 mt-12">
         <div className="relative w-full max-w-sm">
           <label className="input">
+            {/* <svg
+              className="h-[1em] opacity-50"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <g
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </g>
+            </svg> */}
             <FaSearch className="opacity-60" />
             <input
               type="text"
               placeholder="Cari Nama Program, Jenis Permohonan Atau Status Permohonan"
+              // className="input input-bordered w-full pl-12 pr-4 py-2 rounded-xl shadow-md focus:ring-2 focus:ring-primary transition-all"
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
@@ -451,4 +482,4 @@ const Application_view: React.FC = () => {
   );
 };
 
-export default Application_view;
+export default Application_program;

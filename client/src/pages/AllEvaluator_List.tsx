@@ -162,7 +162,7 @@ const AllEvaluator_List = () => {
               <td>Fakulti/ Institut Penilai</td>
               <td>Status Penilai </td>
               <td>Tarikh Tamat Penilai</td>
-              <td>Tarikh Lantikan Penilai</td>
+              <td>Lihat</td>
               {/* <td></td> */}
             </tr>
           </thead>
@@ -221,9 +221,13 @@ const AllEvaluator_List = () => {
                     )}
                   </td>
                   <td>
-                    {dayjs(accreditation.evaluator_appointment_date).format(
-                      "DD MMMM YYYY"
-                    )}{" "}
+                    <Link
+                      to={`/senarai-penilai-dalaman/${accreditation.id}/butiran-penilai`}
+                    >
+                      <button className="btn btn-primary btn-soft btn-sm">
+                        <FaRegEye className="text-primary w-5 h-5" />
+                      </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

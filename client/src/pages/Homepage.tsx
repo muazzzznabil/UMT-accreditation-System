@@ -68,7 +68,13 @@ const Homepage = () => {
   };
 
   useEffect(() => {
-    refreshToken();
+    const checkAuth = async () => {
+      await refreshToken();
+      if (!localStorage.getItem("token") && !token) {
+        navigate("/");
+      }
+    };
+    checkAuth();
   }, []);
 
   return (

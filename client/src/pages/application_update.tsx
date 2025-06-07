@@ -142,7 +142,11 @@ const Application_update = () => {
             labelId="application_accreditation_type"
             defaultValue={listProgram.application_type}
             placeholderOptions="Pilih Jenis Akreditasi"
-            options={["Full Acreditation (FA)", "Partial Acreditation (PA)"]}
+            options={[
+              "Full Acreditation (FA)",
+              "Provisional Acreditation (PA)",
+              "Compliance Accreditation (CA)",
+            ]}
             register={register}
           />
 

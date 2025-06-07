@@ -30,3 +30,6 @@ DELETE  http://localhost:5000/user/logout
 
 ###
 GET http://localhost:5000/penilai-dalaman/semua-penilai
+
+###
+GET http://localhost:5000/rekod-akreditasi/senarai-permohonan-akreditasi/20

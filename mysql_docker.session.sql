@@ -1,4 +1,3 @@
-
 select * from maklumat_program;
 
 delete from maklumatprogram;
@@ -115,9 +114,7 @@ CREATE TABLE evaluator (
     evaluator_position VARCHAR(255),
     evaluator_status VARCHAR(255),
     evaluator_field VARCHAR(255),
-    evaluator_appointment_date DATE,
-    program_id INT,
-    FOREIGN KEY (program_id) REFERENCES maklumat_program(id)
+    evaluator_appointment_date DATE
 );
 
 select * from evaluator;
@@ -330,3 +327,76 @@ SELECT
 FROM maklumat_program AS mp
 JOIN accreditation AS a
   ON mp.id = a.program_id;
+
+
+  create table evaluator_program (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    evaluator_id INT,
+    program_id INT,
+    FOREIGN KEY (evaluator_id) REFERENCES evaluator(id),
+    FOREIGN KEY (program_id) REFERENCES maklumat_program(id)
+  )
+
+-- Remove program_id from evaluator and add evaluator_program table for one-to-many relation
+
+ALTER TABLE evaluator
+DROP FOREIGN KEY evaluator_ibfk_1, -- Remove existing FK constraint if exists
+DROP COLUMN program_id;
+
+-- If the FK constraint name is different, use SHOW CREATE TABLE evaluator; to find the actual name.
+
+-- The evaluator_program table already exists as per your script:
+-- create table evaluator_program (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     evaluator_id INT,
+--     program_id INT,
+--     FOREIGN KEY (evaluator_id) REFERENCES evaluator(id),
+--     FOREIGN KEY (program_id) REFERENCES maklumat_program(id)
+-- )
+
+ALTER TABLE evaluator
+ADD COLUMN evaluator_program_id INT,
+ADD CONSTRAINT fk_evaluator_program_id
+  FOREIGN KEY (evaluator_program_id) REFERENCES evaluator_program(id);
+
+ SELECT 
+      accreditation_application.*,
+      maklumat_program.nama_program AS program_name
+    FROM 
+      accreditation_application
+    INNER JOIN 
+      maklumat_program ON accreditation_application.program_id = maklumat_program.id
+    WHERE
+      accreditation_application.program_id = 20
+
+
+UPDATE accreditation_application
+SET application_type = 'Provisional Accreditation'
+WHERE application_type = 'Partial Accreditation';
+
+
+ALTER TABLE evaluator
+DROP FOREIGN KEY fk_evaluator_program_id,
+DROP COLUMN evaluator_program_id;
+
+ SELECT 
+    mp.nama_program,
+    e.id AS evaluator_id,
+    e.evaluator_name,
+    e.evaluator_email,
+    e.evaluator_phone,
+    e.evaluator_faculty,
+    e.evaluator_field,
+    e.evaluator_status,
+    e.evaluator_appointment_date,
+    e.evaluator_end_date,
+    e.evaluator_appointment_period,
+    pe.evaluator_position
+FROM 
+    evaluator_program pe
+JOIN 
+    evaluator e ON pe.evaluator_id = e.id
+JOIN
+    maklumat_program mp ON pe.program_id = mp.id
+WHERE 
+    pe.program_id = 48;

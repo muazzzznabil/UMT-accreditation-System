@@ -38,6 +38,8 @@ import AccreditationRecords_view from "./pages/accreditationRecords_view.tsx";
 import AllEvaluator_List from "./pages/AllEvaluator_List.tsx";
 import AllRegister_Evaluator from "./pages/AllEvaluator_Register.tsx";
 import AllEvaluator_edit from "./pages/AllEvaluator_edit.tsx";
+import AllEvaluator_view from "./pages/AllEvaluator_view.tsx";
+import Program_view from "./pages/Program_view.tsx";
 
 function AppContent() {
   const themeStore = useThemeStore();
@@ -69,6 +71,15 @@ function AppContent() {
               // </AuthenticationWrapper>
             }
           />
+          <Route
+            path="/program/:id/:name"
+            element={
+              <AuthenticationWrapper>
+                <Program_view />
+              </AuthenticationWrapper>
+            }
+          />
+
           {/* Evaluator */}
           <Route
             path="/penilai-dalaman/:id/:name"
@@ -123,6 +134,14 @@ function AppContent() {
             element={
               <AuthenticationWrapper>
                 <AllEvaluator_edit />
+              </AuthenticationWrapper>
+            }
+          />
+          <Route
+            path="/senarai-penilai-dalaman/:evaluator_id/butiran-penilai"
+            element={
+              <AuthenticationWrapper>
+                <AllEvaluator_view />
               </AuthenticationWrapper>
             }
           />

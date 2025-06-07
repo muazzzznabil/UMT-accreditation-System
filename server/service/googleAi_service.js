@@ -14,7 +14,7 @@ const databaseConfig = {
   maxOutputTokens: 4096,
 };
 const chatbotConfig = {
-  temperature: 0.9,
+  temperature: 0.3,
   topP: 0.9,
   maxOutputTokens: 65536,
 };
@@ -185,8 +185,8 @@ async function chatbotGoogle(req, res) {
     }
 
     const chatReply = await ai.models.generateContent({
-      model: "gemini-2.5-pro-exp-03-25",
-      // model: "gemini-2.0-flash",
+      // model: "gemini-2.5-pro-preview-05-06",
+      model: "gemini-2.0-flash",
 
       chatbotConfig,
       contents: `
@@ -202,6 +202,11 @@ async function chatbotGoogle(req, res) {
       )}. to answer the user question .
 
 
+      IMPORTANTT!! :
+      1. IF YOU WANT TO CREATE A TABLE ALWAYS USE OVERFLOW class for the table to make it scrollable  AND USE TAILWIND CSS TO MAKE IT MORE VISIBLE AND EASY TO READ ALWAYSSS!!
+      2. DO NOT USE ANY MARKDOWN BLOCKS JUST USE HTML TAGS
+      3. Use className "overflow-x-auto" for the table to make it scrollable horizontally
+      4. Use className instead of class
       STRICT RULES! :
       1. as a chatbox you need to explain the result in a professional way to the user.
       2. reply as if you are chatting with  the user 
@@ -218,7 +223,6 @@ async function chatbotGoogle(req, res) {
       12.You must use html tags and element if you want to create list(style list using tailwind to create a bullet point) table or want to bold words or data 
       13.The space is limited if ask for multiple table list please make it one by one and make the column count more than row count
       14. forbid the use of asterisk to bold or make a bullet point only use html
-      15. when column of the table that you created  has  3 column or more separate it into multiple table
       16. when creating table use white colored font to make it more visible and use contrast color for the background
       17. I forbid you wrapping with html markdown block just straight away html tags
       18. Be creative and decide using ordered list when needed, unordered list when needed or table when needed
@@ -226,7 +230,8 @@ async function chatbotGoogle(req, res) {
       20. If the question in malay answer in malay if in english answer in english
       21. if the result print out error of token exceed please reply that you have exceed the token limit and ask the user to reduce the query
       22. if the result print out sql error ask the user to retry the query
-      23. If the result is file path use the link and start the link with http://localhost:5000/(file path goes here..) and open it in new tab
+      23. If the result is file path use the link and start the link with http://localhost:5000(file path goes here..) and open it in new tab
+      25. IF YOU WANT TO CREATE A TABLE ALWAYS USE OVERFLOW HORIZONTALLY AND USE TAILWIND CSS TO MAKE IT MORE VISIBLE AND EASY TO READ
 
       The user question is : ${user_prompt}
       The database result is : ${JSON.stringify(responseDB)} 

@@ -104,7 +104,7 @@ const ViewFullProgram = () => {
 
         <div className="flex  space-x-4  justify-end">
           <Link to={`/edit-program/${program.id}`}>
-            <button className="btn btn-warning">
+            <button className="btn btn-warning text-white">
               <FaEdit className="mr-2" /> Edit
             </button>
           </Link>
