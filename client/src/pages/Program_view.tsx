@@ -8,6 +8,8 @@ import Application_register from "./application_register";
 // import InternalEvaluator_update from "./InternalEvaluator_update"; // import the update page
 import AllEvaluator_view from "./AllEvaluator_view";
 import Maklumbalas_List from "./Maklumbalas_List";
+import Payment_view from "./payment_view";
+import Payment_register from "./payment_register";
 
 const Program_view = () => {
   const { id, name } = useParams();
@@ -46,6 +48,8 @@ const Program_view = () => {
             <Application_register program_id={Number(id)} program_name={name} />
           )}
           {currentPage === 4 && <Maklumbalas_List />}
+          {currentPage === 5 && <Payment_view />}
+          {currentPage === 5.1 && <Payment_register />}
           {/*//! <label
              htmlFor="my-drawer-2"
              className="btn btn-primary drawer-button lg:hidden"
@@ -135,7 +139,7 @@ const Program_view = () => {
                       </ul>
                     </details>
                   </li>
-                  <li>
+                  {/* <li>
                     <a
                       onClick={() => setCurrentPage(4)}
                       className={`${
@@ -146,18 +150,39 @@ const Program_view = () => {
                     >
                       Maklumbalas MQA
                     </a>
-                  </li>
+                  </li> */}
                   <li>
-                    <a
-                      onClick={() => setCurrentPage(5)}
-                      className={`${
-                        currentPage === 5
-                          ? "menu-active text-primary bg-base-300"
-                          : "text-base-content"
-                      }`}
-                    >
-                      Rekod Pembayaran
-                    </a>
+                    <details open>
+                      <summary>Rekod Pembayaran</summary>
+                      <ul>
+                        {" "}
+                        <li>
+                          <a
+                            onClick={() => setCurrentPage(5)}
+                            className={`${
+                              currentPage === 5
+                                ? "menu-active text-primary bg-base-300"
+                                : "text-base-content"
+                            }`}
+                          >
+                            Rekod Pembayaran
+                          </a>
+                        </li>
+                        {currentPage === 5.1 && (
+                          <li>
+                            <a
+                              className={`${
+                                currentPage === 5.1
+                                  ? "menu-active text-primary bg-base-300"
+                                  : "text-base-content"
+                              }`}
+                            >
+                              Tambah Rekod Pembayaran
+                            </a>
+                          </li>
+                        )}
+                      </ul>
+                    </details>
                   </li>
                   <li>
                     <a

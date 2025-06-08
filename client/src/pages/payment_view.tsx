@@ -7,6 +7,7 @@ import { FaEye } from "react-icons/fa";
 // import { set } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { usePageState } from "../utils/usePageState";
 
 interface payment {
   id: number;
@@ -19,14 +20,16 @@ interface payment {
 const Payment_view = () => {
   const [listPayment, setListPayment] = useState<payment[]>([]);
   //   const [error, setError] = useState<string | null>(null);
-  const { program_id, name } = useParams();
+  const { id, name } = useParams();
   // const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [file, setFile] = useState<string | null>(null);
-
+  // const navigate = useNavigate();
+  const { VITE_DATABASE_HOST } = import.meta.env;
+  const setPage = usePageState();
   const getPaymentList = async () => {
     try {
       const response = await axios.get<payment[]>(
-        `http://localhost:5000/payment-records/senarai-rekod-pembayaran/${program_id}`
+        `${VITE_DATABASE_HOST}/payment-records/senarai-rekod-pembayaran/${id}`
       );
       setListPayment(response.data);
       setFile(response.data[0].payment_proof_path);
@@ -134,7 +137,7 @@ const Payment_view = () => {
                 </td>
                 <td>
                   <Link
-                    to={`/rekod-pembayaran/butiran-rekod-pembayaran/${program_id}/${payment.id}/${name}`}
+                    to={`/rekod-pembayaran/butiran-rekod-pembayaran/${id}/${payment.id}/${name}`}
                   >
                     <button className="btn btn-sm btn-soft btn-primary flex items-center gap-x-1">
                       {/* <svg
@@ -166,30 +169,35 @@ const Payment_view = () => {
           </tbody>
         </table>
         <div className="flex mt-8">
-          <Link
+          {/* <Link
             to={`/rekod-pembayaran/tambah-rekod-pembayaran/${program_id}/${name}`}
+          > */}
+          <button
+            className="btn bg-[#28a745] text-white hover:bg-[#218838] mr-4"
+            onClick={() => {
+              setPage.setCurrentPage(5.1);
+            }}
           >
-            <button className="btn bg-[#28a745] text-white hover:bg-[#218838] mr-4">
-              <svg
-                className="w-6 h-6  text-white"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-              Tambah Rekod Pembayaran
-            </button>
-          </Link>
+            <svg
+              className="w-6 h-6  text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 7.757v8.486M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+            Tambah Rekod Pembayaran
+          </button>
+          {/* </Link> */}
 
           {/* Action Buttons */}
           {/* {selectedIds.length > 0 && (

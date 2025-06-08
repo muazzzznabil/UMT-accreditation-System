@@ -171,6 +171,7 @@ router.get(
     const query = `SELECT * FROM accreditation_application WHERE program_id = ? AND application_status IN ('approved', 'rejected')`;
     try {
       const [result] = await db.query(query, [req.params.program_id]);
+
       if (result.length === 0) {
         return res.status(408).send("Data not found");
       }

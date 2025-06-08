@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useThemeStore } from "../utils/useThemeStore";
 import DropdownUpdate from "../components/msaForm/DropDownUpdate";
 import DateUpdate from "../components/msaForm/DateUpdate";
@@ -10,6 +10,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import LabelWrapper from "../components/LabelWrapper";
+import { usePageState } from "../utils/usePageState";
 
 interface permohonan {
   id: number;
@@ -21,7 +22,7 @@ interface permohonan {
 }
 
 const Payment_register = () => {
-  const { program_id, name } = useParams();
+  const { id, name } = useParams();
   const { VITE_DATABASE_HOST } = import.meta.env;
   const [permohonanList, setPermohonanList] = useState<permohonan[]>([]);
   const {
@@ -30,11 +31,13 @@ const Payment_register = () => {
     handleSubmit,
   } = useForm();
   const themeStore = useThemeStore();
+  // const navigate = useNavigate();
+  const pageState = usePageState();
 
   const getApplicationList = async () => {
     try {
       const response = await axios.get<permohonan[]>(
-        `${VITE_DATABASE_HOST}/payment-records/senarai-permohonan-akreditasi/${program_id}`
+        `${VITE_DATABASE_HOST}/payment-records/senarai-permohonan-akreditasi/${id}`
       );
       setPermohonanList(response.data);
       console.table(response.data);
@@ -72,7 +75,8 @@ const Payment_register = () => {
           icon: "success",
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = `/rekod-pembayaran/${program_id}/${name}`;
+            // window.location.href = `/rekod-pembayaran/${id}/${name}`;
+            pageState.setCurrentPage(5);
           }
         });
       })
@@ -117,7 +121,7 @@ const Payment_register = () => {
             <a href="/program-list">Program List For MSA Application</a>
           </li>
           <li>
-            <a href={`/rekod-pembayaran/${program_id}/${name}`}>
+            <a href={`/rekod-pembayaran/${id}/${name}`}>
               Senarai Rekod Pembayaran Program
             </a>
           </li>
@@ -126,7 +130,7 @@ const Payment_register = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} method="POST">
-        <input type="hidden" {...register("program_id")} value={program_id} />
+        <input type="hidden" {...register("program_id")} value={id} />
         <input type="hidden" {...register("application_id")} />
         <div
           className={`container mt-10 mb-32 mx-auto flex flex-col ${
@@ -233,7 +237,7 @@ const Payment_register = () => {
           <DropdownUpdate
             labelId="payment_method"
             label="Cara Pembayaran"
-            options={["Bank Transfer", "Credit Card", "Debit Card"]}
+            options={["Jom Pay", "FPX", "Bank Transfer", "Duit Now"]}
             placeholderOptions="Pilih Cara Pembayaran"
             register={register}
             defaultValue={"placeholder"}
@@ -282,8 +286,12 @@ const Payment_register = () => {
           <div className="flex space-x-4 justify-end">
             <input
               type="reset"
-              value="Reset"
+              value="Batal"
               className="btn btn-error shadow-md text-white"
+              onClick={() => {
+                // navigate(-1);
+                pageState.setCurrentPage(5);
+              }}
             />
             <button
               type="submit"

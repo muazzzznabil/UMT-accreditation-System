@@ -400,3 +400,6 @@ JOIN
     maklumat_program mp ON pe.program_id = mp.id
 WHERE 
     pe.program_id = 48;
+
+
+SELECT * FROM accreditation_application WHERE program_id = 20 AND application_status IN ('approved', 'rejected');

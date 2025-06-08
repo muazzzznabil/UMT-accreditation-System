@@ -19,6 +19,7 @@ import SahLaku from "../components/msaForm/SahSehinggaUpdate";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
 import { useThemeStore } from "../utils/useThemeStore";
+import { useNavigate } from "react-router-dom";
 
 interface Program {
   MinitJKA: any;
@@ -80,6 +81,7 @@ const UpdateMaklumat = () => {
   const handleTabChange = (label: string) => {
     setActiveTab(label);
   };
+  const navigate = useNavigate();
 
   const getProgram = async () => {
     try {
@@ -489,6 +491,9 @@ const UpdateMaklumat = () => {
               type="reset"
               value="Batal"
               className="btn btn-error shadow-md text-white"
+              onClick={() => {
+                navigate(-1);
+              }}
             />
             <button
               type="submit"

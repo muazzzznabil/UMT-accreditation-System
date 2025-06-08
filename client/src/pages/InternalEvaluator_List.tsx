@@ -3,7 +3,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useThemeStore } from "../utils/useThemeStore";
 // import { usePageState } from "../utils/usePageState";
@@ -138,6 +138,7 @@ const Evaluator_List = () => {
             }
           );
         } catch (error) {
+          console.error("Failed to downgrade current Ketua:", error);
           MySwal.fire(
             "Ralat",
             "Gagal menukar posisi Ketua sedia ada.",
@@ -161,6 +162,7 @@ const Evaluator_List = () => {
       setEditSelectedPosition("");
       fetchProgramEvaluators();
     } catch (error) {
+      console.error("Failed to update evaluator position:", error);
       MySwal.fire("Ralat", "Gagal mengemaskini posisi penilai.", "error");
     }
   };

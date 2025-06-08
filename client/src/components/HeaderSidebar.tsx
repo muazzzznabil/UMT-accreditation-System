@@ -64,10 +64,10 @@ const HeaderSidebar = () => {
                 type="checkbox"
                 className="drawer-toggle "
               />
-              <div className=" btn btn-ghost  btn-circle drawer-content ml-8 ">
+              <div className=" btn btn-ghost  btn-circle drawer-content ml-8 mt-2">
                 {/* Page content here */}
                 <label htmlFor="my-drawer" className=" drawer-button">
-                  <FaBars className="text-3xl text-center mt-4" />
+                  <FaBars className="text-3xl text-center " />
                 </label>
               </div>
               <div className="drawer-side top-24">
