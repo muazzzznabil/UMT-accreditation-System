@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useThemeStore } from "../utils/useThemeStore";
@@ -10,6 +11,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import accreditation_type from "../../user_config/accreditation_type.json";
 import LabelWrapper from "../components/LabelWrapper";
+import { usePageState } from "../utils/usePageState";
+import { useParams } from "react-router-dom";
 
 interface Program {
   id: number;
@@ -18,28 +21,29 @@ interface Program {
 }
 
 interface Application {
-  program_id?: number;
+  // program_id?: number;
   program_name?: string | undefined;
 }
 
 const Application_register: React.FC<Application> = ({
-  program_id,
+  // program_id,
   program_name,
 }) => {
   const { darkMode } = useThemeStore();
+  const { id } = useParams();
   const {
     register,
     formState: { errors },
     handleSubmit,
     // control,
-    // setValue,
+    setValue,
   } = useForm({});
   const [listProgram, setListProgram] = useState<Program[]>([]);
   const [programApplications, setProgramApplications] = useState<any[]>([]);
   const [hasProvisional, setHasProvisional] = useState(false);
   const [hasFull, setHasFull] = useState(false);
   const { VITE_DATABASE_HOST } = import.meta.env;
-
+  const pageState = usePageState();
   const getProgram = async () => {
     try {
       const response = await axios.get<Program[]>(
@@ -54,10 +58,10 @@ const Application_register: React.FC<Application> = ({
 
   // Fetch all applications for this program to determine accreditation status
   const fetchProgramApplications = useCallback(async () => {
-    if (!program_id) return;
+    if (!id) return;
     try {
       const response = await axios.get(
-        `${VITE_DATABASE_HOST}/rekod-akreditasi/senarai-permohonan-akreditasi/${program_id}`
+        `${VITE_DATABASE_HOST}/rekod-akreditasi/senarai-permohonan-akreditasi/${id}`
       );
       setProgramApplications(response.data || []);
       const prov = response.data.some(
@@ -80,9 +84,10 @@ const Application_register: React.FC<Application> = ({
       setHasProvisional(false);
       setHasFull(false);
     }
-  }, [VITE_DATABASE_HOST, program_id]);
+  }, [VITE_DATABASE_HOST, id]);
 
   const onSubmit: SubmitHandler<any> = async (data) => {
+    console.table(id);
     const formData = new FormData();
     for (const key in data) {
       if (
@@ -111,8 +116,9 @@ const Application_register: React.FC<Application> = ({
           icon: "success",
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href =
-              "/akreditasi-program/senarai-permohonan-akreditasi/";
+            // window.location.href =
+            //   "/akreditasi-program/senarai-permohonan-akreditasi/";
+            pageState.setCurrentPage(3.1);
           }
         });
       })
@@ -147,6 +153,12 @@ const Application_register: React.FC<Application> = ({
     getProgram();
     fetchProgramApplications();
   }, []);
+
+  useEffect(() => {
+    if (id) {
+      setValue("program_id", id);
+    }
+  }, [id, setValue]);
 
   return (
     <div className={`container mt-5 mx-auto  p-4`}>
@@ -342,8 +354,11 @@ const Application_register: React.FC<Application> = ({
 
             <div className="flex space-x-4 justify-end">
               <input
+                onClick={() => {
+                  pageState.setCurrentPage(3.1);
+                }}
                 type="reset"
-                value="Reset"
+                value="Kembali"
                 className="btn btn-error shadow-md text-white"
               />
               <button

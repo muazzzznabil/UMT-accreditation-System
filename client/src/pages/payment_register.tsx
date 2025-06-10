@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useThemeStore } from "../utils/useThemeStore";
 import DropdownUpdate from "../components/msaForm/DropDownUpdate";
 import DateUpdate from "../components/msaForm/DateUpdate";
@@ -166,8 +166,10 @@ const Payment_register = () => {
                 )} (${item.application_status})`}</option>
               ))}
 
-              {permohonanList === null && (
-                <option>Sila isi borang permohonan dahulu</option>
+              {permohonanList.length === 0 && (
+                <option disabled selected className="text-gray-400">
+                  Tiada Permohonan yang sudah dinilai
+                </option>
               )}
             </select>
           </LabelWrapper>

@@ -7,7 +7,7 @@ import Application_program from "./application_program";
 import Application_register from "./application_register";
 // import InternalEvaluator_update from "./InternalEvaluator_update"; // import the update page
 import AllEvaluator_view from "./AllEvaluator_view";
-import Maklumbalas_List from "./Maklumbalas_List";
+// import Maklumbalas_List from "./Maklumbalas_List";
 import Payment_view from "./payment_view";
 import Payment_register from "./payment_register";
 
@@ -44,10 +44,8 @@ const Program_view = () => {
           {currentPage === 3.1 && (
             <Application_program program_id={Number(id)} />
           )}
-          {currentPage === 3.2 && (
-            <Application_register program_id={Number(id)} program_name={name} />
-          )}
-          {currentPage === 4 && <Maklumbalas_List />}
+          {currentPage === 3.2 && <Application_register program_name={name} />}
+          {/* {currentPage === 4 && <Maklumbalas_List />} */}
           {currentPage === 5 && <Payment_view />}
           {currentPage === 5.1 && <Payment_register />}
           {/*//! <label
@@ -124,18 +122,20 @@ const Program_view = () => {
                             Senarai Permohonan Akreditasi
                           </a>
                         </li>
-                        <li>
-                          <a
-                            onClick={() => setCurrentPage(3.2)}
-                            className={`${
-                              currentPage === 3.2
-                                ? "menu-active text-primary bg-base-300"
-                                : "text-base-content"
-                            }`}
-                          >
-                            Tambah Permohonan
-                          </a>
-                        </li>
+                        {currentPage === 3.2 && (
+                          <li>
+                            <a
+                              onClick={() => setCurrentPage(3.2)}
+                              className={`${
+                                currentPage === 3.2
+                                  ? "menu-active text-primary bg-base-300"
+                                  : "text-base-content"
+                              }`}
+                            >
+                              Tambah Permohonan
+                            </a>
+                          </li>
+                        )}
                       </ul>
                     </details>
                   </li>

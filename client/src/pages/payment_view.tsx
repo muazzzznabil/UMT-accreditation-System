@@ -8,6 +8,8 @@ import { FaEye } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { usePageState } from "../utils/usePageState";
+import Payment_update from "./payment_update";
+import { GiCancel } from "react-icons/gi";
 
 interface payment {
   id: number;
@@ -23,6 +25,10 @@ const Payment_view = () => {
   const { id, name } = useParams();
   // const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [file, setFile] = useState<string | null>(null);
+  const [showDetail, setShowDetail] = useState(false);
+  const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(
+    null
+  );
   // const navigate = useNavigate();
   const { VITE_DATABASE_HOST } = import.meta.env;
   const setPage = usePageState();
@@ -63,9 +69,9 @@ const Payment_view = () => {
           <li>
             <a href="/">Home</a>
           </li>
-          <li>
+          {/* <li>
             <a href="/program-list">Program List For MSA Application</a>
-          </li>
+          </li> */}
           <li>Rekod Bayaran Program</li>
         </ul>
       </div>
@@ -84,9 +90,16 @@ const Payment_view = () => {
             </tr>
           </thead>
           <tbody>
-            {listPayment.map((payment) => (
-              <tr key={payment.id}>
-                {/* <td>
+            {listPayment.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="text-center text-gray-400 py-8">
+                  Tiada Rekod Pembayaran dibuat
+                </td>
+              </tr>
+            ) : (
+              listPayment.map((payment) => (
+                <tr key={payment.id}>
+                  {/* <td>
                   <input
                     type="checkbox"
                     id={payment.payment_type}
@@ -101,71 +114,55 @@ const Payment_view = () => {
                     className="checkbox checkbox-primary"
                   />
                 </td> */}
-                <td>{payment.id}</td>
-                <td>
-                  <label htmlFor={payment.payment_type}>
-                    {payment.payment_type}
-                  </label>
-                </td>
-                <td>{dayjs(payment.payment_date).format("DD/MM/YYYY")}</td>
-                <td>RM {payment.payment_amount}</td>
-                <td>
-                  <Link to={`http://localhost:5000${file}`} target="_blank">
-                    <button className="btn btn-sm btn-outline btn-primary flex items-center gap-x-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-4 h-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
-                      <span className="hidden md:block">Lihat</span>
-                    </button>
-                  </Link>
-                </td>
-                <td>
-                  <Link
-                    to={`/rekod-pembayaran/butiran-rekod-pembayaran/${id}/${payment.id}/${name}`}
-                  >
-                    <button className="btn btn-sm btn-soft btn-primary flex items-center gap-x-1">
-                      {/* <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-4 h-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg> */}
+                  <td>{payment.id}</td>
+                  <td>
+                    <label htmlFor={payment.payment_type}>
+                      {payment.payment_type}
+                    </label>
+                  </td>
+                  <td>{dayjs(payment.payment_date).format("DD/MM/YYYY")}</td>
+                  <td>RM {payment.payment_amount}</td>
+                  <td>
+                    <Link to={`http://localhost:5000${file}`} target="_blank">
+                      <button className="btn btn-sm btn-outline btn-primary flex items-center gap-x-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-4 h-4"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                        </svg>
+                        <span className="hidden md:block">Lihat</span>
+                      </button>
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-sm btn-soft btn-primary flex items-center gap-x-1"
+                      onClick={() => {
+                        setSelectedPaymentId(payment.id);
+                        setShowDetail(true);
+                      }}
+                    >
                       <FaEye className="w-4 h-4" />
                       <span className="hidden md:block">Tunjuk</span>
                     </button>
-                  </Link>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
         <div className="flex mt-8">
@@ -261,6 +258,24 @@ const Payment_view = () => {
           {/* Action Button */}
         </div>
       </div>
+      {showDetail && selectedPaymentId !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white  rounded-lg shadow-lg w-3/4 p-6 relative">
+            <button
+              className="absolute top-2 right-2 btn btn-sm btn-error text-white"
+              onClick={() => setShowDetail(false)}
+            >
+              <GiCancel className="size-6 text-white" />
+              Close
+            </button>
+            <Payment_update
+              payment_id={selectedPaymentId}
+              program_id={id}
+              name={name}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

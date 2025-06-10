@@ -66,6 +66,7 @@ router.post(
     if (!req.file) {
       return res.status(405).send("No file uploaded");
     }
+
     const relativeFilePath = `/uploads/accreditation/${req.file.filename}`;
     const data = [
       req.body.program_id,
@@ -87,6 +88,10 @@ router.post(
       console.log("Success");
       res.status(200).send("File uploaded and data inserted successfully");
     } catch (error) {
+      console.log(
+        "-----------------------------------------------",
+        req.body.program_id
+      );
       console.error("Error inserting into accreditation_application:", error);
       console.table(data);
       res.status(500).send("Error inserting into accreditation_application");
@@ -224,11 +229,18 @@ router.delete(
       return res.status(400).json({ error: "Invalid or empty ID list" });
     }
 
-    const placeholders = ids.map(() => "?").join(","); // Create (?, ?, ?...) dynamically
-    const query = `DELETE FROM accreditation_application WHERE id IN (${placeholders})`;
+    const placeholders = ids.map(() => "?").join(",");
+    const deletePaymentQuery = `DELETE FROM payment WHERE application_id IN (${placeholders})`;
+    const deleteAccreditationQuery = `DELETE FROM accreditation WHERE application_id IN (${placeholders})`;
+    const deleteApplicationQuery = `DELETE FROM accreditation_application WHERE id IN (${placeholders})`;
 
     try {
-      await db.query(query, ids);
+      // Delete from payment first
+      await db.query(deletePaymentQuery, ids);
+      // Then from accreditation
+      await db.query(deleteAccreditationQuery, ids);
+      // Then from accreditation_application
+      await db.query(deleteApplicationQuery, ids);
       res.sendStatus(200);
     } catch (error) {
       console.error(error);
