@@ -53,3 +53,5 @@ jspm_packages/
 *.mov
 *.mp4
 *.avi
+
+node_modules/
