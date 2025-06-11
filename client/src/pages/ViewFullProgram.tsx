@@ -6,11 +6,13 @@ import Swal from "sweetalert2";
 import { useThemeStore } from "../utils/useThemeStore";
 import { FaArrowRight, FaEdit } from "react-icons/fa";
 import dayjs from "dayjs";
+import { usePageState } from "../utils/usePageState";
 
 const ViewFullProgram = () => {
   const [program, setProgram] = useState<Program | null>(null);
   const { id } = useParams();
   const themeStore = useThemeStore();
+  const pageState = usePageState();
 
   interface Program {
     id: number;
@@ -56,9 +58,11 @@ const ViewFullProgram = () => {
   }
 
   const getProgram = async () => {
+    const VITE_DATABASE_HOST = import.meta.env.VITE_DATABASE_HOST;
+
     try {
       const response = await axios.get<Program[]>(
-        `http://localhost:5000/pendaftaran-program/maklumat-program/${id}`
+        `${VITE_DATABASE_HOST}/pendaftaran-program/maklumat-program/${id}`
       );
       console.table(response.data);
       setProgram(response.data[0]);
@@ -103,11 +107,14 @@ const ViewFullProgram = () => {
         </div>
 
         <div className="flex  space-x-4  justify-end">
-          <Link to={`/edit-program/${program.id}`}>
-            <button className="btn btn-warning text-white">
-              <FaEdit className="mr-2" /> Edit
-            </button>
-          </Link>
+          {/* <Link to={`/edit-program/${program.id}`}> */}
+          <button
+            className="btn btn-warning text-white"
+            onClick={() => pageState.setCurrentPage(1.2)}
+          >
+            <FaEdit className="mr-2" /> Edit
+          </button>
+          {/* </Link> */}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Program Details */}

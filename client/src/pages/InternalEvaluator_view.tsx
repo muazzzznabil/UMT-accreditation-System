@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useThemeStore } from "../utils/useThemeStore";
 import {
@@ -36,11 +36,13 @@ const InternalEvaluator_view = () => {
   const { name, id, id_program } = useParams();
   const [evaluator, setEvaluator] = useState<Evaluator | null>(null);
   const themeStore = useThemeStore();
+  const VITE_DATABASE_HOST = import.meta.env.VITE_DATABASE_HOST;
+  const navigate = useNavigate();
 
   const getEvaluator = async () => {
     try {
       const response = await axios.get<Evaluator[]>(
-        `http://localhost:5000/penilai-dalaman/penilai/${id}`
+        `${VITE_DATABASE_HOST}/penilai-dalaman/penilai/${id}`
       );
       setEvaluator(response.data[0]);
       console.table(evaluator);

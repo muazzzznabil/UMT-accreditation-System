@@ -12,7 +12,7 @@ import DateUpdate from "../components/msaForm/DateUpdate";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface evaluators {
   id: number;
@@ -44,6 +44,7 @@ const AllEvaluator_edit = () => {
     .format("DD/MM/YYYY");
   const { VITE_DATABASE_HOST } = import.meta.env;
   const [evaluator, setEvaluator] = useState<evaluators | null>(null);
+  const navigate = useNavigate();
 
   const handleAddBidangSpesifik = (bidang: string) => {
     if (bidang && !bidangSpesifikStr.includes(bidang)) {
@@ -429,7 +430,22 @@ const AllEvaluator_edit = () => {
           <div className="flex space-x-4 justify-end">
             <input
               type="reset"
-              value="Reset"
+              value="Batal Kemaskini"
+              onClick={() => {
+                Swal.fire({
+                  title: "Batal Kemaskini?",
+                  showDenyButton: true,
+                  confirmButtonText: "Ya",
+                  denyButtonText: `Tidak`,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    reset();
+                    navigate(-1);
+                  } else if (result.isDenied) {
+                    Swal.fire("Kemaskini Tidak Dibatalkan", "", "info");
+                  }
+                });
+              }}
               className="btn btn-error shadow-md text-white"
             />
             <button

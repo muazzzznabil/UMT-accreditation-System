@@ -1,14 +1,7 @@
 import axios from "axios";
 // import { useThemeStore } from "../utils/useThemeStore";
 import { Link } from "react-router-dom";
-import {
-  FaBars,
-  FaFileAlt,
-  FaThList,
-  FaArchive,
-  FaListUl,
-  FaUserAlt,
-} from "react-icons/fa";
+import { FaBars, FaListUl, FaUserAlt } from "react-icons/fa";
 import TabbedForm from "../pages/testMultiStepForm";
 
 const HeaderSidebar = () => {
@@ -78,17 +71,17 @@ const HeaderSidebar = () => {
                 ></label>
                 <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                   {/* Sidebar content here */}
-                  <li>
+                  {/* <li>
                     <Link to="/MsaForm_onepage">
                       <div className="flex items-center">
                         <FaFileAlt className="text-2xl" />
                         <span className="ml-2">Daftar Permohonan Program</span>
                       </div>
                     </Link>
-                  </li>
-                  <div className="divider"></div>
+                  </li> */}
+                  {/* <div className="divider"></div> */}
 
-                  <li>
+                  {/* <li>
                     <Link to="/program-list">
                       <div className="flex items-center ">
                         <FaThList className="text-2xl" />
@@ -105,7 +98,7 @@ const HeaderSidebar = () => {
                       </div>
                     </Link>{" "}
                   </li>
-                  <div className="divider"></div>
+                  <div className="divider"></div> */}
                   <li>
                     <Link to="/akreditasi-program/senarai-permohonan-akreditasi/">
                       <div className="flex items-center ">

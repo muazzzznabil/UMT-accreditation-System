@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useThemeStore } from "../utils/useThemeStore";
 import LabelWrapper from "../components/LabelWrapper";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -18,17 +18,26 @@ interface accreditation {
   accreditationStatus: string;
   accreditationFilePath: string;
   application_type: string;
+  program_start_date: Date;
+  program_end_date: Date;
   no_mqa: string;
 }
 
 const AccreditationRecords_update = () => {
   const { id, nama_program } = useParams();
   const themeStore = useThemeStore();
+  const navigate = useNavigate();
+  const { VITE_DATABASE_HOST } = import.meta.env;
   const [accreditations, setAccreditations] = useState<accreditation | null>(
     null
   );
   const [tarikhAkhir, setTarikhAkhir] = useState<string | null>(
     dayjs(accreditations?.accreditationEndDate).format("DD MMMM YYYY")
+  );
+  const [tarikhMulaProgram, setTarikhMulaProgram] = useState<Date | null>(
+    accreditations?.program_start_date
+      ? dayjs(accreditations.program_start_date).toDate()
+      : null
   );
   const {
     register,
@@ -38,7 +47,7 @@ const AccreditationRecords_update = () => {
   } = useForm({});
   const getAccreditations = async () => {
     const response = await axios.get<accreditation[]>(
-      `http://localhost:5000/rekod-akreditasi/tambah-akreditasi/${id}/program`
+      `${VITE_DATABASE_HOST}/rekod-akreditasi/tambah-akreditasi/${id}/program`
     );
     setAccreditations(response.data[0]);
     setValue(
@@ -80,7 +89,7 @@ const AccreditationRecords_update = () => {
     }
     axios
       .put(
-        `http://localhost:5000/rekod-akreditasi/tambah-akreditasi/${id}/edit`,
+        `${VITE_DATABASE_HOST}/rekod-akreditasi/tambah-akreditasi/${id}/edit`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -95,7 +104,8 @@ const AccreditationRecords_update = () => {
           icon: "success",
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = `/akreditasi-program/${accreditations.program_id}/${nama_program}`;
+            // window.location.href = `/akreditasi-program/${accreditations.program_id}/${nama_program}`;
+            window.history.back();
           }
         });
       })
@@ -125,17 +135,7 @@ const AccreditationRecords_update = () => {
           <li>
             <a href="/">Home</a>
           </li>
-          <li>
-            <a href="/program-list">Program List For MSA Application</a>
-          </li>
-          <li>
-            <Link
-              to={`/akreditasi-program/${accreditations.program_id}/${nama_program}`}
-            >
-              Senarai Rekod Akreditasi :{" "}
-              <span className="font-bold">{nama_program}</span>{" "}
-            </Link>
-          </li>{" "}
+
           <li>Kemaskini Rekod Akreditasi</li>
         </ul>
       </div>
@@ -225,16 +225,51 @@ const AccreditationRecords_update = () => {
               />
             </LabelWrapper>
 
+            <DateUpdate
+              name="program_start_date"
+              label="Tarikh Mula Program"
+              register={register}
+              defValue={accreditations.program_start_date}
+              className="mt-3"
+              onChange={(e) => {
+                const startDate = dayjs(e.target.value).toDate();
+                setTarikhMulaProgram(startDate);
+                setValue("program_start_date", e.target.value);
+                setValue(
+                  "program_end_date",
+                  dayjs(startDate).add(5, "year").format("YYYY-MM-DD")
+                );
+              }}
+            />
+            {/* Hidden input for Tarikh Tamat Program */}
+            <input type="hidden" {...register("program_end_date")} />
+            {/* Tarikh Tamat Program */}
+            <div className="flex justify-between items-center mb-2">
+              <label htmlFor="program_end_date" className="label-input-msa">
+                Tarikh Tamat Program
+              </label>
+              <div className="w-full flex justify-start">
+                <p className="ml-2">
+                  {tarikhMulaProgram
+                    ? dayjs(tarikhMulaProgram)
+                        .add(5, "year")
+                        .format("DD MMMM YYYY")
+                    : "Masukkan Tarikh Mula Program"}
+                </p>
+              </div>
+            </div>
+
             {/* Action Button */}
             <div className="flex space-x-4 justify-end">
-              <input
-                type="reset"
-                value="Reset"
+              <button
+                type="button"
                 className="btn btn-error shadow-md text-white"
-                onChange={() => {
-                  // setNotPending(listProgram.application_status);
+                onClick={() => {
+                  navigate(-1);
                 }}
-              />
+              >
+                Kembali
+              </button>
               <button
                 type="submit"
                 className="btn btn-primary shadow-md text-white"

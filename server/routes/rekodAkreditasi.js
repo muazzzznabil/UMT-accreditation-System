@@ -260,7 +260,8 @@ router.post(
       return res.status(400).send("No file uploaded");
     }
     const relativeFilePath = `/uploads/accreditation/${req.file.filename}`;
-    const query = `
+    // First query: Insert or update accreditation
+    const insertQuery = `
       INSERT INTO accreditation (
         accreditationStartDate,
         accreditationEndDate,
@@ -269,18 +270,36 @@ router.post(
         program_id,
         no_mqa,
         application_id
-      ) VALUES ( ?, ?, ?, ?, ?, ? , ?);
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+      ON DUPLICATE KEY UPDATE
+        program_id = VALUES(program_id),
+        accreditationStartDate = VALUES(accreditationStartDate),
+        no_mqa = VALUES(no_mqa)
     `;
+    const insertParams = [
+      req.body.accreditationStartDate,
+      req.body.accreditationEndDate,
+      req.body.accreditationStatus,
+      relativeFilePath,
+      req.body.program_id,
+      req.body.no_mqa,
+      req.body.application_id,
+    ];
+    // Second query: Update maklumat_program
+    const updateQuery = `
+      UPDATE maklumat_program
+      SET program_start_date = ?,
+          program_end_date = ?
+      WHERE id = ?
+    `;
+    const updateParams = [
+      req.body.program_start_date,
+      req.body.program_end_date,
+      req.body.program_id,
+    ];
     try {
-      await db.query(query, [
-        dayjs(req.body.accreditationStartDate).toDate(),
-        dayjs(req.body.accreditationEndDate).toDate(),
-        req.body.accreditationStatus,
-        relativeFilePath,
-        req.body.program_id,
-        req.body.no_mqa,
-        req.body.application_id,
-      ]);
+      await db.query(insertQuery, insertParams);
+      await db.query(updateQuery, updateParams);
       console.log("Success");
       res.status(200).send("File uploaded and data inserted successfully");
     } catch (error) {
@@ -321,14 +340,18 @@ router.get(
 router.get("/tambah-akreditasi/:id/program", async function (req, res) {
   const query = `
     SELECT 
-     accreditation.*,
-     application.*
+      accreditation.*, 
+      application.*, 
+      program.program_start_date, 
+      program.program_end_date
     FROM
       accreditation as accreditation
     INNER JOIN
       accreditation_application as application ON accreditation.application_id = application.id
+    INNER JOIN
+      maklumat_program as program ON accreditation.program_id = program.id
     WHERE 
-     accreditation.accreditation_id = ?
+      accreditation.accreditation_id = ?
   `;
   try {
     const [result] = await db.query(query, [req.params.id]);
@@ -366,51 +389,51 @@ router.get("/senarai-akreditasi/:program_id", async function (req, res) {
 
 // !UPDATE Rekod Akreditasi based on specific accreditation id
 router.put(
-  "/tambah-akreditasi/:program_id/edit",
+  "/tambah-akreditasi/:id/edit",
   upload.single("accreditationFilePath"),
   async function (req, res) {
     const relativeFilePath = req.file
       ? `/uploads/accreditation/${req.file.filename}`
       : req.body.existingApplication_path;
-
-    if (req.file && req.body.existingApplication_path) {
-      const oldFilePath = path.join(
-        __dirname,
-        "..",
-        req.body.existingApplication_path
-      );
-      try {
-        fs.unlinkSync(oldFilePath);
-        console.log("Old file deleted:", oldFilePath);
-      } catch (err) {
-        console.error("Error deleting old file:", err);
-      }
-    }
-
-    const data = [
-      req.body.accreditationStartDate,
-      req.body.accreditationEndDate,
-      relativeFilePath,
-      req.body.no_mqa,
-      req.params.program_id,
-    ];
-    const query = `
-       UPDATE accreditation
-       SET 
+    // First query: update accreditation
+    const updateAccreditationQuery = `
+      UPDATE accreditation
+      SET 
         accreditationStartDate = ?,
         accreditationEndDate = ?,
+        accreditationStatus = ?,
         accreditationFilePath = ?,
         no_mqa = ?
-
-      WHERE accreditation_id = ? `;
+    
+      WHERE accreditation_id = ?
+    `;
+    const updateAccreditationParams = [
+      req.body.accreditationStartDate,
+      req.body.accreditationEndDate,
+      req.body.accreditationStatus,
+      relativeFilePath,
+      req.body.no_mqa,
+      req.params.id,
+    ];
+    // Second query: update maklumat_program
+    const updateProgramQuery = `
+      UPDATE maklumat_program
+      SET program_start_date = ?,
+          program_end_date = ?
+      WHERE id = ?
+    `;
+    const updateProgramParams = [
+      req.body.program_start_date,
+      req.body.program_end_date,
+      req.body.program_id,
+    ];
     try {
-      await db.query(query, data);
-      console.log("Success");
-      res.status(200).send("File uploaded and data updated successfully");
+      await db.query(updateAccreditationQuery, updateAccreditationParams);
+      await db.query(updateProgramQuery, updateProgramParams);
+      res.status(200).send("Accreditation record updated successfully");
     } catch (error) {
-      console.error("Error updating into accreditation_application:", error);
-      console.table(data);
-      res.status(500).send("Error updating into accreditation_application");
+      console.error("Error updating accreditation record:", error);
+      res.status(500).send("Error updating accreditation record");
     }
   }
 );

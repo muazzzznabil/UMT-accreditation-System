@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import DateUpdate from "../components/msaForm/DateUpdate";
 import { useThemeStore } from "../utils/useThemeStore";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaExclamationCircle } from "react-icons/fa";
@@ -25,6 +25,8 @@ const Maklumbalas_register = () => {
   const themeStore = useThemeStore();
   const { id, program_id } = useParams();
   const [appInfo, setAppInfo] = useState<getInfo>();
+  const { VITE_DATABASE_HOST } = import.meta.env;
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const formData = new FormData();
@@ -39,7 +41,7 @@ const Maklumbalas_register = () => {
       console.log(`${key}: ${value}`);
     }
     axios
-      .post(`http://localhost:5000/mqa-feedback/maklumbalas-mqa`, formData, {
+      .post(`${VITE_DATABASE_HOST}/mqa-feedback/maklumbalas-mqa`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
 
@@ -51,8 +53,7 @@ const Maklumbalas_register = () => {
           icon: "success",
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href =
-              "/akreditasi-program/senarai-permohonan-akreditasi/";
+            navigate(-1);
           }
         });
       })
@@ -70,7 +71,7 @@ const Maklumbalas_register = () => {
   const getProgramInfo = async () => {
     try {
       const res = await axios.get<getInfo[]>(
-        `http://localhost:5000/mqa-feedback/get-info/${id}`
+        `${VITE_DATABASE_HOST}/mqa-feedback/get-info/${id}`
       );
       console.log(res.data);
       setAppInfo(res.data[0]);
@@ -236,11 +237,23 @@ const Maklumbalas_register = () => {
           <div className="flex space-x-4 justify-end">
             <input
               type="reset"
-              value="Reset"
-              className="btn btn-error shadow-md text-white"
-              onChange={() => {
-                // setNotPending(listProgram.application_status);
+              value="Batal Permohonan"
+              onClick={() => {
+                Swal.fire({
+                  title: "Batal Permohonan?",
+                  text: "Anda pasti untuk membatalkan permohonan ini?",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Ya, batalkan!",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    navigate(-1);
+                  }
+                });
               }}
+              className="btn btn-error shadow-md text-white"
             />
             <button
               type="submit"

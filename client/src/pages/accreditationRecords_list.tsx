@@ -18,7 +18,7 @@ interface accreditation {
 }
 
 const Accreditation_list = () => {
-  const { id, nama_program } = useParams();
+  const { id, name } = useParams();
   const [accreditations, setAccreditations] = useState<accreditation[] | null>(
     []
   );
@@ -40,12 +40,8 @@ const Accreditation_list = () => {
         { data: { ids } }
       );
 
-      setAccreditations(
-        (prev) =>
-          prev?.filter(
-            (evalItem) => !ids.includes(evalItem.accreditation_id)
-          ) || []
-      );
+      // Refresh the list after delete
+      getAccreditations();
       setSelectedAccreditations([]);
 
       Swal.fire({
@@ -71,7 +67,7 @@ const Accreditation_list = () => {
   return (
     <div className={`container mt-5 mx-auto  p-4`}>
       <h1 className="text-xl font-bold  mt-4 mb-4">
-        Rekod Akreditasi : <span className="font-bold">{nama_program}</span>{" "}
+        Rekod Akreditasi : <span className="font-bold">{name}</span>{" "}
       </h1>
 
       {/* Breadcrumbs */}
@@ -83,7 +79,7 @@ const Accreditation_list = () => {
           <li>
             <a href="/program-list">Program List For MSA Application</a>
           </li>
-          <li>Senarai Rekod Akreditasi : {nama_program}</li>
+          <li>Senarai Rekod Akreditasi : {name}</li>
         </ul>
       </div>
       {/* Breadcrumbs */}
@@ -112,7 +108,7 @@ const Accreditation_list = () => {
             <FaTrashAlt className="text-white w-5 h-5" />
           </button>
           <Link
-            to={`/akreditasi-program/${selectedAccreditation[0]}/kemaskini-akreditasi/${nama_program}`}
+            to={`/akreditasi-program/${selectedAccreditation[0]}/kemaskini-akreditasi/${name}`}
           >
             <button
               className={`btn btn-warning text-white`}
@@ -135,9 +131,7 @@ const Accreditation_list = () => {
             </button>
           </Link>
 
-          <Link
-            to={`/akreditasi-program/${id}/permohonan-akreditasi/${nama_program}`}
-          >
+          <Link to={`/akreditasi-program/${id}/permohonan-akreditasi/${name}`}>
             <button className="btn bg-[#28a745] my-4 text-white">
               <svg
                 className="w-6 h-6  text-white"
@@ -173,12 +167,15 @@ const Accreditation_list = () => {
             </tr>
           </thead>
           <tbody>
-            {!accreditations && (
-              <div>
-                <p className="text-center text-lg font-bold">
-                  Tiada Rekod Akreditasi
-                </p>
-              </div>
+            {accreditations && accreditations.length === 0 && (
+              <tr>
+                <td
+                  colSpan={7}
+                  className="text-center py-8 text-gray-400 font-bold"
+                >
+                  Tiada Rekod Akreditasi Dijumpai
+                </td>
+              </tr>
             )}
             {accreditations &&
               accreditations.map((accreditation) => (
@@ -247,7 +244,7 @@ const Accreditation_list = () => {
                   </td>
                   <td>
                     <Link
-                      to={`/akreditasi-program/${accreditation.accreditation_id}/${nama_program}/butiran-penuh-akreditasi`}
+                      to={`/akreditasi-program/${accreditation.accreditation_id}/${name}/butiran-penuh-akreditasi`}
                     >
                       <button className="btn btn-primary btn-outline btn-sm">
                         <FaRegEye className="w-5 h-5  mr-1" />{" "}

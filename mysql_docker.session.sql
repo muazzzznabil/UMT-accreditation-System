@@ -403,3 +403,30 @@ WHERE
 
 
 SELECT * FROM accreditation_application WHERE program_id = 20 AND application_status IN ('approved', 'rejected');
+
+ALTER TABLE maklumat_program
+ADD COLUMN program_end_date DATE;
+
+    SELECT COUNT(id) as active_applications FROM accreditation_application WHERE application_status = 'approved'
+
+SELECT COUNT(accreditation_id) as active_accreditations FROM accreditation WHERE accreditationStatus = 'Active'
+
+    SELECT COUNT(id) as total_application_rejected FROM accreditation_application WHERE application_status = 'rejected'
+
+SELECT COUNT(id) as total_programs FROM maklumat_program
+
+      SELECT COUNT(id) as total_application_rejected FROM accreditation_application WHERE application_status = 'rejected'
+
+
+      SELECT COUNT(id) as total_application_pending FROM accreditation_application WHERE application_status = 'pending'
+
+      SELECT COUNT(id) as total_evaluators FROM evaluator
+
+      SELECT COUNT(id) as total_evaluators_aktif FROM evaluator WHERE status = 'Aktif'
+
+      SELECT COUNT(id) as total_evaluators_tidak_aktif FROM evaluator WHERE evaluator_status = 'tidak_aktif'
+
+      SELECT COUNT(id) as active_applications FROM accreditation_application WHERE application_status = 'approved'
+
+      SELECT COUNT(accreditation_id) as active_accreditations FROM accreditation WHERE accreditationStatus = 'Active'
+

@@ -5,15 +5,26 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
-
-// import HeaderSidebar from "../components/HeaderSidebar";
-// import ChatBot from "../components/ChatBot";
+import { Pie, Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Homepage = () => {
   const [name, setName] = useState("");
   const [token, setToken] = useState("");
   const [expire, setExpire] = useState<any>("");
   const [users, setUsers] = useState<any>([]);
+  const [dashboard, setDashboard] = useState({
+    total_programs: 0,
+    total_evaluators: 0,
+    active_applications: 0,
+    active_accreditations: 0,
+    total_application_approved: 0,
+    total_application_rejected: 0,
+    total_application_pending: 0,
+    total_evaluators_aktif: 0,
+    total_evaluators_tidak_aktif: 0,
+  });
   const navigate = useNavigate();
 
   const { VITE_DATABASE_HOST } = import.meta.env;
@@ -77,64 +88,151 @@ const Homepage = () => {
     checkAuth();
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`${VITE_DATABASE_HOST}/dashboard/stats`)
+      .then((res) => setDashboard(res.data));
+  }, []);
+
+  const pieData = {
+    labels: ["Active Program", "Inactive Program"],
+    datasets: [
+      {
+        data: [
+          dashboard.total_application_rejected,
+          dashboard.total_programs - dashboard.total_application_approved,
+        ],
+        backgroundColor: ["#36A2EB", "#E5E7EB"],
+        borderWidth: 1,
+      },
+    ],
+  };
+  const donutData = {
+    labels: ["Active Evaluator", "Inactive Evaluator"],
+    datasets: [
+      {
+        data: [
+          dashboard.total_evaluators_aktif,
+          dashboard.total_evaluators_tidak_aktif,
+        ],
+        backgroundColor: ["#22C55E", "#E5E7EB"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <>
-      <body className="m-12 flex justify-center items-center  ">
-        <div className="m-20  ">
-          <h1 className="text-4xl font-bold mb-18">Welcome back : {name}</h1>
-          <h2 className="text-3xl font-medium">Navigation</h2>
-          <ul className="list-disc pl-5 py-3">
-            <li className="list-item">
-              <Link
-                to="/MsaForm_onepage"
-                className="text-blue-500 hover:underline"
-              >
-                Daftar Permohonan Program UMT
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/program-list"
-                className="text-blue-500 hover:underline"
-              >
-                Program List
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/testMultiStepForm"
-                className="text-blue-500 hover:underline"
-              >
-                Test Multi-Step Form
-              </Link>
-            </li>
-          </ul>
+      <div className="flex flex-col items-center min-h-screen bg-base-100 py-10">
+        <div className="w-full max-w-6xl">
+          <div className="mb-8">
+            {name ? (
+              <h1 className="text-4xl font-bold mb-4 text-primary">
+                Selamat Kembali : {name}
+              </h1>
+            ) : (
+              <h1 className="text-4xl font-bold mb-4 text-primary">
+                Selamat Datang
+              </h1>
+            )}
+            <h2 className="text-2xl font-semibold mb-2">Navigation</h2>
+            <ul className="menu menu-horizontal bg-base-200 rounded-box mb-6">
+              <li>
+                <Link to="/program-list" className="text-blue-500">
+                  Senarai Program
+                </Link>
+              </li>
+              <li>
+                <Link to="/senarai-penilai-dalaman" className="text-blue-500">
+                  Senarai Penilai Dalaman
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-          <div className="mt-10">
-            <button onClick={getUsers} className="btn btn-info">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div className="stat bg-base-200 shadow rounded-box">
+              <div className="stat-title">Jumlah Program Didaftarkan</div>
+              <div className="stat-value text-primary">
+                {dashboard.total_programs}
+              </div>
+            </div>
+            <div className="stat bg-base-200 shadow rounded-box">
+              <div className="stat-title">Jumlah Penilai</div>
+              <div className="stat-value text-secondary">
+                {dashboard.total_evaluators}
+              </div>
+            </div>
+            <div className="stat bg-base-200 shadow rounded-box">
+              <div className="stat-title">Permohonan Aktif</div>
+              <div className="stat-value text-accent">
+                {dashboard.active_applications}
+              </div>
+            </div>
+            <div className="stat bg-base-200 shadow rounded-box">
+              <div className="stat-title">Akreditasi Aktif</div>
+              <div className="stat-value text-info">
+                {dashboard.active_accreditations}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div className="bg-base-200 rounded-box p-6 flex flex-col items-center">
+              <h3 className="font-bold mb-2">Program Status</h3>
+              <Pie data={pieData} />
+            </div>
+            <div className="bg-base-200 rounded-box p-6 flex flex-col items-center">
+              <h3 className="font-bold mb-2">Evaluator Status</h3>
+              <Doughnut data={donutData} />
+            </div>
+          </div>
+
+          <div className="mb-10">
+            <button onClick={getUsers} className="btn btn-info mb-4">
               Get Users
             </button>
-            <table className="table table-auto">
-              <thead>
-                <tr>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user: any) => (
-                  <tr key={user.id}>
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
+            <div className="overflow-x-auto">
+              <table className="table table-zebra w-full rounded-box">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {users.length === 0 ? (
+                    <tr>
+                      <td colSpan={3} className="text-center text-gray-400">
+                        No users found.
+                      </td>
+                    </tr>
+                  ) : (
+                    users.map((user: any) => (
+                      <tr key={user.id}>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>
+                          <span
+                            className={`badge ${
+                              user.role === "admin"
+                                ? "badge-primary"
+                                : "badge-secondary"
+                            }`}
+                          >
+                            {user.role}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </body>
+      </div>
     </>
   );
 };

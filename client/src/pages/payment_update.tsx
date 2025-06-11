@@ -34,9 +34,9 @@ interface payment {
 }
 
 interface PaymentUpdateProps {
-  payment_id: number;
-  program_id: string | undefined;
-  name: string | undefined;
+  payment_id?: number;
+  program_id?: string | undefined;
+  name?: string | undefined;
 }
 
 const Payment_update: React.FC<PaymentUpdateProps> = ({

@@ -27,18 +27,20 @@ const Accreditation_register = () => {
     application[] | null
   >();
   const [tarikhMula, setTarikhMula] = useState<Date | null>(null);
-
+  const [tarikhMulaProgram, setTarikhMulaProgram] = useState<Date | null>(null);
+  const { VITE_DATABASE_HOST } = import.meta.env;
   const {
     register,
     // formState: { errors },
     handleSubmit,
     setValue,
+    watch,
   } = useForm({});
 
   const getApplicationList = async () => {
     try {
       const response = await axios.get<application[]>(
-        `http://localhost:5000/rekod-akreditasi/senarai-akreditasi/${id}`
+        `${VITE_DATABASE_HOST}/rekod-akreditasi/senarai-akreditasi/${id}`
       );
       setApplicationList(response.data);
       console.log(response.data);
@@ -61,7 +63,7 @@ const Accreditation_register = () => {
     }
     axios
       .post(
-        `http://localhost:5000/rekod-akreditasi/tambah-akreditasi`,
+        `${VITE_DATABASE_HOST}/rekod-akreditasi/tambah-akreditasi`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -76,9 +78,7 @@ const Accreditation_register = () => {
           icon: "success",
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = `/akreditasi-program/${
-              applicationList![0].program_id
-            }/${nama_program}`;
+            window.history.back();
           }
         });
       })
@@ -124,16 +124,7 @@ const Accreditation_register = () => {
           <li>
             <a href="/">Home</a>
           </li>
-          <li>
-            <a href="/program-list">Program List For MSA Application</a>
-          </li>
-          <li>
-            <a
-              href={`/akreditasi-program/${applicationList?.[0].program_id}/${nama_program}`}
-            >
-              Rekod Akreditasi Program: {nama_program}
-            </a>
-          </li>
+
           <li>Rekod Permohonan Akreditasi</li>
         </ul>
       </div>
@@ -200,9 +191,17 @@ const Accreditation_register = () => {
             register={register}
             defValue={null}
             className="mt-3 validator"
-            onChange={(e) => setTarikhMula(dayjs(e.target.value).toDate())}
+            onChange={(e) => {
+              const startDate = dayjs(e.target.value).toDate();
+              setTarikhMula(startDate);
+              setValue(
+                "accreditationEndDate",
+                dayjs(startDate).add(5, "year").format("YYYY-MM-DD")
+              );
+            }}
           />
-
+          {/* Hidden input for Tarikh Tamat Akreditasi */}
+          <input type="hidden" {...register("accreditationEndDate")} />
           {/* Tarikh Tamat Akreditasi */}
           <div className="flex justify-between items-center">
             <label htmlFor="accreditationEndDate" className="label-input-msa">
@@ -218,7 +217,41 @@ const Accreditation_register = () => {
           </div>
           {/* Tarikh Tamat Akreditasi */}
 
-          <div className="flex justify-between items-center my-4">
+          <DateUpdate
+            name="program_start_date"
+            label="Tarikh Mula Program"
+            register={register}
+            defValue={null}
+            className="mt-3 validator"
+            onChange={(e) => {
+              const startDate = dayjs(e.target.value).toDate();
+              setTarikhMulaProgram(startDate);
+              setValue(
+                "program_end_date",
+                dayjs(startDate).add(5, "year").format("YYYY-MM-DD")
+              );
+            }}
+          />
+          {/* Hidden input for Tarikh Tamat Program */}
+          <input type="hidden" {...register("program_end_date")} />
+          {/* Tarikh Tamat Program */}
+          <div className="flex justify-between items-center mb-2">
+            <label htmlFor="program_end_date" className="label-input-msa">
+              Tarikh Tamat Program
+            </label>
+            <div className="w-full flex justify-start">
+              <p className="ml-2">
+                {tarikhMulaProgram
+                  ? dayjs(tarikhMulaProgram)
+                      .add(5, "year")
+                      .format("DD MMMM YYYY")
+                  : "Masukkan Tarikh Mula Program"}
+              </p>
+            </div>
+          </div>
+          {/* Tarikh Tamat Program */}
+
+          <div className="flex justify-between items-center mb-4">
             <label htmlFor="accreditationStatus" className="label-input-msa">
               Sijil Akreditasi
             </label>
@@ -246,10 +279,10 @@ const Accreditation_register = () => {
           <div className="flex space-x-4 justify-end">
             <input
               type="reset"
-              value="Reset"
+              value="Kembali"
               className="btn btn-error shadow-md text-white"
-              onChange={() => {
-                // setNotPending(listProgram.application_status);
+              onClick={() => {
+                window.history.back();
               }}
             />
             <button

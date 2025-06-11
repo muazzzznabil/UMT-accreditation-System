@@ -6,6 +6,7 @@ import {
   FaHourglassEnd,
   FaHourglassStart,
   FaSalesforce,
+  FaShare,
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -70,23 +71,32 @@ const AccreditationRecords_view = () => {
         } p-6 rounded-md shadow-md`}
       >
         {" "}
-        <div>
-          <h2 className="text-lg mb-4">
-            Nama Program :{" "}
-            <span className="text-large font-semibold">{nama_program}</span>
-          </h2>
-          <h2 className="text-lg mb-4">
-            Jenis Akreditasi :{" "}
-            <span className="text-large font-semibold">
-              {accreditations.application_type}{" "}
-            </span>
-          </h2>
-          <h2 className="text-lg mb-4">
-            No MQA :{" "}
-            <span className="text-large font-semibold">
-              {accreditations.no_mqa}
-            </span>
-          </h2>
+        <div className="flex justify-between items-end">
+          <div>
+            <h2 className="text-lg mb-4">
+              Nama Program :{" "}
+              <span className="text-large font-semibold">{nama_program}</span>
+            </h2>
+            <h2 className="text-lg mb-4">
+              Jenis Akreditasi :{" "}
+              <span className="text-large font-semibold">
+                {accreditations.application_type}{" "}
+              </span>
+            </h2>
+            <h2 className="text-lg mb-4">
+              No MQA :{" "}
+              <span className="text-large font-semibold">
+                {accreditations.no_mqa}
+              </span>
+            </h2>
+          </div>
+          <button
+            className="btn btn-primary mb-4"
+            onClick={() => window.history.back()}
+          >
+            <FaShare />
+            Kembali
+          </button>
         </div>
         <div
           className={`card  ${

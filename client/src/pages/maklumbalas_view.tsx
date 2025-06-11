@@ -6,11 +6,12 @@ import {
   FaDollarSign,
   FaRegFileAlt,
   FaSave,
+  FaShare,
   FaTimes,
   FaTrash,
 } from "react-icons/fa";
 import { useThemeStore } from "../utils/useThemeStore";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -37,12 +38,14 @@ const Maklumbalas_view = () => {
   const { register, handleSubmit, control, setValue } = useForm();
   const { darkMode } = useThemeStore();
   const [komen, setKomen] = useState<any>("");
+  const { VITE_DATABASE_HOST } = import.meta.env;
+  const navigate = useNavigate();
 
   // *fetch feedback info
   const getFeedback = async () => {
     try {
       const res = await axios.get<feedback[]>(
-        `http://localhost:5000/mqa-feedback/get-application-info/${id}`
+        `${VITE_DATABASE_HOST}/mqa-feedback/get-application-info/${id}`
       );
       setFeedback(res.data[0]);
       setKomen(res.data[0]?.comment);
@@ -63,7 +66,7 @@ const Maklumbalas_view = () => {
   const deleteProgram = async (id?: number) => {
     try {
       await axios.delete(
-        `http://localhost:5000/mqa-feedback/maklumbalas-mqa/${id}/delete`
+        `${VITE_DATABASE_HOST}/mqa-feedback/maklumbalas-mqa/${id}/delete`
       );
 
       Swal.fire({
@@ -99,7 +102,7 @@ const Maklumbalas_view = () => {
     }
     axios
       .put(
-        `http://localhost:5000/mqa-feedback/maklumbalas-mqa/${id}/edit`,
+        `${VITE_DATABASE_HOST}/mqa-feedback/maklumbalas-mqa/${id}/edit`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -460,6 +463,15 @@ const Maklumbalas_view = () => {
                 </div>
               </div>
             )}
+          </div>
+          <div className="flex justify-end mt-4">
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate(-1)}
+              type="button"
+            >
+              <FaShare /> Kembali
+            </button>
           </div>
         </div>
       </form>

@@ -10,10 +10,43 @@ import AllEvaluator_view from "./AllEvaluator_view";
 // import Maklumbalas_List from "./Maklumbalas_List";
 import Payment_view from "./payment_view";
 import Payment_register from "./payment_register";
+import Accreditation_list from "./accreditationRecords_list";
+import UpdateMaklumat from "./updateMaklumat";
+import ReportGenerator, { ReportFilters } from "./ReportGenerator";
+import Swal from "sweetalert2";
 
 const Program_view = () => {
   const { id, name } = useParams();
+  const { VITE_DATABASE_HOST } = import.meta.env;
   const { currentPage, setCurrentPage } = usePageState();
+
+  const handleGenerateReport = async (filters: ReportFilters) => {
+    if (!id) return;
+    try {
+      const response = await fetch(`${VITE_DATABASE_HOST}/report/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ program_id: id, name, filters }),
+      });
+      if (!response.ok) throw new Error("Failed to generate report");
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `report_${id}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: `Error: ${(err as Error).message}`,
+      });
+    }
+  };
 
   return (
     <>
@@ -38,16 +71,22 @@ const Program_view = () => {
             </div>
           )} */}
           {currentPage === 1.1 && <ViewFullProgram />}
+          {currentPage === 1.2 && <UpdateMaklumat />}
           {currentPage === 2 && <Evaluator_List />}
-          {currentPage === 2.1 && <AllEvaluator_view />}{" "}
+          {currentPage === 1.3 && <AllEvaluator_view />}
+          {/* {currentPage === 2.2 && } */}
           {/* show update page */}
           {currentPage === 3.1 && (
             <Application_program program_id={Number(id)} />
           )}
           {currentPage === 3.2 && <Application_register program_name={name} />}
-          {/* {currentPage === 4 && <Maklumbalas_List />} */}
+          {/* {currentPage === 4.1 && <Maklumbalas_List />} */}
           {currentPage === 5 && <Payment_view />}
           {currentPage === 5.1 && <Payment_register />}
+          {currentPage === 6 && <Accreditation_list />}
+          {currentPage === 7 && (
+            <ReportGenerator onGenerate={handleGenerateReport} />
+          )}
           {/*//! <label
              htmlFor="my-drawer-2"
              className="btn btn-primary drawer-button lg:hidden"
@@ -88,6 +127,20 @@ const Program_view = () => {
                             Butiran Program
                           </a>
                         </li>
+                        {currentPage === 1.2 && (
+                          <li>
+                            <a
+                              onClick={() => setCurrentPage(1.2)}
+                              className={`${
+                                currentPage === 1.2
+                                  ? "menu-active text-primary bg-base-300"
+                                  : "text-base-content"
+                              }`}
+                            >
+                              Kemaskini Maklumat Program
+                            </a>
+                          </li>
+                        )}
                         {/* <li>
                           <a></a>
                         </li> */}
@@ -194,6 +247,18 @@ const Program_view = () => {
                       }`}
                     >
                       Pendaftaran Akreditasi
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      onClick={() => setCurrentPage(7)}
+                      className={`${
+                        currentPage === 7
+                          ? "menu-active text-primary bg-base-300"
+                          : "text-base-content"
+                      }`}
+                    >
+                      Generate Report
                     </a>
                   </li>
                 </ul>

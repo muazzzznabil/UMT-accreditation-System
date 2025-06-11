@@ -19,7 +19,9 @@ import SahLaku from "../components/msaForm/SahSehinggaUpdate";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
 import { useThemeStore } from "../utils/useThemeStore";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+// import { useStore } from "zustand";
+import { usePageState } from "../utils/usePageState";
 
 interface Program {
   MinitJKA: any;
@@ -77,16 +79,18 @@ const UpdateMaklumat = () => {
   } = useForm();
   const [tarikhSurat2, setTarikhSurat2] = useState<Date | null>(null);
   const [activeTab, setActiveTab] = useState("Maklumat Program");
+  const pageState = usePageState();
+  const { VITE_DATABASE_HOST } = import.meta.env;
 
   const handleTabChange = (label: string) => {
     setActiveTab(label);
   };
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const getProgram = async () => {
     try {
       const response = await axios.get<Program[]>(
-        `http://localhost:5000/pendaftaran-program/maklumat-program/${id}`
+        `${VITE_DATABASE_HOST}/pendaftaran-program/maklumat-program/${id}`
       );
       console.table(response.data[0].tarikhSurat);
       setProgram(response.data[0]);
@@ -114,7 +118,7 @@ const UpdateMaklumat = () => {
 
     axios
       .put(
-        `http://localhost:5000/pendaftaran-program/maklumat-program/${id}/edit2`,
+        `${VITE_DATABASE_HOST}/pendaftaran-program/maklumat-program/${id}/edit2`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       )
@@ -492,7 +496,7 @@ const UpdateMaklumat = () => {
               value="Batal"
               className="btn btn-error shadow-md text-white"
               onClick={() => {
-                navigate(-1);
+                pageState.setCurrentPage(1.1);
               }}
             />
             <button

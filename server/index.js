@@ -12,6 +12,9 @@ import path from "path";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
+import "./service/scheduler.js";
+import reportRoute from "./routes/reportRoute.js";
+import dashboardRoute from "./routes/dashboardRoute.js";
 
 // import Users from "./models/UserModel.js";
 import db from "./data/dbSeq.js";
@@ -64,6 +67,12 @@ app.use("/user", userRoutes);
 
 //!Routes for Gemini API
 app.use("/chatbot-google", chatbotGoogle);
+
+//!Routes for report generation
+app.use("/report", reportRoute);
+
+//!Routes for dashboard statistics
+app.use("/dashboard", dashboardRoute);
 
 app.use(
   "/uploads/documents",

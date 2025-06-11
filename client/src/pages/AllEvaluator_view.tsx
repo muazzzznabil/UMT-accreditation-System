@@ -14,8 +14,10 @@ import {
   FaCheckCircle,
   FaTimesCircle,
   FaHandSparkles,
+  FaShare,
 } from "react-icons/fa";
 import { IoMdArrowForward } from "react-icons/io";
+// import { usePageState } from "../utils/usePageState";
 
 interface Evaluator {
   id: number;
@@ -40,6 +42,7 @@ const AllEvaluator_view = () => {
   const themeStore = useThemeStore();
   const [bidangSpesifikStr, setBidangSpesifikStr] = useState<string>("");
   const { VITE_DATABASE_HOST } = import.meta.env;
+  // const pageState = usePageState();
 
   const getEvaluator = async () => {
     try {
@@ -212,11 +215,17 @@ const AllEvaluator_view = () => {
         } p-6 rounded-md shadow-md`}
       >
         <div className="flex flex-row justify-between">
-          <h2 className="text-lg mb-4">
-            {/* Penilai Program :{" "}
-            <span className="text-large font-semibold">{name}</span> */}
-          </h2>
-          {/* <Link to={`/daftar-penilai/${id_program}/${evaluator_id}/${name}/update`}> */}
+          <button
+            className="btn btn-primary gap-2 mb-4"
+            onClick={() => {
+              // pageState.setCurrentPage(2.1);
+              window.history.back();
+            }}
+          >
+            <FaShare />
+            Kembali
+          </button>
+
           <button
             className="btn btn-warning gap-2 mb-4"
             onClick={() => {
