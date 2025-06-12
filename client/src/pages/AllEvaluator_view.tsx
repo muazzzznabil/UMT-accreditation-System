@@ -198,14 +198,14 @@ const AllEvaluator_view = () => {
           <li>
             <a href="/">Home</a>
           </li>
-          <li>
+          {/* <li>
             <a href="/program-list">Program List For MSA Application</a>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <a href={`/penilai-dalaman/${id_program}/${name}`}>
               Senarai Penilai Dalaman
             </a>
-          </li>
+          </li> */}
           <li>Maklumat Penilai</li>
         </ul>
       </div>

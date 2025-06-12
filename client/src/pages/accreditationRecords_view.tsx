@@ -57,9 +57,9 @@ const AccreditationRecords_view = () => {
           <li>
             <a href="/">Home</a>
           </li>
-          <li>
+          {/* <li>
             <a href="/program-list">Program List For MSA Application</a>
-          </li>
+          </li> */}
           <li>Rekod Bayaran Program</li>
         </ul>
       </div>

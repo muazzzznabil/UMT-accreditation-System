@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useThemeStore } from "../utils/useThemeStore";
 import { FaArrowRight, FaEdit } from "react-icons/fa";
@@ -93,15 +93,15 @@ const ViewFullProgram = () => {
   return (
     <>
       <div className="container mx-auto mt-5 font-sans space-y-6 ">
-        <h1 className="text-3xl font-bold  mb-6">{program.nama_program}</h1>
+        <h1 className="text-3xl font-bold  mb-4">{program.nama_program}</h1>
         <div className="breadcrumbs text-md mb-2">
           <ul>
             <li>
               <a href="/">Home</a>
             </li>
-            <li>
+            {/* <li>
               <a href="/program-list">Program List For MSA Application</a>
-            </li>
+            </li> */}
             <li>View Program : {program.nama_program}</li>
           </ul>
         </div>

@@ -128,7 +128,8 @@ const Homepage = () => {
           <div className="mb-8">
             {name ? (
               <h1 className="text-4xl font-bold mb-4 text-primary">
-                Selamat Kembali : {name}
+                Selamat Kembali : {name}{" "}
+                <span className="inline-block animate-waving-hand">👋</span>
               </h1>
             ) : (
               <h1 className="text-4xl font-bold mb-4 text-primary">

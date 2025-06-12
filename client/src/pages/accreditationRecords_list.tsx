@@ -76,9 +76,9 @@ const Accreditation_list = () => {
           <li>
             <a href="/">Home</a>
           </li>
-          <li>
+          {/* <li>
             <a href="/program-list">Program List For MSA Application</a>
-          </li>
+          </li> */}
           <li>Senarai Rekod Akreditasi : {name}</li>
         </ul>
       </div>

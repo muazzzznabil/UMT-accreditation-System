@@ -106,11 +106,11 @@ const Maklumbalas_register = () => {
           <li>
             <a href="/">Home</a>
           </li>
-          <li>
+          {/* <li>
             <a href="/akreditasi-program/senarai-permohonan-akreditasi/">
               Senarai Permohonan Akreditasi
             </a>
-          </li>
+          </li> */}
           <li>Maklumbalas Pihak MQA</li>
         </ul>
       </div>
